@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Game Designer</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<div id="top-bar">
+		<select id="curves"></select>
+		<input type="button" name="add_curve" value="Add curve" id="add_curve" />
+		<input type="button" name="add_bonus" value="Add bonus" id="add_bonus" />
+		<input type="button" name="add_bomb" value="Add bomb" id="add_bomb" disabled="true"/>
+		<input type="button" name="add_looping" value="Switch to looping/curve" id="add_looping" disabled="true"/>
+		<input type="button" name="add_tunnel" value="Switch to tunnel/curve" id="add_tunnel" disabled="true"/>
+		<input type="button" name="export" value="Export" id="export" />
+		<input type="file" id="load" name="files[]" />
+	</div>
+	<div id="code" style="display:none;position:fixed;background:rgba(0,0,0,0.1);z-index:1001;top:100px;left:100px;width:500px;height:400px;">
+		<a onclick="javascript:document.getElementById('code').style.display = 'none';return false;">Close</a>
+		<textarea id="code_text" style="margin:10px;width:400px;height:300px;"></textarea>
+	</div>
+	<canvas id="canvas" width="4000" height="3000"></canvas>
+	<script type="text/javascript" src="js/fileManager.js"></script>
+	<script type="text/javascript" src="js/point.js"></script>
+	<script type="text/javascript" src="js/bonus.js"></script>
+	<script type="text/javascript" src="js/bomb.js"></script>
+	<script type="text/javascript" src="js/curveSegment.js"></script>
+	<script type="text/javascript" src="js/loopingSegment.js"></script>
+	<script type="text/javascript" src="js/curve.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
