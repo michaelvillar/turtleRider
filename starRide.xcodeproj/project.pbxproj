@@ -192,6 +192,12 @@
 		4DC91384196C7A25001130EF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC91383196C7A25001130EF /* main.m */; };
 		4DC91388196C7A25001130EF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC91387196C7A25001130EF /* AppDelegate.m */; };
 		4DC9139A196C7BC1001130EF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DC91399196C7BC1001130EF /* Default-568h@2x.png */; };
+		4DC9139D196C7FF8001130EF /* VGGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC9139C196C7FF8001130EF /* VGGameScene.m */; };
+		4DC913A0196C8040001130EF /* VGFrontLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC9139F196C8040001130EF /* VGFrontLayer.m */; };
+		4DC913A3196C804C001130EF /* VGBackLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913A2196C804C001130EF /* VGBackLayer.m */; };
+		4DC913A6196C8107001130EF /* VGCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913A5196C8107001130EF /* VGCharacter.m */; };
+		4DC913A9196C8142001130EF /* VGConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913A8196C8142001130EF /* VGConstant.m */; };
+		4DC913AC196C81B2001130EF /* VGGround.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913AB196C81B2001130EF /* VGGround.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -611,6 +617,18 @@
 		4DC91387196C7A25001130EF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		4DC91397196C7B82001130EF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DC91399196C7BC1001130EF /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		4DC9139B196C7FF8001130EF /* VGGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGameScene.h; sourceTree = "<group>"; };
+		4DC9139C196C7FF8001130EF /* VGGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGameScene.m; sourceTree = "<group>"; };
+		4DC9139E196C8040001130EF /* VGFrontLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGFrontLayer.h; sourceTree = "<group>"; };
+		4DC9139F196C8040001130EF /* VGFrontLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGFrontLayer.m; sourceTree = "<group>"; };
+		4DC913A1196C804C001130EF /* VGBackLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGBackLayer.h; sourceTree = "<group>"; };
+		4DC913A2196C804C001130EF /* VGBackLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGBackLayer.m; sourceTree = "<group>"; };
+		4DC913A4196C8107001130EF /* VGCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGCharacter.h; sourceTree = "<group>"; };
+		4DC913A5196C8107001130EF /* VGCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGCharacter.m; sourceTree = "<group>"; };
+		4DC913A7196C8142001130EF /* VGConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGConstant.h; sourceTree = "<group>"; };
+		4DC913A8196C8142001130EF /* VGConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGConstant.m; sourceTree = "<group>"; };
+		4DC913AA196C81B2001130EF /* VGGround.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGround.h; sourceTree = "<group>"; };
+		4DC913AB196C81B2001130EF /* VGGround.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGround.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1474,8 +1492,28 @@
 			children = (
 				4DC91386196C7A25001130EF /* AppDelegate.h */,
 				4DC91387196C7A25001130EF /* AppDelegate.m */,
+				4DC913A7196C8142001130EF /* VGConstant.h */,
+				4DC913A8196C8142001130EF /* VGConstant.m */,
+				4DC913AD196C81BE001130EF /* GameScene */,
 			);
 			name = Classes;
+			sourceTree = "<group>";
+		};
+		4DC913AD196C81BE001130EF /* GameScene */ = {
+			isa = PBXGroup;
+			children = (
+				4DC9139B196C7FF8001130EF /* VGGameScene.h */,
+				4DC9139C196C7FF8001130EF /* VGGameScene.m */,
+				4DC9139E196C8040001130EF /* VGFrontLayer.h */,
+				4DC9139F196C8040001130EF /* VGFrontLayer.m */,
+				4DC913A1196C804C001130EF /* VGBackLayer.h */,
+				4DC913A2196C804C001130EF /* VGBackLayer.m */,
+				4DC913AA196C81B2001130EF /* VGGround.h */,
+				4DC913AB196C81B2001130EF /* VGGround.m */,
+				4DC913A4196C8107001130EF /* VGCharacter.h */,
+				4DC913A5196C8107001130EF /* VGCharacter.m */,
+			);
+			name = GameScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1601,15 +1639,18 @@
 				4DC9125A196C7A25001130EF /* OALAction.m in Sources */,
 				4DC911F0196C7A24001130EF /* CCTexturePVR.m in Sources */,
 				4DC912FF196C7A25001130EF /* CCBAnimationManager.m in Sources */,
+				4DC9139D196C7FF8001130EF /* VGGameScene.m in Sources */,
 				4DC912E3196C7A25001130EF /* mat4stack.c in Sources */,
 				4DC91182196C7A24001130EF /* CCNode.m in Sources */,
 				4DC9116D196C7A24001130EF /* CCLabelBMFont.m in Sources */,
 				4DC9112B196C7A23001130EF /* CCActionEase.m in Sources */,
 				4DC9113A196C7A24001130EF /* CCActionTween.m in Sources */,
 				4DC912A8196C7A25001130EF /* NSMutableDictionary+WeakReferences.m in Sources */,
+				4DC913A0196C8040001130EF /* VGFrontLayer.m in Sources */,
 				4DC91185196C7A24001130EF /* CCNode+Debug.m in Sources */,
 				4DC9113E196C7A24001130EF /* CCAnimation.m in Sources */,
 				4DC912E7196C7A25001130EF /* mat3.c in Sources */,
+				4DC913A6196C8107001130EF /* VGCharacter.m in Sources */,
 				4DC911F3196C7A24001130EF /* CCTiledMap.m in Sources */,
 				4DC912B8196C7A25001130EF /* CCControl.m in Sources */,
 				4DC9123A196C7A24001130EF /* CCVertex.m in Sources */,
@@ -1640,6 +1681,7 @@
 				4DC9117A196C7A24001130EF /* CCLayoutBox.m in Sources */,
 				4DC91177196C7A24001130EF /* CCLayout.m in Sources */,
 				4DC9129A196C7A25001130EF /* OALSuspendHandler.m in Sources */,
+				4DC913AC196C81B2001130EF /* VGGround.m in Sources */,
 				4DC912F9196C7A25001130EF /* vec4.c in Sources */,
 				4DC9120B196C7A24001130EF /* CCDirectorIOS.m in Sources */,
 				4DC911E2196C7A24001130EF /* CCSpriteFrameCache.m in Sources */,
@@ -1652,6 +1694,7 @@
 				4DC91134196C7A24001130EF /* CCActionManager.m in Sources */,
 				4DC911D8196C7A24001130EF /* CCSprite9Slice.m in Sources */,
 				4DC911EA196C7A24001130EF /* CCTextureAtlas.m in Sources */,
+				4DC913A3196C804C001130EF /* VGBackLayer.m in Sources */,
 				4DC912AB196C7A25001130EF /* OALAudioFile.m in Sources */,
 				4DC911D1196C7A24001130EF /* ccShaders.m in Sources */,
 				4DC912E5196C7A25001130EF /* matrix.c in Sources */,
@@ -1665,6 +1708,7 @@
 				4DC91189196C7A24001130EF /* CCParallaxNode.m in Sources */,
 				4DC912F1196C7A25001130EF /* ray2.c in Sources */,
 				4DC9126D196C7A25001130EF /* OALAudioTracks.m in Sources */,
+				4DC913A9196C8142001130EF /* VGConstant.m in Sources */,
 				4DC9126A196C7A25001130EF /* OALAudioTrackNotifications.m in Sources */,
 				4DC912EF196C7A25001130EF /* quaternion.c in Sources */,
 				4DC911A3196C7A24001130EF /* CCPhysicsNode.m in Sources */,
