@@ -9,6 +9,8 @@
 #import "VGGroundSegment.h"
 #import "VGConstant.h"
 
+#import "cocos2d.h"
+
 @interface VGGroundSegment ()
 @property (strong, readonly) NSDictionary* data;
 @property (strong, readonly) NSMutableArray* arcLengths;
@@ -35,11 +37,11 @@
         
         NSDictionary* bezierPoints = self.data[@"bezier_points"];
         _bezierPoints[0] = CGPointMake(((NSNumber*)bezierPoints[@"start"][@"x"]).floatValue,
-                                           ((NSNumber*)bezierPoints[@"start"][@"y"]).floatValue);
+                                           -((NSNumber*)bezierPoints[@"start"][@"y"]).floatValue);
         _bezierPoints[1] = CGPointMake(((NSNumber*)bezierPoints[@"control"][@"x"]).floatValue,
-                                           ((NSNumber*)bezierPoints[@"control"][@"y"]).floatValue);
+                                           -((NSNumber*)bezierPoints[@"control"][@"y"]).floatValue);
         _bezierPoints[2] = CGPointMake(((NSNumber*)bezierPoints[@"end"][@"x"]).floatValue,
-                                           ((NSNumber*)bezierPoints[@"end"][@"y"]).floatValue);
+                                           -((NSNumber*)bezierPoints[@"end"][@"y"]).floatValue);
         
         [self loadPoints];
     }
