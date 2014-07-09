@@ -9,6 +9,10 @@
 #import "CCDrawNode.h"
 
 @interface VGGroundTile : CCDrawNode
+@property (assign, readonly) CGPoint startPoint;
+@property (assign, readonly) CGPoint endPoint;
 
 + (VGGroundTile*)tileFromName:(NSString*)name;
+
+- (NSValue*)nextPosition:(CGFloat)distance;
 @end

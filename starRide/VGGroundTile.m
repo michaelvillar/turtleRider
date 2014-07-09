@@ -12,6 +12,9 @@
 @interface VGGroundTile ()
 @property (strong, readonly) NSDictionary* data;
 @property (strong, readonly) NSMutableArray* curves;
+@property (strong, readwrite) VGGroundCurve* currentCurve;
+@property (assign, readwrite) CGPoint startPoint;
+@property (assign, readwrite) CGPoint endPoint;
 
 - (id)initWithData:(NSDictionary*)data;
 - (void)loadCurves;
@@ -42,6 +45,19 @@
     return [[VGGroundTile alloc] initWithData:json];
 }
 
+- (NSValue*)nextPosition:(CGFloat)distance {
+    if (!self.currentCurve) {
+        self.currentCurve = self.curves[0];
+    }
+    if (self.currentCurve) {
+        NSValue* value = [self.currentCurve nextPosition:distance];
+        if (value) {
+            return value;
+        }
+    }
+    return nil;
+}
+
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////
@@ -53,15 +69,26 @@
         _curves = [[NSMutableArray alloc] init];
     
         [self loadCurves];
+        
+        _currentCurve = self.curves[0];
     }
     return self;
 }
 
 - (void)loadCurves {
+    self.startPoint = CGPointMake(INFINITY, INFINITY);
+    self.endPoint = CGPointMake(-INFINITY, -INFINITY);
+    
     for (NSDictionary* curveDic in self.data[@"curves"]) {
         VGGroundCurve* curve = [[VGGroundCurve alloc] initWithData:curveDic];
         [self addChild:curve z:0];
         [self.curves addObject:curve];
+        
+        if (curve.startPoint.x < self.startPoint.x)
+            self.startPoint = curve.startPoint;
+        
+        if (curve.endPoint.x > self.endPoint.x)
+            self.endPoint = curve.endPoint;
     }
 }
 

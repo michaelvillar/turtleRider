@@ -9,5 +9,9 @@
 #import "CCDrawNode.h"
 
 @interface VGGroundCurve : CCDrawNode
+@property (assign, readonly) CGPoint startPoint;
+@property (assign, readonly) CGPoint endPoint;
+
 - (id)initWithData:(NSDictionary*)data;
+- (NSValue*)nextPosition:(CGFloat)distance;
 @end

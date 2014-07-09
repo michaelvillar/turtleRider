@@ -15,8 +15,11 @@
 
 
 @interface VGFrontLayer ()
+@property (strong, readwrite) CCNode* movingLayer;
 @property (strong, readwrite) VGGround* ground;
 @property (strong, readwrite) VGCharacter* character;
+@property (assign, readwrite) CGFloat gameSpeed;
+
 
 - (void)layoutChildren;
 @end
@@ -35,11 +38,15 @@
                                                CCPositionUnitPoints,
                                                CCPositionReferenceCornerBottomLeft);
 
+        _movingLayer = [[CCNode alloc] init];
         _ground = [[VGGround alloc] init];
         _character = [[VGCharacter alloc] init];
+        _gameSpeed = 300;
         
-        [self addChild:_ground z:0];
-        [self addChild:_character z:1];
+        
+        [_movingLayer addChild:_ground z:0];
+        [_movingLayer addChild:_character z:1];
+        [self addChild:_movingLayer z:0];
         
         [self layoutChildren];
     }
@@ -58,7 +65,15 @@
 #pragma mark - Cocos2D
 ////////////////////////////////
 
+- (void)fixedUpdate:(CCTime)dt {
+    NSValue* value = [self.ground nextPosition:self.gameSpeed * dt];
+    if (value) {
+        self.character.position = value.CGPointValue;
+    }
+}
+
 - (void)update:(CCTime)dt {
+    self.movingLayer.position = CGPointMake(-self.character.position.x + VG_CHARACTER_INIT_POSITION.x, 0);
 }
 
 @end

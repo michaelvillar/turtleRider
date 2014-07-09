@@ -9,5 +9,10 @@
 #import "CCDrawNode.h"
 
 @interface VGGroundSegment : CCDrawNode
+@property (assign, readonly) CGPoint startPoint;
+@property (assign, readonly) CGPoint endPoint;
+@property (assign, readonly) CGFloat remainingDistance;
+
 - (id)initWithData:(NSDictionary*)data;
+- (NSValue*)nextPosition:(CGFloat)distance;
 @end

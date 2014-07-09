@@ -15,9 +15,15 @@
 @property (strong, readonly) NSDictionary* data;
 @property (strong, readonly) NSMutableArray* arcLengths;
 @property (assign, readwrite) int arcPointsCount;
+@property (assign, readonly) CGFloat totalArcLength;
 @property (assign, readwrite) CGPoint* bezierPoints;
+@property (assign, readwrite) CGFloat currentArcLength;
+@property (assign, readwrite) CGRect contentRect;
 
-- (void)loadPoints;
+- (void)loadGuidePoints;
+- (void)drawPoints;
+- (CGPoint)pointFromT:(CGFloat)t;
+- (CGFloat)tFromRatio:(CGFloat)ratio;
 
 @end
 
@@ -32,7 +38,9 @@
     if (self) {
         _data = data;
         _arcLengths = [[NSMutableArray alloc] init];
-        _arcPointsCount = ((NSNumber*)_data[@"arc_length"]).floatValue / VG_GROUND_SEGMENT_SIZE;
+        _currentArcLength = 0;
+        _totalArcLength = ((NSNumber*)_data[@"arc_length"]).floatValue;
+        _arcPointsCount = _totalArcLength / VG_GROUND_SEGMENT_SIZE;
         _bezierPoints = malloc(3 * sizeof(CGPoint));
         
         NSDictionary* bezierPoints = self.data[@"bezier_points"];
@@ -43,21 +51,42 @@
         _bezierPoints[2] = CGPointMake(((NSNumber*)bezierPoints[@"end"][@"x"]).floatValue,
                                            -((NSNumber*)bezierPoints[@"end"][@"y"]).floatValue);
         
-        [self loadPoints];
+        [self loadGuidePoints];
+        [self drawPoints];
     }
     return self;
+}
+
+- (NSValue*)nextPosition:(CGFloat)distance {
+    self.currentArcLength += distance;
+    CGFloat t = [self tFromRatio:self.currentArcLength / self.totalArcLength];
+    if (t > 1)
+        return nil;
+    return [NSValue valueWithCGPoint:[self pointFromT:t]];
+}
+
+- (CGFloat)remainingDistance {
+    return self.totalArcLength - self.currentArcLength;
+}
+
+- (CGPoint)startPoint {
+    return self.bezierPoints[0];
+}
+
+- (CGPoint)endPoint {
+    return self.bezierPoints[2];
 }
 
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////
 
-- (void)loadPoints {
+- (void)loadGuidePoints {
     //Normal curve
     if (((NSNumber*)self.data[@"type"]).intValue < 2) {
 
         CGPoint lastPoint = self.bezierPoints[0];
-        CGFloat totalLength = 0;;
+        CGFloat totalLength = 0;
         
         for (int i = 0; i < self.arcPointsCount; i++) {
             CGFloat t = (CGFloat)i / (CGFloat)(self.arcPointsCount - 1);
@@ -67,21 +96,23 @@
             [self.arcLengths addObject:[NSNumber numberWithFloat:totalLength]];
             lastPoint = point;
         }
-        
-        lastPoint = self.bezierPoints[0];
-        int segmentsCount = ((NSNumber*)_data[@"arc_length"]).floatValue / VG_GROUND_SEGMENT_SIZE;
-        for (CGFloat r = 0; r <= 1; r += 1.0 / segmentsCount) {
-            CGPoint point = [self pointFromT:[self tFromRatio:r]];
-            [self drawDot:point radius:2 color:[CCColor redColor]];
-            [self drawSegmentFrom:lastPoint to:point radius:1 color:[CCColor blackColor]];
-            lastPoint = point;
-        }
-        
-        [self drawSegmentFrom:lastPoint to:self.bezierPoints[2] radius:1 color:[CCColor blackColor]];
-        
     }
     
     //Looping
+}
+
+- (void)drawPoints {
+    CGPoint lastPoint = self.bezierPoints[0];
+    int segmentsCount = self.totalArcLength / VG_GROUND_SEGMENT_SIZE;
+    
+    for (CGFloat r = 0; r <= 1; r += 1.0 / segmentsCount) {
+        CGPoint point = [self pointFromT:[self tFromRatio:r]];
+        [self drawDot:point radius:2 color:[CCColor redColor]];
+        [self drawSegmentFrom:lastPoint to:point radius:1 color:[CCColor blackColor]];
+        lastPoint = point;
+    }
+    
+    [self drawSegmentFrom:lastPoint to:self.bezierPoints[2] radius:1 color:[CCColor blackColor]];
 }
 
 - (CGPoint)pointFromT:(CGFloat)t {

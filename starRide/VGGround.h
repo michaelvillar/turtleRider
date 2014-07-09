@@ -9,5 +9,5 @@
 #import "CCNode.h"
 
 @interface VGGround : CCNode
-
+- (NSValue*)nextPosition:(CGFloat)distance;
 @end
