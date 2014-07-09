@@ -8,6 +8,7 @@
 
 #import "VGGround.h"
 #import "VGGroundTile.h"
+#import "VGConstant.h"
 
 @interface VGGround ()
 @property (strong, readonly) NSMutableArray* tiles;
@@ -31,25 +32,40 @@
     return self;
 }
 
-- (NSValue*)nextPosition:(CGFloat)distance {
-    if (self.currentTile) {
-        NSValue* value = [self.currentTile nextPosition:distance];
-        if (value) {
-            return [self pointValueToGlobal:value];
-        } else {
-            long index = [self.tiles indexOfObject:self.currentTile] + 1;
-            if (index >= self.tiles.count)
-                return nil;
-            
-            VGGroundTile* nextTile = self.tiles[index];
-            value = [nextTile nextPosition:distance];
-            if (value) {
-                self.currentTile = nextTile;
-                return [self pointValueToGlobal:value];
-            }
+- (NSDictionary*)nextPosition:(CGFloat)distance {
+    NSDictionary* dic;
+    
+    if (!self.currentTile || !(dic = [self.currentTile nextPosition:distance]))
+        return nil;
+    
+    NSMutableDictionary* newDic = [[NSMutableDictionary alloc] init];
+    switch (((NSNumber*)dic[@"positionType"]).intValue) {
+        case VGkPointOnCurve: {
+            newDic[@"positionType"] = [[NSNumber alloc] initWithInt:VGkPointOnCurve];
+            newDic[@"position"] = [self pointValueToGlobal:dic[@"position"]];
+            return newDic;
         }
+            
+        case VGkPointOffCurve: {
+            newDic[@"positionType"] = [[NSNumber alloc] initWithInt:VGkPointOffCurve];
+            newDic[@"lastPoint"] = [self pointValueToGlobal:dic[@"lastPoint"]];
+            return newDic;
+        }
+            
+        case VGkPointOffTile: {
+            long index = [self.tiles indexOfObject:self.currentTile] + 1;
+            if (index >= self.tiles.count) {
+                self.currentTile = nil;
+                newDic[@"positionType"] = [[NSNumber alloc] initWithInt:VGkPointOffCurve];
+                return newDic;
+            }
+            self.currentTile = [self.tiles objectAtIndex:index];
+            return [self nextPosition:distance - ((NSNumber*)dic[@"distanceRemaining"]).floatValue];
+        }
+            
+        default:
+            return nil;
     }
-    return nil;
 }
 
 - (NSValue*)pointValueToGlobal:(NSValue*)value {
@@ -68,13 +84,13 @@
 
 - (void)generateGround {
     if (self.tiles.count == 0) {
-        VGGroundTile* tile = [VGGroundTile tileFromName:@"level1"];
+        VGGroundTile* tile = [VGGroundTile tileFromName:@"level2"];
         self.currentTile = tile;
         tile.position = CGPointMake(0, 160);
         [self addChild:tile z:0];
         [self.tiles addObject:tile];
         
-        VGGroundTile* tile2 = [VGGroundTile tileFromName:@"level1"];
+        VGGroundTile* tile2 = [VGGroundTile tileFromName:@"level2"];
         tile2.position = CGPointMake(tile.position.x + tile.endPoint.x, tile.position.y + tile.endPoint.y);
         [self addChild:tile2 z:0];
         [self.tiles addObject:tile2];

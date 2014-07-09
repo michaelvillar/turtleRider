@@ -14,5 +14,5 @@
 @property (assign, readonly) CGFloat remainingDistance;
 
 - (id)initWithData:(NSDictionary*)data;
-- (NSValue*)nextPosition:(CGFloat)distance;
+- (NSDictionary*)nextPosition:(CGFloat)distance;
 @end

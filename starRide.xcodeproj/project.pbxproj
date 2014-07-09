@@ -202,6 +202,7 @@
 		4DC913B3196D4668001130EF /* VGGroundCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913B2196D4668001130EF /* VGGroundCurve.m */; };
 		4DC913B6196D4673001130EF /* VGGroundSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913B5196D4673001130EF /* VGGroundSegment.m */; };
 		4DC913B9196D4A42001130EF /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DC913B8196D4A42001130EF /* level1.json */; };
+		4DC913BD196E0967001130EF /* level2.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DC913BC196E0967001130EF /* level2.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -640,6 +641,7 @@
 		4DC913B4196D4673001130EF /* VGGroundSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundSegment.h; sourceTree = "<group>"; };
 		4DC913B5196D4673001130EF /* VGGroundSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundSegment.m; sourceTree = "<group>"; };
 		4DC913B8196D4A42001130EF /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
+		4DC913BC196E0967001130EF /* level2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level2.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1545,6 +1547,7 @@
 		4DC913BB196D4A58001130EF /* Levels */ = {
 			isa = PBXGroup;
 			children = (
+				4DC913BC196E0967001130EF /* level2.json */,
 				4DC913B8196D4A42001130EF /* level1.json */,
 			);
 			name = Levels;
@@ -1618,6 +1621,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DC913BD196E0967001130EF /* level2.json in Resources */,
 				4DC91312196C7A25001130EF /* LICENSE_CCBReader.txt in Resources */,
 				4DC912FB196C7A25001130EF /* LICENSE_Kazmath.txt in Resources */,
 				4DC91254196C7A25001130EF /* LICENSE_cocos2d.txt in Resources */,
@@ -1981,6 +1985,7 @@
 				4DC91393196C7A26001130EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4DC91394196C7A26001130EF /* Build configuration list for PBXNativeTarget "starRide" */ = {
 			isa = XCConfigurationList;
@@ -1989,6 +1994,7 @@
 				4DC91396196C7A26001130EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

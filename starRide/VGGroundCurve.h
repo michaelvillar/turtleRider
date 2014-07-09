@@ -13,5 +13,5 @@
 @property (assign, readonly) CGPoint endPoint;
 
 - (id)initWithData:(NSDictionary*)data;
-- (NSValue*)nextPosition:(CGFloat)distance;
+- (NSDictionary*)nextPosition:(CGFloat)distance;
 @end

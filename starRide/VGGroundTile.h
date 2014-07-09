@@ -14,5 +14,5 @@
 
 + (VGGroundTile*)tileFromName:(NSString*)name;
 
-- (NSValue*)nextPosition:(CGFloat)distance;
+- (NSDictionary*)nextPosition:(CGFloat)distance;
 @end

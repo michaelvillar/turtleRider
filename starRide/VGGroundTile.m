@@ -8,6 +8,7 @@
 
 #import "VGGroundTile.h"
 #import "VGGroundCurve.h"
+#import "VGConstant.h"
 
 @interface VGGroundTile ()
 @property (strong, readonly) NSDictionary* data;
@@ -45,17 +46,37 @@
     return [[VGGroundTile alloc] initWithData:json];
 }
 
-- (NSValue*)nextPosition:(CGFloat)distance {
-    if (!self.currentCurve) {
-        self.currentCurve = self.curves[0];
-    }
-    if (self.currentCurve) {
-        NSValue* value = [self.currentCurve nextPosition:distance];
-        if (value) {
-            return value;
+- (NSDictionary*)nextPosition:(CGFloat)distance {
+    NSDictionary* dic;
+    
+    if (!self.currentCurve || !(dic = [self.currentCurve nextPosition:distance]))
+        return nil;
+    
+    switch (((NSNumber*)dic[@"positionType"]).intValue) {
+        case VGkPointOnCurve: {
+            return dic;
         }
+            
+        case VGkPointOffCurve: {
+            self.currentCurve = nil;
+            return dic;
+            /*long index = [self.curves indexOfObject:self.currentCurve] + 1;
+            if (index >= self.curves.count) {
+                self.currentCurve = nil;
+                NSMutableDictionary* newDic = [[NSMutableDictionary alloc] init];
+                [newDic setObject:[NSNumber numberWithInt:VGkPointOffTile] forKey:@"positionType"];
+                [newDic setObject:[NSNumber numberWithFloat:distance - ((NSNumber*)dic[@"distanceRemaining"]).floatValue] forKey:@"distanceRemaining"];
+                return newDic;
+            }
+            
+            self.currentCurve = [self.curves objectAtIndex:index];
+            
+            return [self nextPosition:distance - ((NSNumber*)dic[@"distanceRemaining"]).floatValue];*/
+        }
+            
+        default:
+            return nil;
     }
-    return nil;
 }
 
 ////////////////////////////////

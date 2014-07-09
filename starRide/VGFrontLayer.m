@@ -66,9 +66,25 @@
 ////////////////////////////////
 
 - (void)fixedUpdate:(CCTime)dt {
-    NSValue* value = [self.ground nextPosition:self.gameSpeed * dt];
-    if (value) {
-        self.character.position = value.CGPointValue;
+    NSDictionary* dic = [self.ground nextPosition:self.gameSpeed * dt];
+    if (!dic)
+        return;
+    
+    switch (((NSNumber*)dic[@"positionType"]).intValue) {
+        case VGkPointOnCurve: {
+            CGPoint pos = ((NSValue*)dic[@"position"]).CGPointValue;
+            self.character.position = pos;
+            break;
+        }
+            
+        case VGkPointOffCurve: {
+            CGPoint pos = ((NSValue*)dic[@"lastPoint"]).CGPointValue;
+            self.character.position = pos;
+            break;
+        }
+            
+        default:
+            break;
     }
 }
 

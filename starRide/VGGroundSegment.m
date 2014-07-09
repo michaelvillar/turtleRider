@@ -57,12 +57,18 @@
     return self;
 }
 
-- (NSValue*)nextPosition:(CGFloat)distance {
+- (NSDictionary*)nextPosition:(CGFloat)distance {
     self.currentArcLength += distance;
     CGFloat t = [self tFromRatio:self.currentArcLength / self.totalArcLength];
-    if (t > 1)
-        return nil;
-    return [NSValue valueWithCGPoint:[self pointFromT:t]];
+    NSMutableDictionary* newDic = [[NSMutableDictionary alloc] init];
+    if (t > 1) {
+        [newDic setObject:[NSNumber numberWithInt:VGkPointOffSegment] forKey:@"positionType"];
+        [newDic setObject:[NSNumber numberWithFloat:self.currentArcLength - self.totalArcLength] forKey:@"distanceRemaining"];
+    } else {
+        [newDic setObject:[NSNumber numberWithInt:VGkPointOnSegment] forKey:@"positionType"];
+        [newDic setObject:[NSValue valueWithCGPoint:[self pointFromT:t]] forKey:@"position"];
+    }
+    return newDic;
 }
 
 - (CGFloat)remainingDistance {
