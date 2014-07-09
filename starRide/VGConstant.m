@@ -8,5 +8,5 @@
 
 #import "VGConstant.h"
 
-CGPoint const VG_CHARACTER_INIT_POSITION = {100.0f, 200.0f};
+CGPoint const VG_CHARACTER_INIT_POSITION = {60.0f, 160.0f};
 
