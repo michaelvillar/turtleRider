@@ -9,4 +9,5 @@
 #import <Foundation/Foundation.h>
 
 extern CGPoint const VG_CHARACTER_INIT_POSITION;
+extern CGFloat const VG_GROUND_SEGMENT_SIZE;
 
