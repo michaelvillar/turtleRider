@@ -8,6 +8,5 @@
 
 #import <Foundation/Foundation.h>
 
-@interface VGConstant : NSObject
+extern CGPoint const VG_CHARACTER_INIT_POSITION;
 
-@end

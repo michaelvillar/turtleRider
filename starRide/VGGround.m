@@ -10,4 +10,20 @@
 
 @implementation VGGround
 
+////////////////////////////////
+#pragma mark - Public
+////////////////////////////////
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
+////////////////////////////////
+#pragma mark - Cocos2D
+////////////////////////////////
+
 @end

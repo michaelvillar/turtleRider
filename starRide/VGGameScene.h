@@ -9,5 +9,5 @@
 #import "CCScene.h"
 
 @interface VGGameScene : CCScene
-
++ (VGGameScene*)scene;
 @end

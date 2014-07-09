@@ -8,6 +8,7 @@
 // -----------------------------------------------------------------------
 
 #import "AppDelegate.h"
+#import "VGGameScene.h"
 
 @implementation AppDelegate
 
@@ -47,7 +48,7 @@
 -(CCScene *)startScene
 {
 	// This method should return the very first scene to be run when your app starts.
-	return [[CCScene alloc] init];
+	return [VGGameScene scene];
 }
 
 @end

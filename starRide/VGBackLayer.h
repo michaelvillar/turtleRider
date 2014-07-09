@@ -10,4 +10,6 @@
 
 @interface VGBackLayer : CCNode
 
+- (id)initWithSize:(CGSize) size;
+
 @end

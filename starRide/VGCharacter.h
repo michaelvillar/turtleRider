@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 VillarGames. All rights reserved.
 //
 
-#import "CCSprite.h"
+#import "CCDrawNode.h"
 
-@interface VGCharacter : CCSprite
+@interface VGCharacter : CCDrawNode
 
 @end

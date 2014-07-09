@@ -10,4 +10,6 @@
 
 @interface VGFrontLayer : CCNode
 
+- (id)initWithSize:(CGSize) size;
+
 @end
