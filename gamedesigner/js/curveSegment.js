@@ -35,6 +35,7 @@ CurveSegment.prototype.archive = function() {
 		"end": this.end.archive()
 	};
 
+	archive["arc_length"] = this.length();
 	archive["bombs"] = [];
 	archive["bombsT"] = [];
 
