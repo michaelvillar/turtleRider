@@ -31,6 +31,9 @@
     self = [super init];
     if (self) {
         self.contentSize = size;
+        self.positionType = CCPositionTypeMake(CCPositionUnitPoints,
+                                               CCPositionUnitPoints,
+                                               CCPositionReferenceCornerBottomLeft);
 
         _ground = [[VGGround alloc] init];
         _character = [[VGCharacter alloc] init];

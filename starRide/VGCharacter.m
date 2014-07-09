@@ -29,7 +29,7 @@
                     borderWidth:1
                     borderColor:[CCColor colorWithWhite:0 alpha:1]];
         self.contentSize = CGSizeMake(50, 25);
-        self.anchorPoint = CGPointMake(0.5, 1.0);
+        self.anchorPoint = CGPointMake(0.5, 0.0);
     }
     return self;
 }

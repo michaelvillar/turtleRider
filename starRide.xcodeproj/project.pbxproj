@@ -198,6 +198,10 @@
 		4DC913A6196C8107001130EF /* VGCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913A5196C8107001130EF /* VGCharacter.m */; };
 		4DC913A9196C8142001130EF /* VGConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913A8196C8142001130EF /* VGConstant.m */; };
 		4DC913AC196C81B2001130EF /* VGGround.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913AB196C81B2001130EF /* VGGround.m */; };
+		4DC913B0196D461C001130EF /* VGGroundTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913AF196D461C001130EF /* VGGroundTile.m */; };
+		4DC913B3196D4668001130EF /* VGGroundCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913B2196D4668001130EF /* VGGroundCurve.m */; };
+		4DC913B6196D4673001130EF /* VGGroundSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913B5196D4673001130EF /* VGGroundSegment.m */; };
+		4DC913B9196D4A42001130EF /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DC913B8196D4A42001130EF /* level1.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -629,6 +633,13 @@
 		4DC913A8196C8142001130EF /* VGConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGConstant.m; sourceTree = "<group>"; };
 		4DC913AA196C81B2001130EF /* VGGround.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGround.h; sourceTree = "<group>"; };
 		4DC913AB196C81B2001130EF /* VGGround.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGround.m; sourceTree = "<group>"; };
+		4DC913AE196D461B001130EF /* VGGroundTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundTile.h; sourceTree = "<group>"; };
+		4DC913AF196D461C001130EF /* VGGroundTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundTile.m; sourceTree = "<group>"; };
+		4DC913B1196D4668001130EF /* VGGroundCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundCurve.h; sourceTree = "<group>"; };
+		4DC913B2196D4668001130EF /* VGGroundCurve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundCurve.m; sourceTree = "<group>"; };
+		4DC913B4196D4673001130EF /* VGGroundSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundSegment.h; sourceTree = "<group>"; };
+		4DC913B5196D4673001130EF /* VGGroundSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundSegment.m; sourceTree = "<group>"; };
+		4DC913B8196D4A42001130EF /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -701,6 +712,7 @@
 		4DC910F7196C7A23001130EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4DC913BB196D4A58001130EF /* Levels */,
 				4DC91397196C7B82001130EF /* Info.plist */,
 			);
 			name = Resources;
@@ -1508,12 +1520,34 @@
 				4DC9139F196C8040001130EF /* VGFrontLayer.m */,
 				4DC913A1196C804C001130EF /* VGBackLayer.h */,
 				4DC913A2196C804C001130EF /* VGBackLayer.m */,
-				4DC913AA196C81B2001130EF /* VGGround.h */,
-				4DC913AB196C81B2001130EF /* VGGround.m */,
 				4DC913A4196C8107001130EF /* VGCharacter.h */,
 				4DC913A5196C8107001130EF /* VGCharacter.m */,
+				4DC913B7196D4679001130EF /* Ground */,
 			);
 			name = GameScene;
+			sourceTree = "<group>";
+		};
+		4DC913B7196D4679001130EF /* Ground */ = {
+			isa = PBXGroup;
+			children = (
+				4DC913AA196C81B2001130EF /* VGGround.h */,
+				4DC913AB196C81B2001130EF /* VGGround.m */,
+				4DC913AE196D461B001130EF /* VGGroundTile.h */,
+				4DC913AF196D461C001130EF /* VGGroundTile.m */,
+				4DC913B1196D4668001130EF /* VGGroundCurve.h */,
+				4DC913B2196D4668001130EF /* VGGroundCurve.m */,
+				4DC913B4196D4673001130EF /* VGGroundSegment.h */,
+				4DC913B5196D4673001130EF /* VGGroundSegment.m */,
+			);
+			name = Ground;
+			sourceTree = "<group>";
+		};
+		4DC913BB196D4A58001130EF /* Levels */ = {
+			isa = PBXGroup;
+			children = (
+				4DC913B8196D4A42001130EF /* level1.json */,
+			);
+			name = Levels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1587,6 +1621,7 @@
 				4DC91312196C7A25001130EF /* LICENSE_CCBReader.txt in Resources */,
 				4DC912FB196C7A25001130EF /* LICENSE_Kazmath.txt in Resources */,
 				4DC91254196C7A25001130EF /* LICENSE_cocos2d.txt in Resources */,
+				4DC913B9196D4A42001130EF /* level1.json in Resources */,
 				4DC91380196C7A25001130EF /* LICENSE_Chipmunk.txt in Resources */,
 				4DC9139A196C7BC1001130EF /* Default-568h@2x.png in Resources */,
 				4DC912E0196C7A25001130EF /* ChangeLog in Resources */,
@@ -1625,6 +1660,7 @@
 				4DC91150196C7A24001130EF /* ccDeprecated.m in Sources */,
 				4DC9127F196C7A25001130EF /* ALContext.m in Sources */,
 				4DC9115B196C7A24001130EF /* CCDrawNode.m in Sources */,
+				4DC913B0196D461C001130EF /* VGGroundTile.m in Sources */,
 				4DC9122C196C7A24001130EF /* CCFileUtils.m in Sources */,
 				4DC912AF196C7A25001130EF /* OALTools.m in Sources */,
 				4DC91165196C7A24001130EF /* ccGLStateCache.m in Sources */,
@@ -1642,6 +1678,7 @@
 				4DC9139D196C7FF8001130EF /* VGGameScene.m in Sources */,
 				4DC912E3196C7A25001130EF /* mat4stack.c in Sources */,
 				4DC91182196C7A24001130EF /* CCNode.m in Sources */,
+				4DC913B3196D4668001130EF /* VGGroundCurve.m in Sources */,
 				4DC9116D196C7A24001130EF /* CCLabelBMFont.m in Sources */,
 				4DC9112B196C7A23001130EF /* CCActionEase.m in Sources */,
 				4DC9113A196C7A24001130EF /* CCActionTween.m in Sources */,
@@ -1726,6 +1763,7 @@
 				4DC91158196C7A24001130EF /* CCDrawingPrimitives.m in Sources */,
 				4DC91249196C7A24001130EF /* TGAlib.m in Sources */,
 				4DC91215196C7A24001130EF /* UITouch+CC.m in Sources */,
+				4DC913B6196D4673001130EF /* VGGroundSegment.m in Sources */,
 				4DC912F3196C7A25001130EF /* utility.c in Sources */,
 				4DC91252196C7A25001130EF /* ZipUtils.m in Sources */,
 				4DC91263196C7A25001130EF /* OALUtilityActions.m in Sources */,
