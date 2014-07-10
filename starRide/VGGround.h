@@ -7,7 +7,8 @@
 //
 
 #import "CCNode.h"
+#import "VGWorldModel.h"
 
 @interface VGGround : CCNode
-- (NSDictionary*)nextPosition:(CGFloat)distance;
+- (id)initWithWorld:(VGWorldModel*)world;
 @end

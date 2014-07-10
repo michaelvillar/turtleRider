@@ -7,11 +7,9 @@
 //
 
 #import "CCDrawNode.h"
+#import "VGGroundCurveModel.h"
 
 @interface VGGroundCurve : CCDrawNode
-@property (assign, readonly) CGPoint startPoint;
-@property (assign, readonly) CGPoint endPoint;
-
-- (id)initWithData:(NSDictionary*)data;
-- (NSDictionary*)nextPosition:(CGFloat)distance;
+- (id)initWithModel:(VGGroundCurveModel*)model;
+- (void)drawModel;
 @end

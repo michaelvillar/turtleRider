@@ -11,11 +11,10 @@
 #import "VGConstant.h"
 
 @interface VGGround ()
+@property (strong, readonly) VGWorldModel* world;
 @property (strong, readonly) NSMutableArray* tiles;
-@property (strong, readwrite) VGGroundTile* currentTile;
 
-- (void)generateGround;
-- (NSValue*)pointValueToGlobal:(NSValue*)value;
+//- (NSValue*)pointValueToGlobal:(NSValue*)value;
 @end
 
 @implementation VGGround
@@ -24,78 +23,47 @@
 #pragma mark - Public
 ////////////////////////////////
 
-- (id)init {
+- (id)initWithWorld:(VGWorldModel*)world {
     self = [super init];
     if (self) {
+        _world = world;
         _tiles = [[NSMutableArray alloc] init];
+        
+        VGGroundTile* lastTile = nil;
+        for (VGGroundTileModel* tileModel in _world.tiles) {
+            VGGroundTile* tile = [[VGGroundTile alloc] initWithModel:tileModel];
+            if (!lastTile) {
+                tile.position = CGPointMake(0, 160);
+            } else {
+                tile.position = CGPointMake(lastTile.position.x + lastTile.extremityPoints[1].x, lastTile.position.y + lastTile.extremityPoints[1].y);
+            }
+            lastTile = tile;
+            [_tiles addObject:tile];
+            [self addChild:tile z:0];
+        }
+        
+        for (VGGroundTile* tile in _tiles) {
+            [tile drawModel];
+        }
     }
     return self;
 }
 
-- (NSDictionary*)nextPosition:(CGFloat)distance {
-    NSDictionary* dic;
-    
-    if (!self.currentTile || !(dic = [self.currentTile nextPosition:distance]))
-        return nil;
-    
-    NSMutableDictionary* newDic = [[NSMutableDictionary alloc] init];
-    switch (((NSNumber*)dic[@"positionType"]).intValue) {
-        case VGkPointOnCurve: {
-            newDic[@"positionType"] = [[NSNumber alloc] initWithInt:VGkPointOnCurve];
-            newDic[@"position"] = [self pointValueToGlobal:dic[@"position"]];
-            return newDic;
-        }
-            
-        case VGkPointOffCurve: {
-            newDic[@"positionType"] = [[NSNumber alloc] initWithInt:VGkPointOffCurve];
-            newDic[@"lastPoint"] = [self pointValueToGlobal:dic[@"lastPoint"]];
-            return newDic;
-        }
-            
-        case VGkPointOffTile: {
-            long index = [self.tiles indexOfObject:self.currentTile] + 1;
-            if (index >= self.tiles.count) {
-                self.currentTile = nil;
-                newDic[@"positionType"] = [[NSNumber alloc] initWithInt:VGkPointOffCurve];
-                return newDic;
-            }
-            self.currentTile = [self.tiles objectAtIndex:index];
-            return [self nextPosition:distance - ((NSNumber*)dic[@"distanceRemaining"]).floatValue];
-        }
-            
-        default:
-            return nil;
-    }
-}
 
-- (NSValue*)pointValueToGlobal:(NSValue*)value {
-    if (!self.currentTile)
-        return value;
-    
-    CGPoint point = value.CGPointValue;
-    CGPoint newPoint = CGPointMake(self.position.x + self.currentTile.position.x + point.x,
-                                   self.position.y + self.currentTile.position.y + point.y);
-    return [NSValue valueWithCGPoint:newPoint];
-}
+
+//- (NSValue*)pointValueToGlobal:(NSValue*)value {
+//    if (!self.currentTile)
+//        return value;
+//    
+//    CGPoint point = value.CGPointValue;
+//    CGPoint newPoint = CGPointMake(self.position.x + self.currentTile.position.x + point.x,
+//                                   self.position.y + self.currentTile.position.y + point.y);
+//    return [NSValue valueWithCGPoint:newPoint];
+//}
 
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////
-
-- (void)generateGround {
-    if (self.tiles.count == 0) {
-        VGGroundTile* tile = [VGGroundTile tileFromName:@"level2"];
-        self.currentTile = tile;
-        tile.position = CGPointMake(0, 160);
-        [self addChild:tile z:0];
-        [self.tiles addObject:tile];
-        
-        VGGroundTile* tile2 = [VGGroundTile tileFromName:@"level2"];
-        tile2.position = CGPointMake(tile.position.x + tile.endPoint.x, tile.position.y + tile.endPoint.y);
-        [self addChild:tile2 z:0];
-        [self.tiles addObject:tile2];
-    }
-}
 
 ////////////////////////////////
 #pragma mark - Cocos2D
@@ -103,7 +71,7 @@
 
 
 - (void)update:(CCTime)dt {
-    [self generateGround];
+    
 }
 
 @end

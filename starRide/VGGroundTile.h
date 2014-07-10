@@ -7,12 +7,11 @@
 //
 
 #import "CCDrawNode.h"
+#import "VGGroundTileModel.h"
 
 @interface VGGroundTile : CCDrawNode
-@property (assign, readonly) CGPoint startPoint;
-@property (assign, readonly) CGPoint endPoint;
+@property (assign, readonly) CGPoint* extremityPoints;
 
-+ (VGGroundTile*)tileFromName:(NSString*)name;
-
-- (NSDictionary*)nextPosition:(CGFloat)distance;
+- (id)initWithModel:(VGGroundTileModel*)model;
+- (void)drawModel;
 @end

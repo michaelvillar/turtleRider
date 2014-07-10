@@ -7,12 +7,9 @@
 //
 
 #import "CCDrawNode.h"
+#import "VGGroundSegmentModel.h"
 
 @interface VGGroundSegment : CCDrawNode
-@property (assign, readonly) CGPoint startPoint;
-@property (assign, readonly) CGPoint endPoint;
-@property (assign, readonly) CGFloat remainingDistance;
-
-- (id)initWithData:(NSDictionary*)data;
-- (NSDictionary*)nextPosition:(CGFloat)distance;
+- (id)initWithModel:(VGGroundSegmentModel*)model;
+- (void)drawModel;
 @end

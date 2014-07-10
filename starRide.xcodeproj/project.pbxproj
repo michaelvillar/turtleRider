@@ -203,6 +203,12 @@
 		4DC913B6196D4673001130EF /* VGGroundSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913B5196D4673001130EF /* VGGroundSegment.m */; };
 		4DC913B9196D4A42001130EF /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DC913B8196D4A42001130EF /* level1.json */; };
 		4DC913BD196E0967001130EF /* level2.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DC913BC196E0967001130EF /* level2.json */; };
+		4DC913C4196EBD04001130EF /* VGGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913C3196EBD04001130EF /* VGGameModel.m */; };
+		4DC913C7196EBD0E001130EF /* VGWorldModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913C6196EBD0E001130EF /* VGWorldModel.m */; };
+		4DC913CA196EBD24001130EF /* VGGroundTileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913C9196EBD24001130EF /* VGGroundTileModel.m */; };
+		4DC913CD196EBD2C001130EF /* VGGroundCurveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913CC196EBD2C001130EF /* VGGroundCurveModel.m */; };
+		4DC913D0196EBD33001130EF /* VGGroundSegmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913CF196EBD33001130EF /* VGGroundSegmentModel.m */; };
+		4DC913DC196EC939001130EF /* VGCharacterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913DB196EC939001130EF /* VGCharacterModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -642,6 +648,19 @@
 		4DC913B5196D4673001130EF /* VGGroundSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundSegment.m; sourceTree = "<group>"; };
 		4DC913B8196D4A42001130EF /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
 		4DC913BC196E0967001130EF /* level2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level2.json; sourceTree = "<group>"; };
+		4DC913C2196EBD04001130EF /* VGGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGameModel.h; sourceTree = "<group>"; };
+		4DC913C3196EBD04001130EF /* VGGameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGameModel.m; sourceTree = "<group>"; };
+		4DC913C5196EBD0E001130EF /* VGWorldModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGWorldModel.h; sourceTree = "<group>"; };
+		4DC913C6196EBD0E001130EF /* VGWorldModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGWorldModel.m; sourceTree = "<group>"; };
+		4DC913C8196EBD24001130EF /* VGGroundTileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundTileModel.h; sourceTree = "<group>"; };
+		4DC913C9196EBD24001130EF /* VGGroundTileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundTileModel.m; sourceTree = "<group>"; };
+		4DC913CB196EBD2C001130EF /* VGGroundCurveModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundCurveModel.h; sourceTree = "<group>"; };
+		4DC913CC196EBD2C001130EF /* VGGroundCurveModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundCurveModel.m; sourceTree = "<group>"; };
+		4DC913CE196EBD33001130EF /* VGGroundSegmentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundSegmentModel.h; sourceTree = "<group>"; };
+		4DC913CF196EBD33001130EF /* VGGroundSegmentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundSegmentModel.m; sourceTree = "<group>"; };
+		4DC913D5196EC0F6001130EF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		4DC913DA196EC939001130EF /* VGCharacterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGCharacterModel.h; sourceTree = "<group>"; };
+		4DC913DB196EC939001130EF /* VGCharacterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGCharacterModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -687,6 +706,7 @@
 		4DC910DD196C7A23001130EF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4DC913D5196EC0F6001130EF /* XCTest.framework */,
 				4DC910DE196C7A23001130EF /* QuartzCore.framework */,
 				4DC910E0196C7A23001130EF /* OpenGLES.framework */,
 				4DC910E2196C7A23001130EF /* OpenAL.framework */,
@@ -1504,16 +1524,51 @@
 		4DC91385196C7A25001130EF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				4DC91386196C7A25001130EF /* AppDelegate.h */,
-				4DC91387196C7A25001130EF /* AppDelegate.m */,
-				4DC913A7196C8142001130EF /* VGConstant.h */,
-				4DC913A8196C8142001130EF /* VGConstant.m */,
-				4DC913AD196C81BE001130EF /* GameScene */,
+				4DC913D1196EC09B001130EF /* Others */,
+				4DC913BF196EBC87001130EF /* Nodes */,
+				4DC913BE196EBC82001130EF /* Models */,
+				4DC913D2196EC0AA001130EF /* Tests */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
 		};
-		4DC913AD196C81BE001130EF /* GameScene */ = {
+		4DC913BB196D4A58001130EF /* Levels */ = {
+			isa = PBXGroup;
+			children = (
+				4DC913BC196E0967001130EF /* level2.json */,
+				4DC913B8196D4A42001130EF /* level1.json */,
+			);
+			name = Levels;
+			sourceTree = "<group>";
+		};
+		4DC913BE196EBC82001130EF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4DC913C2196EBD04001130EF /* VGGameModel.h */,
+				4DC913C3196EBD04001130EF /* VGGameModel.m */,
+				4DC913C5196EBD0E001130EF /* VGWorldModel.h */,
+				4DC913C6196EBD0E001130EF /* VGWorldModel.m */,
+				4DC913C8196EBD24001130EF /* VGGroundTileModel.h */,
+				4DC913C9196EBD24001130EF /* VGGroundTileModel.m */,
+				4DC913CB196EBD2C001130EF /* VGGroundCurveModel.h */,
+				4DC913CC196EBD2C001130EF /* VGGroundCurveModel.m */,
+				4DC913CE196EBD33001130EF /* VGGroundSegmentModel.h */,
+				4DC913CF196EBD33001130EF /* VGGroundSegmentModel.m */,
+				4DC913DA196EC939001130EF /* VGCharacterModel.h */,
+				4DC913DB196EC939001130EF /* VGCharacterModel.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		4DC913BF196EBC87001130EF /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				4DC913C0196EBCE2001130EF /* GameScene */,
+			);
+			name = Nodes;
+			sourceTree = "<group>";
+		};
+		4DC913C0196EBCE2001130EF /* GameScene */ = {
 			isa = PBXGroup;
 			children = (
 				4DC9139B196C7FF8001130EF /* VGGameScene.h */,
@@ -1524,14 +1579,6 @@
 				4DC913A2196C804C001130EF /* VGBackLayer.m */,
 				4DC913A4196C8107001130EF /* VGCharacter.h */,
 				4DC913A5196C8107001130EF /* VGCharacter.m */,
-				4DC913B7196D4679001130EF /* Ground */,
-			);
-			name = GameScene;
-			sourceTree = "<group>";
-		};
-		4DC913B7196D4679001130EF /* Ground */ = {
-			isa = PBXGroup;
-			children = (
 				4DC913AA196C81B2001130EF /* VGGround.h */,
 				4DC913AB196C81B2001130EF /* VGGround.m */,
 				4DC913AE196D461B001130EF /* VGGroundTile.h */,
@@ -1541,16 +1588,25 @@
 				4DC913B4196D4673001130EF /* VGGroundSegment.h */,
 				4DC913B5196D4673001130EF /* VGGroundSegment.m */,
 			);
-			name = Ground;
+			name = GameScene;
 			sourceTree = "<group>";
 		};
-		4DC913BB196D4A58001130EF /* Levels */ = {
+		4DC913D1196EC09B001130EF /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				4DC913BC196E0967001130EF /* level2.json */,
-				4DC913B8196D4A42001130EF /* level1.json */,
+				4DC91386196C7A25001130EF /* AppDelegate.h */,
+				4DC91387196C7A25001130EF /* AppDelegate.m */,
+				4DC913A7196C8142001130EF /* VGConstant.h */,
+				4DC913A8196C8142001130EF /* VGConstant.m */,
 			);
-			name = Levels;
+			name = Others;
+			sourceTree = "<group>";
+		};
+		4DC913D2196EC0AA001130EF /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1643,6 +1699,7 @@
 				4DC91305196C7A25001130EF /* CCBReader.m in Sources */,
 				4DC912B5196C7A25001130EF /* CCButton.m in Sources */,
 				4DC91260196C7A25001130EF /* OALAudioActions.m in Sources */,
+				4DC913CD196EBD2C001130EF /* VGGroundCurveModel.m in Sources */,
 				4DC912A5196C7A25001130EF /* NSMutableArray+WeakReferences.m in Sources */,
 				4DC9121F196C7A24001130EF /* CCGLView.m in Sources */,
 				4DC912E9196C7A25001130EF /* mat4.c in Sources */,
@@ -1660,6 +1717,7 @@
 				4DC9124C196C7A24001130EF /* TransformUtils.m in Sources */,
 				4DC911ED196C7A24001130EF /* CCTextureCache.m in Sources */,
 				4DC91218196C7A24001130EF /* CCAppDelegate.m in Sources */,
+				4DC913C7196EBD0E001130EF /* VGWorldModel.m in Sources */,
 				4DC9121C196C7A24001130EF /* CCDirectorMac.m in Sources */,
 				4DC91150196C7A24001130EF /* ccDeprecated.m in Sources */,
 				4DC9127F196C7A25001130EF /* ALContext.m in Sources */,
@@ -1707,6 +1765,7 @@
 				4DC9112E196C7A23001130EF /* CCActionInstant.m in Sources */,
 				4DC91228196C7A24001130EF /* base64.c in Sources */,
 				4DC91267196C7A25001130EF /* OALAudioTrack.m in Sources */,
+				4DC913CA196EBD24001130EF /* VGGroundTileModel.m in Sources */,
 				4DC911AA196C7A24001130EF /* CCProgressNode.m in Sources */,
 				4DC9119D196C7A24001130EF /* CCPhysicsBody.m in Sources */,
 				4DC91222196C7A24001130EF /* CCWindow.m in Sources */,
@@ -1727,8 +1786,10 @@
 				4DC9120B196C7A24001130EF /* CCDirectorIOS.m in Sources */,
 				4DC911E2196C7A24001130EF /* CCSpriteFrameCache.m in Sources */,
 				4DC912A1196C7A25001130EF /* mach_timing.c in Sources */,
+				4DC913D0196EBD33001130EF /* VGGroundSegmentModel.m in Sources */,
 				4DC91285196C7A25001130EF /* ALListener.m in Sources */,
 				4DC9115E196C7A24001130EF /* ccFPSImages.m in Sources */,
+				4DC913C4196EBD04001130EF /* VGGameModel.m in Sources */,
 				4DC91235196C7A24001130EF /* ccUtils.c in Sources */,
 				4DC911A6196C7A24001130EF /* CCPhysicsShape.m in Sources */,
 				4DC911AE196C7A24001130EF /* CCRenderTexture.m in Sources */,
@@ -1774,6 +1835,7 @@
 				4DC9120E196C7A24001130EF /* CCES2Renderer.m in Sources */,
 				4DC912DE196C7A25001130EF /* aabb.c in Sources */,
 				4DC91308196C7A25001130EF /* CCBsequence.m in Sources */,
+				4DC913DC196EC939001130EF /* VGCharacterModel.m in Sources */,
 				4DC91169196C7A24001130EF /* CCLabelAtlas.m in Sources */,
 				4DC91204196C7A24001130EF /* cocos2d.m in Sources */,
 				4DC9128C196C7A25001130EF /* ALSource.m in Sources */,
@@ -1920,6 +1982,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "starRide/Supporting Files/Prefix.pch";
@@ -1946,6 +2012,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "starRide/Supporting Files/Prefix.pch";
 				HEADER_SEARCH_PATHS = (

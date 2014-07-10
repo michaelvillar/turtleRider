@@ -10,12 +10,4 @@
 
 extern CGPoint const VG_CHARACTER_INIT_POSITION;
 extern CGFloat const VG_GROUND_SEGMENT_SIZE;
-
-typedef enum {
-    VGkPointOnCurve,
-    VGkPointOffCurve,
-    VGkPointOffTile,
-    VGkPointOnSegment,
-    VGkPointOffSegment
-} VGkPositionType;
-
+extern CGFloat const VG_GROUND_SECURITY_OFFSET;

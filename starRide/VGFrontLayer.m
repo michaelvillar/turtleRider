@@ -10,11 +10,14 @@
 #import "VGConstant.h"
 #import "VGGround.h"
 #import "VGCharacter.h"
+#import "VGGameModel.h"
 
 #import "cocos2d.h"
 
 
 @interface VGFrontLayer ()
+
+@property (strong, readonly) VGGameModel* game;
 @property (strong, readwrite) CCNode* movingLayer;
 @property (strong, readwrite) VGGround* ground;
 @property (strong, readwrite) VGCharacter* character;
@@ -38,11 +41,11 @@
                                                CCPositionUnitPoints,
                                                CCPositionReferenceCornerBottomLeft);
 
+        _game = [[VGGameModel alloc] init];
         _movingLayer = [[CCNode alloc] init];
-        _ground = [[VGGround alloc] init];
+        _ground = [[VGGround alloc] initWithWorld:_game.world];
         _character = [[VGCharacter alloc] init];
         _gameSpeed = 300;
-        
         
         [_movingLayer addChild:_ground z:0];
         [_movingLayer addChild:_character z:1];
@@ -66,29 +69,11 @@
 ////////////////////////////////
 
 - (void)fixedUpdate:(CCTime)dt {
-    NSDictionary* dic = [self.ground nextPosition:self.gameSpeed * dt];
-    if (!dic)
-        return;
-    
-    switch (((NSNumber*)dic[@"positionType"]).intValue) {
-        case VGkPointOnCurve: {
-            CGPoint pos = ((NSValue*)dic[@"position"]).CGPointValue;
-            self.character.position = pos;
-            break;
-        }
-            
-        case VGkPointOffCurve: {
-            CGPoint pos = ((NSValue*)dic[@"lastPoint"]).CGPointValue;
-            self.character.position = pos;
-            break;
-        }
-            
-        default:
-            break;
-    }
+    [self.game.world update:dt];
 }
 
 - (void)update:(CCTime)dt {
+    self.character.position = self.game.world.characterPosition;
     self.movingLayer.position = CGPointMake(-self.character.position.x + VG_CHARACTER_INIT_POSITION.x, 0);
 }
 
