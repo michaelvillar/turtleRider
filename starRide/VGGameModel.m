@@ -84,9 +84,9 @@
     }
 }
 
-///////////////////////////////////
+/////////////////////////////////////////////////
 #pragma mark - VGGroundModelDelegate delegate
-///////////////////////////////////
+/////////////////////////////////////////////////
 
 - (void)didCreateGroundTile:(VGGroundTileModel*)tile atPosition:(CGPoint)position {
     if (self.delegate && [self.delegate respondsToSelector:@selector(didRemoveGroundTile:)]) {
@@ -97,6 +97,17 @@
 - (void)didRemoveGroundTile:(VGGroundTileModel*)tile {
     if (self.delegate && [self.delegate respondsToSelector:@selector(didRemoveGroundTile:)]) {
         [self.delegate didRemoveGroundTile:tile];
+    }
+}
+
+/////////////////////////////////////////////////
+#pragma mark - Touch delegate
+/////////////////////////////////////////////////
+
+- (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+    if (!self.character.isJumping) {
+        self.character.velocity = CGPointMake(self.character.velocity.x, self.character.velocity.y - VG_GRAVITY / 1.5);
+        self.character.jumping = YES;
     }
 }
 
