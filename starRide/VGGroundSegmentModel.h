@@ -19,7 +19,7 @@ typedef enum {
 @property (assign, readonly) CGFloat totalArcLength;
 
 - (id)initWithData:(NSDictionary *)data;
-- (NSMutableDictionary*)nextPositionInfo:(CGFloat)distance info:(NSMutableDictionary*)info;
+- (NSDictionary*)nextPositionInfo:(CGFloat)distance;
 - (CGFloat)tFromRatio:(CGFloat)ratio;
 - (CGPoint)pointFromT:(CGFloat)t;
 @end

@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
+#import "VGGroundModel.h"
 
 @class VGGameModel;
 
-@interface VGWorldModel : NSObject
+@interface VGWorldModel : NSObject <VGGroundModelDelegate>
 @property (weak, readonly) VGGameModel* game;
-@property (strong, readonly) NSMutableArray* tiles;
-@property (assign, readonly) CGPoint characterPosition;
+@property (weak, readwrite) id delegate;
 
 - (id)initWithGame:(VGGameModel*)game;
 - (void)update:(CCTime)dt;

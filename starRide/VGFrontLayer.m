@@ -10,7 +10,6 @@
 #import "VGConstant.h"
 #import "VGGround.h"
 #import "VGCharacter.h"
-#import "VGGameModel.h"
 
 #import "cocos2d.h"
 
@@ -22,7 +21,6 @@
 @property (strong, readwrite) VGGround* ground;
 @property (strong, readwrite) VGCharacter* character;
 @property (assign, readwrite) CGFloat gameSpeed;
-
 
 - (void)layoutChildren;
 @end
@@ -42,15 +40,14 @@
                                                CCPositionReferenceCornerBottomLeft);
 
         _game = [[VGGameModel alloc] init];
+        _game.gameDelegate = self;
+        _game.worldDelegate = self;
+        
         _movingLayer = [[CCNode alloc] init];
-        _ground = [[VGGround alloc] initWithWorld:_game.world];
+        _ground = [[VGGround alloc] init];
         _character = [[VGCharacter alloc] init];
         _gameSpeed = 300;
-        
-        [_movingLayer addChild:_ground z:0];
-        [_movingLayer addChild:_character z:1];
-        [self addChild:_movingLayer z:0];
-        
+
         [self layoutChildren];
     }
     return self;
@@ -61,6 +58,10 @@
 ////////////////////////////////
 
 - (void)layoutChildren {
+    [_movingLayer addChild:_ground z:0];
+    [_movingLayer addChild:_character z:1];
+    [self addChild:_movingLayer z:0];
+    
     self.character.position = VG_CHARACTER_INIT_POSITION;
 }
 
@@ -69,12 +70,32 @@
 ////////////////////////////////
 
 - (void)fixedUpdate:(CCTime)dt {
-    [self.game.world update:dt];
+    [self.game update:dt];
 }
 
 - (void)update:(CCTime)dt {
-    self.character.position = self.game.world.characterPosition;
     self.movingLayer.position = CGPointMake(-self.character.position.x + VG_CHARACTER_INIT_POSITION.x, 0);
 }
+
+///////////////////////////////////
+#pragma mark - VGGameModel delegate
+///////////////////////////////////
+
+///////////////////////////////////
+#pragma mark - VGWorldModel delegate
+///////////////////////////////////
+
+- (void)characterDidMove:(CGPoint)position angle:(CGFloat)angle {
+    self.character.position = position;
+}
+
+- (void)didCreateGroundTile:(VGGroundTileModel *)tile atPosition:(CGPoint)position {
+    [self.ground createTile:tile atPosition:position];
+}
+
+- (void)didRemoveGroundTile:(VGGroundTileModel *)tile {
+    [self.ground removeTile:tile];
+}
+
 
 @end

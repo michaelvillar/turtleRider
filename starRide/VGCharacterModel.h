@@ -9,4 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface VGCharacterModel : NSObject
+@property (assign, readwrite) CGPoint position;
 @end

@@ -18,5 +18,5 @@ typedef enum {
 @property (strong, readonly) NSMutableArray* segments;
 
 - (id)initWithData:(NSDictionary *)data;
-- (NSMutableDictionary*)nextPositionInfo:(CGFloat)distance info:(NSMutableDictionary*)info;
+- (NSDictionary*)nextPositionInfo:(CGFloat)distance;
 @end

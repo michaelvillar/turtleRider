@@ -26,8 +26,20 @@
     return self;
 }
 
+- (id)worldDelegate {
+    return self.world.delegate;
+}
+
+- (void)setWorldDelegate:(id)worldDelegate {
+    self.world.delegate = worldDelegate;
+}
+
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////
+
+- (void)update:(CCTime)dt {
+    [self.world update:dt];
+}
 
 @end

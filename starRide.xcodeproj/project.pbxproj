@@ -209,6 +209,7 @@
 		4DC913CD196EBD2C001130EF /* VGGroundCurveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913CC196EBD2C001130EF /* VGGroundCurveModel.m */; };
 		4DC913D0196EBD33001130EF /* VGGroundSegmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913CF196EBD33001130EF /* VGGroundSegmentModel.m */; };
 		4DC913DC196EC939001130EF /* VGCharacterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913DB196EC939001130EF /* VGCharacterModel.m */; };
+		4DC913DF196FE369001130EF /* VGGroundModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913DE196FE369001130EF /* VGGroundModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -661,6 +662,8 @@
 		4DC913D5196EC0F6001130EF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4DC913DA196EC939001130EF /* VGCharacterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGCharacterModel.h; sourceTree = "<group>"; };
 		4DC913DB196EC939001130EF /* VGCharacterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGCharacterModel.m; sourceTree = "<group>"; };
+		4DC913DD196FE369001130EF /* VGGroundModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundModel.h; sourceTree = "<group>"; };
+		4DC913DE196FE369001130EF /* VGGroundModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1548,6 +1551,8 @@
 				4DC913C3196EBD04001130EF /* VGGameModel.m */,
 				4DC913C5196EBD0E001130EF /* VGWorldModel.h */,
 				4DC913C6196EBD0E001130EF /* VGWorldModel.m */,
+				4DC913DD196FE369001130EF /* VGGroundModel.h */,
+				4DC913DE196FE369001130EF /* VGGroundModel.m */,
 				4DC913C8196EBD24001130EF /* VGGroundTileModel.h */,
 				4DC913C9196EBD24001130EF /* VGGroundTileModel.m */,
 				4DC913CB196EBD2C001130EF /* VGGroundCurveModel.h */,
@@ -1742,6 +1747,7 @@
 				4DC91182196C7A24001130EF /* CCNode.m in Sources */,
 				4DC913B3196D4668001130EF /* VGGroundCurve.m in Sources */,
 				4DC9116D196C7A24001130EF /* CCLabelBMFont.m in Sources */,
+				4DC913DF196FE369001130EF /* VGGroundModel.m in Sources */,
 				4DC9112B196C7A23001130EF /* CCActionEase.m in Sources */,
 				4DC9113A196C7A24001130EF /* CCActionTween.m in Sources */,
 				4DC912A8196C7A25001130EF /* NSMutableDictionary+WeakReferences.m in Sources */,

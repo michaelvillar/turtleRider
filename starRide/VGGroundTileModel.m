@@ -11,7 +11,7 @@
 
 @interface VGGroundTileModel ()
 @property (assign, readwrite) int startCurveIndex;
-
+@property (assign, readwrite) int currentCurveIndex;
 
 - (id)initWithData:(NSDictionary*)data;
 - (void)loadCurves:(NSDictionary*)data;
@@ -42,35 +42,9 @@
     return [[VGGroundTileModel alloc] initWithData:json];
 }
 
-- (NSMutableDictionary*)nextPositionInfo:(CGFloat)distance info:(NSMutableDictionary*)info {
-    if (!info[@"curveIndex"])
-        info[@"curveIndex"] = [NSNumber numberWithInt:self.startCurveIndex];
-
-    int index = ((NSNumber*)info[@"curveIndex"]).intValue;
-    
-    VGGroundCurveModel* curve = self.curves[index];
-    NSMutableDictionary* dic = [curve nextPositionInfo:distance info:info];
-    if (!dic)
-        return nil;
-    
-    switch (((NSNumber*)dic[@"positionResult"]).intValue) {
-        case VGkCurvePositionFound: {
-            dic[@"positionResult"] = [NSNumber numberWithInt:VGKTilePositionFound];
-            return dic;
-        }
-            
-        case VGkCurvePositionNotFound: {
-            if (CGPointEqualToPoint(curve.extremityPoints[1], self.extremityPoints[1])) {
-                dic[@"positionResult"] = [NSNumber numberWithInt:VGKTilePositionNotFound];
-            } else {
-                dic[@"positionResult"] = [NSNumber numberWithInt:VGKTilePositionFall];
-            }
-            return dic;
-        }
-            
-        default:
-            return nil;
-    }
+- (NSDictionary*)nextPositionInfo:(CGFloat)distance {
+    VGGroundCurveModel* curve = self.curves[self.currentCurveIndex];
+    return [curve nextPositionInfo:distance];
 }
 
 ////////////////////////////////
@@ -84,6 +58,7 @@
         _extremityPoints = malloc(2 * sizeof(CGPoint));
         
         [self loadCurves:data];
+        _currentCurveIndex = _startCurveIndex;
     }
     return self;
 }

@@ -7,8 +7,9 @@
 //
 
 #import "CCNode.h"
+#import "VGGameModel.h"
 
-@interface VGFrontLayer : CCNode
+@interface VGFrontLayer : CCNode <VGGameModelDelegate, VGWorldModelDelegate>
 
 - (id)initWithSize:(CGSize) size;
 

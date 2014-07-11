@@ -10,5 +10,6 @@
 #import "VGWorldModel.h"
 
 @interface VGGround : CCNode
-- (id)initWithWorld:(VGWorldModel*)world;
+- (void)removeTile:(VGGroundTileModel*)tile;
+- (void)createTile:(VGGroundTileModel*)tile atPosition:(CGPoint)position;
 @end

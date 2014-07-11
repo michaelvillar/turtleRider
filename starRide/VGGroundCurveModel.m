@@ -10,6 +10,8 @@
 #import "VGGroundSegmentModel.h"
 
 @interface VGGroundCurveModel ()
+@property (assign, readwrite) int currentSegmentIndex;
+
 - (id)initWithData:(NSDictionary*)data;
 - (void)loadSegments:(NSDictionary*)data;
 @end
@@ -25,50 +27,26 @@
     if (self) {
         _segments = [[NSMutableArray alloc] init];
         _extremityPoints = malloc(2 * sizeof(CGPoint));
+        _currentSegmentIndex = 0;
         
         [self loadSegments:data];
     }
     return self;
 }
 
-- (NSMutableDictionary*)nextPositionInfo:(CGFloat)distance info:(NSMutableDictionary*)info {
-    if (!info[@"segmentIndex"])
-        info[@"segmentIndex"] = @0;
+- (NSDictionary*)nextPositionInfo:(CGFloat)distance {
+    VGGroundSegmentModel* segment = self.segments[self.currentSegmentIndex];
+    NSDictionary* dic = [segment nextPositionInfo:distance];
     
-    int index = ((NSNumber*)info[@"segmentIndex"]).intValue;
-    VGGroundSegmentModel* segment = self.segments[index];
-    NSMutableDictionary* dic = [segment nextPositionInfo:distance info:info];
-    if (!dic)
-        return nil;
-    
-    switch (((NSNumber*)dic[@"positionResult"]).intValue) {
-        case VGkSegmentPositionFound: {
-            dic[@"positionResult"] = [[NSNumber alloc] initWithInt:VGkCurvePositionFound];
-            dic[@"position"] = dic[@"position"];
-            return dic;
-        }
-            
-        case VGkSegmentPositionNotFound: {
-            index++;
-            if (index >= self.segments.count) {
-                dic[@"positionResult"] = [[NSNumber alloc] initWithInt:VGkCurvePositionNotFound];
-                dic[@"position"] = [NSValue valueWithCGPoint:segment.extremityPoints[1]];
-                dic[@"distanceRemaining"] = [NSNumber numberWithFloat:distance - ((NSNumber*)dic[@"distanceRemaining"]).floatValue];
-                return dic;
-            }
-            
-            dic[@"segmentIndex"] = [NSNumber numberWithInt:(int)index];
-            dic[@"segmentArc"] = @0;
-            
-            return [self nextPositionInfo:distance - ((NSNumber*)dic[@"distanceRemaining"]).floatValue info:dic];
-        }
-            
-        default:
-            return nil;
+    if (((NSNumber*)dic[@"positionFound"]).boolValue) {
+        return dic;
+    } else if (self.currentSegmentIndex + 1 < self.segments.count){
+        self.currentSegmentIndex++;
+        return [self nextPositionInfo:((NSNumber*)dic[@"distanceRemaining"]).floatValue];
+    } else {
+        return dic;
     }
-
-    
-    
+    return nil;
 }
 
 ////////////////////////////////

@@ -11,6 +11,7 @@
 
 @interface VGGroundSegmentModel ()
 @property (strong, readonly) NSMutableArray* guideArcLengths;
+@property (assign, readwrite) CGFloat currentArcLength;
 
 - (void)loadGuidePoints:(NSDictionary*)data;
 @end
@@ -26,6 +27,7 @@
     if (self) {
         _guideArcLengths = [[NSMutableArray alloc] init];
         _totalArcLength = ((NSNumber*)data[@"arc_length"]).floatValue;
+        _currentArcLength = 0;
         _bezierPoints = malloc(3 * sizeof(CGPoint));
         
         NSDictionary* bezierPoints = data[@"bezier_points"];
@@ -45,23 +47,23 @@
     return self;
 }
 
-- (NSMutableDictionary*)nextPositionInfo:(CGFloat)distance info:(NSMutableDictionary*)info {
-    if (!info[@"segmentArc"])
-        info[@"segmentArc"] = @0;
-        
-    CGFloat segmentArc = ((NSNumber*)info[@"segmentArc"]).floatValue;
-    segmentArc += distance;
+- (NSDictionary*)nextPositionInfo:(CGFloat)distance {
+    CGFloat newLength = self.currentArcLength + distance;
     
-    CGFloat t = [self tFromRatio:segmentArc / self.totalArcLength];
-    if (t > 1) {
-        info[@"positionResult"] = [NSNumber numberWithInt:VGkSegmentPositionNotFound];
-        info[@"distanceRemaining"] = [NSNumber numberWithFloat:segmentArc - self.totalArcLength];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+    if (newLength > self.totalArcLength) {
+        self.currentArcLength = self.totalArcLength;
+        dic[@"positionFound"] = @(false);
+        dic[@"position"] = [NSValue valueWithCGPoint:self.extremityPoints[1]];
+        dic[@"distanceRemaining"] = @(newLength - self.totalArcLength);
+        return dic;
     } else {
-        info[@"positionResult"] = [NSNumber numberWithInt:VGkSegmentPositionFound];
-        info[@"position"] = [NSValue valueWithCGPoint:[self pointFromT:t]];
-        info[@"segmentArc"] = [NSNumber numberWithFloat:segmentArc];
+        self.currentArcLength = newLength;
+        CGFloat t = [self tFromRatio:self.currentArcLength / self.totalArcLength];
+        dic[@"positionFound"] = @(true);
+        dic[@"position"] = [NSValue valueWithCGPoint:[self pointFromT:t]];
     }
-    return info;
+    return dic;
 }
 
 ////////////////////////////////

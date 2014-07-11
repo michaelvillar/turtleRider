@@ -17,9 +17,10 @@ typedef enum {
 @interface VGGroundTileModel : NSObject
 @property (assign, readonly) CGPoint* extremityPoints;
 @property (strong, readonly) NSMutableArray* curves;
+@property (assign, readwrite) CGPoint position;
 
 + (VGGroundTileModel*)tileFromName:(NSString *)name;
 
-- (NSMutableDictionary*)nextPositionInfo:(CGFloat)distance info:(NSMutableDictionary*)info;
+- (NSMutableDictionary*)nextPositionInfo:(CGFloat)distance;
 
 @end
