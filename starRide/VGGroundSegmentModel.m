@@ -14,6 +14,8 @@
 @property (assign, readwrite) CGFloat currentArcLength;
 
 - (void)loadGuidePoints:(NSDictionary*)data;
+- (CGFloat)tFromX:(CGFloat)x;
+- (CGFloat)ratioFromT:(CGFloat)t;
 @end
 
 @implementation VGGroundSegmentModel
@@ -68,6 +70,31 @@
     return dic;
 }
 
+- (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition {
+    CGFloat x = oldPosition.x + (newPosition.x - oldPosition.x) / 2;
+    if (x < self.extremityPoints[0].x)
+        x = self.extremityPoints[0].x;
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+    CGFloat t = [self tFromX:x];
+    CGPoint point = [self pointFromT:t];
+    
+    if ((oldPosition.y >= newPosition.y &&
+         point.y <= oldPosition.y + VG_CURVE_INTERSECTION_SECURITY_OFFSET &&
+         point.y >= newPosition.y - VG_CURVE_INTERSECTION_SECURITY_OFFSET) ||
+        (oldPosition.y <= newPosition.y &&
+         point.y <= newPosition.y + VG_CURVE_INTERSECTION_SECURITY_OFFSET &&
+         point.y >= oldPosition.y - VG_CURVE_INTERSECTION_SECURITY_OFFSET)) {
+        dic[@"position"] = [NSValue valueWithCGPoint:point];
+        dic[@"positionFound"] = @(true);
+        self.currentArcLength = [self ratioFromT:t] * self.totalArcLength;
+    } else {
+        dic[@"positionFound"] = @(false);
+    }
+    
+    return dic;
+}
+
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////
@@ -92,6 +119,38 @@
     //Looping
 }
 
+- (CGFloat)tFromX:(CGFloat)x {
+    CGFloat x1 = self.bezierPoints[0].x;
+    CGFloat x2 = self.bezierPoints[1].x;
+    CGFloat x3 = self.bezierPoints[2].x;
+    
+    CGFloat a = x1 - 2 * x2 + x3;
+    CGFloat b = - 2 * x1 + 2 * x2;
+    CGFloat c = x1 - x;
+    
+    CGFloat t1;
+    CGFloat t2;
+    
+    if (a == 0) {
+        t1 = -c / b;
+        t2 = 0;
+    } else {
+        CGFloat rho = b * b - 4 * a * c;
+        t1 = (- b + sqrtf(rho)) / (2 * a);
+        t2 = (- b - sqrtf(rho)) / (2 * a);
+    }
+    
+    if (t1 >= 0 && t1 <= 1) {
+        return t1;
+    }
+    else if (t2 >= 0 && t2 <= 1) {
+        return t2;
+    }
+    
+    [[NSException exceptionWithName:@"Segment Exception" reason:@"Invalid T from X" userInfo:nil] raise];
+    return 0;
+}
+
 - (CGPoint)pointFromT:(CGFloat)t {
     CGFloat x = (1 - t) * (1 - t) * self.bezierPoints[0].x + 2 * (1 - t) * t * self.bezierPoints[1].x + t * t * self.bezierPoints[2].x;
     CGFloat y = (1 - t) * (1 - t) * self.bezierPoints[0].y + 2 * (1 - t) * t * self.bezierPoints[1].y + t * t * self.bezierPoints[2].y;
@@ -108,6 +167,20 @@
             return -INFINITY;
     }
     return y / x;
+}
+
+- (CGFloat)ratioFromT:(CGFloat)t {
+    CGFloat tInc = (1.0 / self.guideArcLengths.count);
+    int index = floor(t / tInc);
+    CGFloat arcLength = ((NSNumber*)self.guideArcLengths[index]).floatValue;
+    if (index == self.guideArcLengths.count - 1) {
+        return arcLength / self.totalArcLength;
+    } else {
+        CGFloat nextArcLength = ((NSNumber*)self.guideArcLengths[index + 1]).floatValue;
+        CGFloat arcLengthDiff = nextArcLength - arcLength;
+        CGFloat tRatio = (t - tInc * index) / tInc;
+        return (arcLength + arcLengthDiff * tRatio) / self.totalArcLength;
+    }
 }
 
 - (CGFloat)tFromRatio:(CGFloat)ratio {

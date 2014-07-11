@@ -80,12 +80,43 @@
     return nil;
 }
 
+- (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition {
+    VGGroundTileModel* tile;
+    VGGroundTileModel* currentTile;
+    int i;
+    for (i = 0; i < self.tiles.count; i++) {
+        currentTile = self.tiles[i];
+        if (newPosition.x >= currentTile.position.x + currentTile.extremityPoints[0].x && newPosition.x <= currentTile.position.x + currentTile.extremityPoints[1].x) {
+            tile = currentTile;
+            oldPosition = CGPointMake(oldPosition.x - tile.position.x, oldPosition.y - tile.position.y);
+            newPosition = CGPointMake(newPosition.x - tile.position.x, newPosition.y - tile.position.y);
+            break;
+        }
+    }
+    
+    if (!tile)
+        return [[NSDictionary alloc] initWithObjectsAndKeys:@"positionFound", @(false), nil];
+    
+    NSDictionary* dic = [tile pointInfoBetweenOldPosition:oldPosition newPosition:newPosition];
+    if (((NSNumber*)dic[@"positionFound"]).boolValue) {
+        NSMutableDictionary* newDic = [[NSMutableDictionary alloc] initWithDictionary:dic];
+        self.currentTileIndex = i;
+        CGPoint position = ((NSValue*)dic[@"position"]).CGPointValue;
+        position = CGPointMake(position.x + tile.position.x, position.y + tile.position.y);
+        newDic[@"position"] = [NSValue valueWithCGPoint:position];
+        return newDic;
+    } else
+        return dic;
+    
+    return nil;
+}
+
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////
 
 - (void)createTile {
-    VGGroundTileModel* tile = [VGGroundTileModel tileFromName:@"level1"];
+    VGGroundTileModel* tile = [VGGroundTileModel tileFromName:@"level3"];
     if (self.tiles.count <= 0) {
         tile.position = CGPointMake(0, VG_CHARACTER_INIT_POSITION.y);
     } else {

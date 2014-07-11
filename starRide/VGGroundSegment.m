@@ -39,7 +39,6 @@
     
     for (CGFloat r = 0; r <= 1; r += 1.0 / segmentsCount) {
         CGPoint point = [self.model pointFromT:[self.model tFromRatio:r]];
-        [self drawDot:point radius:2 color:[CCColor redColor]];
         [self drawSegmentFrom:lastPoint to:point radius:1 color:[CCColor blackColor]];
         lastPoint = point;
     }

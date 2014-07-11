@@ -49,6 +49,28 @@
     return nil;
 }
 
+- (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition {
+    VGGroundSegmentModel* segment;
+    VGGroundSegmentModel* currentSegment;
+    int i;
+    for (i = self.currentSegmentIndex; i < self.segments.count; i++) {
+        currentSegment = self.segments[i];
+        if (newPosition.x >= currentSegment.extremityPoints[0].x && newPosition.x <= currentSegment.extremityPoints[1].x) {
+            segment = currentSegment;
+            break;
+        }
+    }
+    
+    if (!segment)
+        return [[NSDictionary alloc] initWithObjectsAndKeys:@"positionFound", @(false), nil];
+    
+    NSDictionary* dic = [segment pointInfoBetweenOldPosition:oldPosition newPosition:newPosition];
+    if (((NSNumber*)dic[@"positionFound"]).boolValue) {
+        self.currentSegmentIndex = i;
+    }
+    return dic;
+}
+
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////

@@ -22,5 +22,5 @@ typedef enum {
 + (VGGroundTileModel*)tileFromName:(NSString *)name;
 
 - (NSMutableDictionary*)nextPositionInfo:(CGFloat)distance;
-
+- (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition;
 @end

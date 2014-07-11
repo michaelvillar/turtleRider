@@ -19,4 +19,5 @@ typedef enum {
 
 - (id)initWithData:(NSDictionary *)data;
 - (NSDictionary*)nextPositionInfo:(CGFloat)distance;
+- (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition;
 @end

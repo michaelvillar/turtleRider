@@ -61,9 +61,24 @@
     CCTime dt = distance / self.speed;
     
     if (self.character.isJumping) {
-        self.character.velocity = CGPointMake(self.character.velocity.x, self.character.velocity.y + dt * VG_GRAVITY);
-        self.character.position = CGPointMake(self.character.position.x + self.character.velocity.x * dt,
-                                              self.character.position.y + self.character.velocity.y * dt);
+        CGPoint oldPosition = self.character.position;
+        CGPoint newPosition = CGPointMake(self.character.position.x + self.character.velocity.x * dt,
+                                         self.character.position.y + self.character.velocity.y * dt);
+        
+        //Check for curve intersection
+        NSDictionary* dic;
+        if (newPosition.y < oldPosition.y)
+            dic = [self.ground pointInfoBetweenOldPosition:oldPosition newPosition:newPosition];
+        
+        if (dic && ((NSNumber*)dic[@"positionFound"]).boolValue) {
+            self.character.position = ((NSValue*)dic[@"position"]).CGPointValue;
+            self.character.angle = ((NSNumber*)dic[@"angle"]).floatValue;
+            self.character.velocity = CGPointMake(self.speed * cosf(self.character.angle), self.speed * sinf(self.character.angle));
+            self.character.jumping = NO;
+        } else {
+            self.character.position = newPosition;
+            self.character.velocity = CGPointMake(self.character.velocity.x, self.character.velocity.y + dt * VG_GRAVITY);
+        }
     } else {
         NSDictionary* dic = [self.ground nextPositionInfo:distance];
         if (((NSNumber*)dic[@"positionFound"]).boolValue) {

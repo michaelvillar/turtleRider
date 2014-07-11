@@ -20,4 +20,5 @@
 
 - (void)update:(CCTime)dt travelledXDistance:(CGFloat)distance;
 - (NSDictionary*)nextPositionInfo:(CGFloat)distance;
+- (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition;
 @end

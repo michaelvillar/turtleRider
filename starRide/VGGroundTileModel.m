@@ -47,6 +47,25 @@
     return [curve nextPositionInfo:distance];
 }
 
+- (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition {
+    VGGroundCurveModel* curve;
+    VGGroundCurveModel* currentCurve;
+    int i;
+    for (i = 0; i < self.curves.count; i++) {
+        currentCurve = self.curves[i];
+        if (newPosition.x >= currentCurve.extremityPoints[0].x && newPosition.x <= currentCurve.extremityPoints[1].x) {
+            curve = currentCurve;
+            NSDictionary* dic = [curve pointInfoBetweenOldPosition:oldPosition newPosition:newPosition];
+            if (((NSNumber*)dic[@"positionFound"]).boolValue) {
+                self.currentCurveIndex = i;
+                return dic;
+            }
+        }
+    }
+    
+    return [[NSDictionary alloc] initWithObjectsAndKeys:@"positionFound", @(false), nil];
+}
+
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////
