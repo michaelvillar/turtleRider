@@ -62,18 +62,22 @@
     if (((NSNumber*)dic[@"positionFound"]).boolValue) {
         newDic[@"positionFound"] = @(true);
         newDic[@"position"] = [NSValue valueWithCGPoint:CGPointMake(tile.position.x + position.x, tile.position.y + position.y)];
+        newDic[@"angle"] = dic[@"angle"];
         return newDic;
     } else if (CGPointEqualToPoint(position, tile.extremityPoints[1])) {
         if (self.currentTileIndex + 1 < self.tiles.count) {
             self.currentTileIndex++;
             return [self nextPositionInfo:((NSNumber*)dic[@"distanceRemaining"]).floatValue];
         }
+    } else {
+        newDic[@"positionFound"] = @(false);
+        newDic[@"position"] = [NSValue valueWithCGPoint:CGPointMake(tile.position.x + position.x, tile.position.y + position.y)];
+        newDic[@"distanceRemaining"] = dic[@"distanceRemaining"];
+        newDic[@"angle"] = dic[@"angle"];
+        return newDic;
     }
     
-    newDic[@"positionFound"] = @(false);
-    newDic[@"position"] = [NSValue valueWithCGPoint:CGPointMake(tile.position.x + position.x, tile.position.y + position.y)];
-    newDic[@"distanceRemaining"] = dic[@"distanceRemaining"];
-    return newDic;
+    return nil;
 }
 
 ////////////////////////////////

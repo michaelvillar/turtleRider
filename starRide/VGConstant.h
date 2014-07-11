@@ -11,3 +11,4 @@
 extern CGPoint const VG_CHARACTER_INIT_POSITION;
 extern CGFloat const VG_GROUND_SEGMENT_SIZE;
 extern CGFloat const VG_GROUND_SECURITY_OFFSET;
+extern CGFloat const VG_GRAVITY;

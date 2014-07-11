@@ -9,5 +9,8 @@
 #import "CCDrawNode.h"
 
 @interface VGCharacter : CCDrawNode
+@property (assign, readonly) CGPoint position;
+@property (assign, readonly) CGFloat angle;
 
+- (void)moveCharacterAtPosition:(CGPoint)position angle:(CGFloat)angle;
 @end

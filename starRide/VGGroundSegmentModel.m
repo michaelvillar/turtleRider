@@ -56,12 +56,14 @@
         dic[@"positionFound"] = @(false);
         dic[@"position"] = [NSValue valueWithCGPoint:self.extremityPoints[1]];
         dic[@"distanceRemaining"] = @(newLength - self.totalArcLength);
+        dic[@"angle"] = @(atanf([self slopeFromT:1]));
         return dic;
     } else {
         self.currentArcLength = newLength;
         CGFloat t = [self tFromRatio:self.currentArcLength / self.totalArcLength];
         dic[@"positionFound"] = @(true);
         dic[@"position"] = [NSValue valueWithCGPoint:[self pointFromT:t]];
+        dic[@"angle"] = @(atanf([self slopeFromT:t]));
     }
     return dic;
 }
@@ -94,6 +96,18 @@
     CGFloat x = (1 - t) * (1 - t) * self.bezierPoints[0].x + 2 * (1 - t) * t * self.bezierPoints[1].x + t * t * self.bezierPoints[2].x;
     CGFloat y = (1 - t) * (1 - t) * self.bezierPoints[0].y + 2 * (1 - t) * t * self.bezierPoints[1].y + t * t * self.bezierPoints[2].y;
     return CGPointMake(x, y);
+}
+
+- (CGFloat)slopeFromT:(CGFloat)t {
+    CGFloat x = 2 * (1 - t) * (self.bezierPoints[1].x - self.bezierPoints[0].x) + 2 * t * (self.bezierPoints[2].x - self.bezierPoints[1].x);
+    CGFloat y = 2 * (1 - t) * (self.bezierPoints[1].y - self.bezierPoints[0].y) + 2 * t * (self.bezierPoints[2].y - self.bezierPoints[1].y);
+    if (x == 0) {
+        if (y >= 0)
+            return INFINITY;
+        else
+            return -INFINITY;
+    }
+    return y / x;
 }
 
 - (CGFloat)tFromRatio:(CGFloat)ratio {

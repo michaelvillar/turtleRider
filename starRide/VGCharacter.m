@@ -8,6 +8,11 @@
 
 #import "VGCharacter.h"
 
+@interface VGCharacter ()
+@property (assign, readwrite) CGPoint position;
+
+@end
+
 @implementation VGCharacter
 
 ////////////////////////////////
@@ -32,6 +37,15 @@
         self.anchorPoint = CGPointMake(0.5, 0.0);
     }
     return self;
+}
+
+- (CGFloat)angle {
+    return -self.rotation * M_PI / 180;
+}
+
+- (void)moveCharacterAtPosition:(CGPoint)position angle:(CGFloat)angle {
+    self.position = position;
+    self.rotation = -angle * 180 / M_PI;
 }
 
 ////////////////////////////////

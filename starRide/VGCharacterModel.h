@@ -10,4 +10,5 @@
 
 @interface VGCharacterModel : NSObject
 @property (assign, readwrite) CGPoint position;
+@property (assign, readwrite, getter = isJumping) BOOL jumping;
 @end

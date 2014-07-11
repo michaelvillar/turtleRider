@@ -69,11 +69,11 @@
 #pragma mark - Cocos2D
 ////////////////////////////////
 
-- (void)fixedUpdate:(CCTime)dt {
-    [self.game update:dt];
-}
+//- (void)fixedUpdate:(CCTime)dt {
+//}
 
 - (void)update:(CCTime)dt {
+    [self.game update:dt];
     self.movingLayer.position = CGPointMake(-self.character.position.x + VG_CHARACTER_INIT_POSITION.x, 0);
 }
 
@@ -86,7 +86,7 @@
 ///////////////////////////////////
 
 - (void)characterDidMove:(CGPoint)position angle:(CGFloat)angle {
-    self.character.position = position;
+    [self.character moveCharacterAtPosition:position angle:angle];
 }
 
 - (void)didCreateGroundTile:(VGGroundTileModel *)tile atPosition:(CGPoint)position {

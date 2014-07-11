@@ -51,17 +51,26 @@
 }
 
 - (void)moveCharacter:(CGFloat)distance {
-    NSDictionary* dic = [self.ground nextPositionInfo:distance];
-    if (((NSNumber*)dic[@"positionFound"]).boolValue) {
-        //On curve
-        self.character.position = ((NSValue*)dic[@"position"]).CGPointValue;
+    CGFloat angle;
+    if (self.character.isJumping) {
+        angle = 0;
+       // CGPoint newPos = CGPointMake(self.character.position.x + distance, <#CGFloat y#>)
     } else {
-        //Falling
-        self.character.position = ((NSValue*)dic[@"position"]).CGPointValue;
+        NSDictionary* dic = [self.ground nextPositionInfo:distance];
+        if (((NSNumber*)dic[@"positionFound"]).boolValue) {
+            //On curve
+            angle = ((NSNumber*)dic[@"angle"]).floatValue;
+            self.character.position = ((NSValue*)dic[@"position"]).CGPointValue;
+        } else {
+            self.character.jumping = YES;
+            self.character.position = ((NSValue*)dic[@"position"]).CGPointValue;
+            [self moveCharacter:((NSNumber*)dic[@"distanceRemaining"]).floatValue];
+            return;
+        }
     }
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(characterDidMove:angle:)]) {
-        [self.delegate characterDidMove:self.character.position angle:0];
+        [self.delegate characterDidMove:self.character.position angle:angle];
     }
 }
 
