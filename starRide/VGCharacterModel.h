@@ -7,8 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "cocos2d.h"
 
 @interface VGCharacterModel : NSObject
 @property (assign, readwrite) CGPoint position;
+@property (assign, readwrite) CGFloat angle;
+@property (assign, readwrite) CGPoint velocity;
 @property (assign, readwrite, getter = isJumping) BOOL jumping;
 @end

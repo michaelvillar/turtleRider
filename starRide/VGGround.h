@@ -7,7 +7,7 @@
 //
 
 #import "CCNode.h"
-#import "VGWorldModel.h"
+#import "VGGroundTileModel.h"
 
 @interface VGGround : CCNode
 - (void)removeTile:(VGGroundTileModel*)tile;

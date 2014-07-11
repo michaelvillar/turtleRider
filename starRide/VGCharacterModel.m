@@ -8,6 +8,9 @@
 
 #import "VGCharacterModel.h"
 
+@interface VGCharacterModel ()
+@end
+
 @implementation VGCharacterModel
 
 ////////////////////////////////

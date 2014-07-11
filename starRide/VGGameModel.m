@@ -1,5 +1,5 @@
 //
-//  VGGameModel.m
+//  VGWorldModel.m
 //  starRide
 //
 //  Created by Sebastien Villar on 10/07/14.
@@ -7,8 +7,17 @@
 //
 
 #import "VGGameModel.h"
+#import "VGCharacterModel.h"
+#import "VGGroundModel.h"
+#import "VGConstant.h"
 
 @interface VGGameModel ()
+@property (assign, readwrite) CGFloat speed;
+@property (strong, readonly) VGCharacterModel* character;
+@property (strong, readonly) VGGroundModel* ground;
+@property (assign, readonly) CGFloat travelledXDistance;
+
+- (void)moveCharacter:(CGFloat)distance;
 @end
 
 @implementation VGGameModel
@@ -17,29 +26,78 @@
 #pragma mark - Public
 ////////////////////////////////
 
-- (id)init {
+- (id)initWithSize:(CGSize)size {
     self = [super init];
     if (self) {
-        _speed = 300;
-        _world = [[VGWorldModel alloc] initWithGame:self];
+        self.userInteractionEnabled = YES;
+        self.contentSize = size;
+        _speed = 200;
+        _ground = [[VGGroundModel alloc] init];
+        _ground.delegate = self;
+        _character = [[VGCharacterModel alloc] init];
     }
     return self;
 }
 
-- (id)worldDelegate {
-    return self.world.delegate;
+
+- (void)update:(CCTime)dt {
+    [self.ground update:dt travelledXDistance:self.travelledXDistance];
+    [self moveCharacter:self.speed * dt];
 }
 
-- (void)setWorldDelegate:(id)worldDelegate {
-    self.world.delegate = worldDelegate;
+- (void)characterDidJump {
+    self.character.jumping = YES;
 }
 
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////
 
-- (void)update:(CCTime)dt {
-    [self.world update:dt];
+- (CGFloat)travelledXDistance {
+    return self.character.position.x - VG_CHARACTER_INIT_POSITION.x;
+}
+
+- (void)moveCharacter:(CGFloat)distance {
+    CCTime dt = distance / self.speed;
+    
+    if (self.character.isJumping) {
+        self.character.velocity = CGPointMake(self.character.velocity.x, self.character.velocity.y + dt * VG_GRAVITY);
+        self.character.position = CGPointMake(self.character.position.x + self.character.velocity.x * dt,
+                                              self.character.position.y + self.character.velocity.y * dt);
+    } else {
+        NSDictionary* dic = [self.ground nextPositionInfo:distance];
+        if (((NSNumber*)dic[@"positionFound"]).boolValue) {
+            //On curve
+            self.character.position = ((NSValue*)dic[@"position"]).CGPointValue;
+            self.character.angle = ((NSNumber*)dic[@"angle"]).floatValue;
+            self.character.velocity = CGPointMake(distance * cosf(self.character.angle) / dt, distance * sinf(self.character.angle) / dt);
+        } else {
+            self.character.jumping = YES;
+            self.character.position = ((NSValue*)dic[@"position"]).CGPointValue;
+            [self moveCharacter:((NSNumber*)dic[@"distanceRemaining"]).floatValue];
+            return;
+        }
+    }
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(characterDidMove:angle:)]) {
+        [self.delegate characterDidMove:self.character.position angle:self.character.angle];
+    }
+}
+
+///////////////////////////////////
+#pragma mark - VGGroundModelDelegate delegate
+///////////////////////////////////
+
+- (void)didCreateGroundTile:(VGGroundTileModel*)tile atPosition:(CGPoint)position {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didRemoveGroundTile:)]) {
+        [self.delegate didCreateGroundTile:tile atPosition:position];
+    }
+}
+
+- (void)didRemoveGroundTile:(VGGroundTileModel*)tile {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didRemoveGroundTile:)]) {
+        [self.delegate didRemoveGroundTile:tile];
+    }
 }
 
 @end

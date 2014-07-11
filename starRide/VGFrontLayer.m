@@ -39,9 +39,8 @@
                                                CCPositionUnitPoints,
                                                CCPositionReferenceCornerBottomLeft);
 
-        _game = [[VGGameModel alloc] init];
-        _game.gameDelegate = self;
-        _game.worldDelegate = self;
+        _game = [[VGGameModel alloc] initWithSize:size];
+        _game.delegate = self;
         
         _movingLayer = [[CCNode alloc] init];
         _ground = [[VGGround alloc] init];
@@ -58,9 +57,10 @@
 ////////////////////////////////
 
 - (void)layoutChildren {
-    [_movingLayer addChild:_ground z:0];
-    [_movingLayer addChild:_character z:1];
-    [self addChild:_movingLayer z:0];
+    [self.movingLayer addChild:self.ground z:0];
+    [self.movingLayer addChild:self.character z:1];
+    [self addChild:self.game z:-1];
+    [self addChild:self.movingLayer z:0];
     
     self.character.position = VG_CHARACTER_INIT_POSITION;
 }

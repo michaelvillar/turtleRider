@@ -203,8 +203,7 @@
 		4DC913B6196D4673001130EF /* VGGroundSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913B5196D4673001130EF /* VGGroundSegment.m */; };
 		4DC913B9196D4A42001130EF /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DC913B8196D4A42001130EF /* level1.json */; };
 		4DC913BD196E0967001130EF /* level2.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DC913BC196E0967001130EF /* level2.json */; };
-		4DC913C4196EBD04001130EF /* VGGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913C3196EBD04001130EF /* VGGameModel.m */; };
-		4DC913C7196EBD0E001130EF /* VGWorldModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913C6196EBD0E001130EF /* VGWorldModel.m */; };
+		4DC913C7196EBD0E001130EF /* VGGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913C6196EBD0E001130EF /* VGGameModel.m */; };
 		4DC913CA196EBD24001130EF /* VGGroundTileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913C9196EBD24001130EF /* VGGroundTileModel.m */; };
 		4DC913CD196EBD2C001130EF /* VGGroundCurveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913CC196EBD2C001130EF /* VGGroundCurveModel.m */; };
 		4DC913D0196EBD33001130EF /* VGGroundSegmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913CF196EBD33001130EF /* VGGroundSegmentModel.m */; };
@@ -649,10 +648,8 @@
 		4DC913B5196D4673001130EF /* VGGroundSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundSegment.m; sourceTree = "<group>"; };
 		4DC913B8196D4A42001130EF /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
 		4DC913BC196E0967001130EF /* level2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level2.json; sourceTree = "<group>"; };
-		4DC913C2196EBD04001130EF /* VGGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGameModel.h; sourceTree = "<group>"; };
-		4DC913C3196EBD04001130EF /* VGGameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGameModel.m; sourceTree = "<group>"; };
-		4DC913C5196EBD0E001130EF /* VGWorldModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGWorldModel.h; sourceTree = "<group>"; };
-		4DC913C6196EBD0E001130EF /* VGWorldModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGWorldModel.m; sourceTree = "<group>"; };
+		4DC913C5196EBD0E001130EF /* VGGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGameModel.h; sourceTree = "<group>"; };
+		4DC913C6196EBD0E001130EF /* VGGameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGameModel.m; sourceTree = "<group>"; };
 		4DC913C8196EBD24001130EF /* VGGroundTileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundTileModel.h; sourceTree = "<group>"; };
 		4DC913C9196EBD24001130EF /* VGGroundTileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundTileModel.m; sourceTree = "<group>"; };
 		4DC913CB196EBD2C001130EF /* VGGroundCurveModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundCurveModel.h; sourceTree = "<group>"; };
@@ -1547,10 +1544,8 @@
 		4DC913BE196EBC82001130EF /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4DC913C2196EBD04001130EF /* VGGameModel.h */,
-				4DC913C3196EBD04001130EF /* VGGameModel.m */,
-				4DC913C5196EBD0E001130EF /* VGWorldModel.h */,
-				4DC913C6196EBD0E001130EF /* VGWorldModel.m */,
+				4DC913C5196EBD0E001130EF /* VGGameModel.h */,
+				4DC913C6196EBD0E001130EF /* VGGameModel.m */,
 				4DC913DD196FE369001130EF /* VGGroundModel.h */,
 				4DC913DE196FE369001130EF /* VGGroundModel.m */,
 				4DC913C8196EBD24001130EF /* VGGroundTileModel.h */,
@@ -1722,7 +1717,7 @@
 				4DC9124C196C7A24001130EF /* TransformUtils.m in Sources */,
 				4DC911ED196C7A24001130EF /* CCTextureCache.m in Sources */,
 				4DC91218196C7A24001130EF /* CCAppDelegate.m in Sources */,
-				4DC913C7196EBD0E001130EF /* VGWorldModel.m in Sources */,
+				4DC913C7196EBD0E001130EF /* VGGameModel.m in Sources */,
 				4DC9121C196C7A24001130EF /* CCDirectorMac.m in Sources */,
 				4DC91150196C7A24001130EF /* ccDeprecated.m in Sources */,
 				4DC9127F196C7A25001130EF /* ALContext.m in Sources */,
@@ -1795,7 +1790,6 @@
 				4DC913D0196EBD33001130EF /* VGGroundSegmentModel.m in Sources */,
 				4DC91285196C7A25001130EF /* ALListener.m in Sources */,
 				4DC9115E196C7A24001130EF /* ccFPSImages.m in Sources */,
-				4DC913C4196EBD04001130EF /* VGGameModel.m in Sources */,
 				4DC91235196C7A24001130EF /* ccUtils.c in Sources */,
 				4DC911A6196C7A24001130EF /* CCPhysicsShape.m in Sources */,
 				4DC911AE196C7A24001130EF /* CCRenderTexture.m in Sources */,
