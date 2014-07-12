@@ -19,6 +19,8 @@
 				},
 				{
 					"type": 2 '(looping'),
+					"looping_start": {"x": 3, "y": 3},
+					"looping_center": {"x": 3, "y": 3},
 					"original_segment": ...
 					"all_points": [...],
 				}

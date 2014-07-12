@@ -19,6 +19,9 @@ LoopingSegment.prototype.archive = function() {
 	var archive = {};
 	archive["type"] = 2;
 	archive["original_segment"] = this.originalSegment.archive();
+	archive["looping_start"] = this.mid.archive();
+	archive["looping_center"] = this.circleCenter.archive();
+	archive["looping_radius"] = this.circleRadius;
 
 	var startPoints = [];
 	var endPoints = [];
