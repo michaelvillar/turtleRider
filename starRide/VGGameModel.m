@@ -45,10 +45,6 @@
     [self moveCharacter:self.speed * dt];
 }
 
-- (void)characterDidJump {
-    self.character.jumping = YES;
-}
-
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////
@@ -120,7 +116,7 @@
 /////////////////////////////////////////////////
 
 - (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-    if (!self.character.isJumping) {
+    if (!self.character.isJumping && [self.ground canJump]) {
         self.character.velocity = CGPointMake(self.character.velocity.x, self.character.velocity.y - VG_GRAVITY / 1.5);
         self.character.jumping = YES;
     }

@@ -14,4 +14,6 @@
 @property (assign, readonly) CGFloat totalArcLength;
 @property (assign, readonly) CGPoint loopingCenter;
 @property (assign, readonly) CGFloat loopingRadius;
+
+- (BOOL)canJump;
 @end

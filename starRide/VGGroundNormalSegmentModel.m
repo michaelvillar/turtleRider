@@ -11,11 +11,8 @@
 
 @interface VGGroundNormalSegmentModel ()
 @property (strong, readonly) NSMutableArray* guideArcLengths;
-@property (assign, readwrite) CGFloat currentArcLength;
 
 - (void)loadGuidePoints:(NSDictionary*)data;
-- (CGFloat)tFromX:(CGFloat)x;
-- (CGFloat)ratioFromT:(CGFloat)t;
 - (CGFloat)slopeFromT:(CGFloat)t;
 @end
 
@@ -95,6 +92,10 @@
     }
     
     return dic;
+}
+
+- (BOOL)canJump {
+    return true;
 }
 
 ////////////////////////////////

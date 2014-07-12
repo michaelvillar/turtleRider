@@ -23,4 +23,5 @@ typedef enum {
 
 - (NSMutableDictionary*)nextPositionInfo:(CGFloat)distance;
 - (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition;
+- (BOOL)canJump;
 @end

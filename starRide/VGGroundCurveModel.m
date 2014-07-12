@@ -73,6 +73,10 @@
     return dic;
 }
 
+- (BOOL)canJump {
+    return [self.segments[self.currentSegmentIndex] canJump];
+}
+
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////

@@ -20,6 +20,5 @@
 @property (weak, readwrite) id delegate;
 
 - (id)initWithSize:(CGSize)size;
-- (void)characterDidJump;
 - (void)update:(CCTime)dt;
 @end

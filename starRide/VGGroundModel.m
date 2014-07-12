@@ -111,6 +111,10 @@
     return nil;
 }
 
+- (BOOL)canJump {
+    return [self.tiles[self.currentTileIndex] canJump];
+}
+
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////

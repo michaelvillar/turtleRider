@@ -66,6 +66,10 @@
     return [[NSDictionary alloc] initWithObjectsAndKeys:@"positionFound", @(false), nil];
 }
 
+- (BOOL)canJump {
+    return [self.curves[self.currentCurveIndex] canJump];
+}
+
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////

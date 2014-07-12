@@ -17,4 +17,9 @@ typedef enum {
 @interface VGGroundNormalSegmentModel : NSObject <VGGroundSegmentModelProtocol>
 @property (assign, readwrite) CGPoint* bezierPoints;
 @property (assign, readonly) CGFloat totalArcLength;
+@property (assign, readwrite) CGFloat currentArcLength;
+
+- (CGFloat)ratioFromT:(CGFloat)t;
+- (CGFloat)tFromX:(CGFloat)x;
+- (BOOL)canJump;
 @end
