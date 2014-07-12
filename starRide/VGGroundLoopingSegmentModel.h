@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "VGGroundSegmentModelProtocol.h"
 
-@interface VGGroundLoopingSegmentModel : NSObject
-
+@interface VGGroundLoopingSegmentModel : NSObject <VGGroundSegmentModelProtocol>
+@property (assign, readwrite) CGPoint* bezierPoints;
+@property (assign, readonly) CGFloat totalArcLength;
+@property (assign, readonly) CGPoint loopingCenter;
+@property (assign, readonly) CGFloat loopingRadius;
 @end

@@ -6,8 +6,10 @@
 //  Copyright (c) 2014 VillarGames. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "CCDrawNode.h"
+#import "VGGroundSegmentProtocol.h"
+#import "VGGroundLoopingSegmentModel.h"
 
-@interface VGGroundLoopingSegment : NSObject
-
+@interface VGGroundLoopingSegment : CCDrawNode <VGGroundSegmentProtocol>
+- (id)initWithModel:(VGGroundLoopingSegmentModel*)model;
 @end

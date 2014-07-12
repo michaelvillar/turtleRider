@@ -7,9 +7,9 @@
 //
 
 #import "CCDrawNode.h"
-#import "VGGroundSegmentModel.h"
+#import "VGGroundSegmentProtocol.h"
+#import "VGGroundNormalSegmentModel.h"
 
-@interface VGGroundSegment : CCDrawNode
-- (id)initWithModel:(VGGroundSegmentModel*)model;
-- (void)drawModel;
+@interface VGGroundNormalSegment : CCDrawNode <VGGroundSegmentProtocol>
+- (id)initWithModel:(VGGroundNormalSegmentModel*)model;
 @end

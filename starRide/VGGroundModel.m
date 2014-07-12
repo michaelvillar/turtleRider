@@ -116,7 +116,7 @@
 ////////////////////////////////
 
 - (void)createTile {
-    VGGroundTileModel* tile = [VGGroundTileModel tileFromName:@"level3"];
+    VGGroundTileModel* tile = [VGGroundTileModel tileFromName:@"level4"];
     if (self.tiles.count <= 0) {
         tile.position = CGPointMake(0, VG_CHARACTER_INIT_POSITION.y);
     } else {

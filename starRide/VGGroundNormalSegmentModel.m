@@ -6,19 +6,21 @@
 //  Copyright (c) 2014 VillarGames. All rights reserved.
 //
 
-#import "VGGroundSegmentModel.h"
+#import "VGGroundNormalSegmentModel.h"
 #import "VGConstant.h"
 
-@interface VGGroundSegmentModel ()
+@interface VGGroundNormalSegmentModel ()
 @property (strong, readonly) NSMutableArray* guideArcLengths;
 @property (assign, readwrite) CGFloat currentArcLength;
 
 - (void)loadGuidePoints:(NSDictionary*)data;
 - (CGFloat)tFromX:(CGFloat)x;
 - (CGFloat)ratioFromT:(CGFloat)t;
+- (CGFloat)slopeFromT:(CGFloat)t;
 @end
 
-@implementation VGGroundSegmentModel
+@implementation VGGroundNormalSegmentModel
+@synthesize extremityPoints = _extremityPoints;
 
 ////////////////////////////////
 #pragma mark - Public

@@ -7,20 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "VGGroundSegmentModelProtocol.h"
 
 typedef enum {
     VGkSegmentPositionNotFound,
     VGkSegmentPositionFound
 } VGkSegmentPositionResult;
 
-@interface VGGroundSegmentModel : NSObject
-@property (assign, readonly) CGPoint* extremityPoints;
+@interface VGGroundNormalSegmentModel : NSObject <VGGroundSegmentModelProtocol>
 @property (assign, readwrite) CGPoint* bezierPoints;
 @property (assign, readonly) CGFloat totalArcLength;
-
-- (id)initWithData:(NSDictionary *)data;
-- (NSDictionary*)nextPositionInfo:(CGFloat)distance;
-- (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition;
-- (CGFloat)tFromRatio:(CGFloat)ratio;
-- (CGPoint)pointFromT:(CGFloat)t;
 @end

@@ -7,7 +7,10 @@
 //
 
 #import "VGGroundCurve.h"
-#import "VGGroundSegment.h"
+#import "VGGroundNormalSegment.h"
+#import "VGGroundLoopingSegment.h"
+#import "VGGroundNormalSegmentModel.h"
+#import "VGGroundLoopingSegmentModel.h"
 #import "VGConstant.h"
 
 @interface VGGroundCurve ()
@@ -26,8 +29,14 @@
     if (self) {
         _model = model;
         _segments = [[NSMutableArray alloc] init];
-        for (VGGroundSegmentModel* segmentModel in self.model.segments) {
-            VGGroundSegment* segment = [[VGGroundSegment alloc] initWithModel:segmentModel];
+        for (id<VGGroundSegmentModelProtocol> segmentModel in self.model.segments) {
+            CCNode<VGGroundSegmentProtocol>* segment;
+            if ([segmentModel isKindOfClass:VGGroundNormalSegmentModel.class])
+                segment = [[VGGroundNormalSegment alloc] initWithModel:segmentModel];
+            else if ([segmentModel isKindOfClass:VGGroundLoopingSegmentModel.class]) {
+                segment = [[VGGroundLoopingSegment alloc] initWithModel:segmentModel];
+            }
+            
             [_segments addObject:segment];
             [self addChild:segment z:0];
         }
@@ -40,7 +49,7 @@
 ////////////////////////////////
 
 - (void)drawModel {
-    for (VGGroundSegment* segment in self.segments) {
+    for (CCNode<VGGroundSegmentProtocol>* segment in self.segments) {
         [segment drawModel];
     }
 }

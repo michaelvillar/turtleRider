@@ -7,7 +7,9 @@
 //
 
 #import "VGGroundCurveModel.h"
-#import "VGGroundSegmentModel.h"
+#import "VGGroundNormalSegmentModel.h"
+#import "VGGroundLoopingSegmentModel.h"
+#import "VGGroundSegmentModelProtocol.h"
 
 @interface VGGroundCurveModel ()
 @property (assign, readwrite) int currentSegmentIndex;
@@ -35,7 +37,7 @@
 }
 
 - (NSDictionary*)nextPositionInfo:(CGFloat)distance {
-    VGGroundSegmentModel* segment = self.segments[self.currentSegmentIndex];
+    VGGroundNormalSegmentModel* segment = self.segments[self.currentSegmentIndex];
     NSDictionary* dic = [segment nextPositionInfo:distance];
     
     if (((NSNumber*)dic[@"positionFound"]).boolValue) {
@@ -50,8 +52,8 @@
 }
 
 - (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition {
-    VGGroundSegmentModel* segment;
-    VGGroundSegmentModel* currentSegment;
+    VGGroundNormalSegmentModel* segment;
+    VGGroundNormalSegmentModel* currentSegment;
     int i;
     for (i = self.currentSegmentIndex; i < self.segments.count; i++) {
         currentSegment = self.segments[i];
@@ -78,12 +80,16 @@
 - (void)loadSegments:(NSDictionary *)data {
     
     for (NSDictionary* segmentDic in data[@"segments"]) {
-        VGGroundSegmentModel* segment = [[VGGroundSegmentModel alloc] initWithData:segmentDic];
+        id<VGGroundSegmentModelProtocol> segment;
+        if (((NSNumber*)segmentDic[@"type"]).intValue <= 1)
+            segment = [[VGGroundNormalSegmentModel alloc] initWithData:segmentDic];
+        else
+            segment = [[VGGroundLoopingSegmentModel alloc] initWithData:segmentDic];
         [self.segments addObject:segment];
     }
     
-    self.extremityPoints[0] = ((VGGroundSegmentModel*)self.segments[0]).extremityPoints[0];
-    self.extremityPoints[1] = ((VGGroundSegmentModel*)self.segments[self.segments.count - 1]).extremityPoints[1];
+    self.extremityPoints[0] = ((VGGroundNormalSegmentModel*)self.segments[0]).extremityPoints[0];
+    self.extremityPoints[1] = ((VGGroundNormalSegmentModel*)self.segments[self.segments.count - 1]).extremityPoints[1];
 }
 
 @end

@@ -6,22 +6,20 @@
 //  Copyright (c) 2014 VillarGames. All rights reserved.
 //
 
-#import "VGGroundSegment.h"
+#import "VGGroundNormalSegment.h"
 #import "VGConstant.h"
 
-#import "cocos2d.h"
-
-@interface VGGroundSegment ()
-@property (strong, readonly) VGGroundSegmentModel* model;
+@interface VGGroundNormalSegment ()
+@property (strong, readonly) VGGroundNormalSegmentModel* model;
 @end
 
-@implementation VGGroundSegment
+@implementation VGGroundNormalSegment
 
 ////////////////////////////////
 #pragma mark - Public
 ////////////////////////////////
 
-- (id)initWithModel:(VGGroundSegmentModel*)model {
+- (id)initWithModel:(VGGroundNormalSegmentModel*)model {
     self = [super init];
     if (self) {
         _model = model;

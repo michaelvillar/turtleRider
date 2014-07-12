@@ -9,5 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @protocol VGGroundSegmentModelProtocol <NSObject>
+@property (assign, readonly) CGPoint* extremityPoints;
 
+- (id)initWithData:(NSDictionary *)data;
+- (NSDictionary*)nextPositionInfo:(CGFloat)distance;
+- (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition;
+- (CGFloat)tFromRatio:(CGFloat)ratio;
+- (CGPoint)pointFromT:(CGFloat)t;
 @end
