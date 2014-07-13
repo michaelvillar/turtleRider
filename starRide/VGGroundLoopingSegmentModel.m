@@ -8,12 +8,14 @@
 
 #import "VGGroundLoopingSegmentModel.h"
 #import "VGGroundNormalSegmentModel.h"
+#import "VGConstant.h"
 
 @interface VGGroundLoopingSegmentModel ()
 @property (strong, readonly) VGGroundNormalSegmentModel* originalSegment;
 @property (assign, readwrite) CGFloat startAngle;
 @property (assign, readwrite) CGFloat currentAngle;
 @property (assign, readonly) CGPoint loopingStart;
+@property (assign, readwrite, getter = isLoopingEnabled) BOOL loopingEnabled;
 @property (assign, readwrite, getter = isInLooping) BOOL inLooping;
 
 - (CGFloat)daForDistance:(CGFloat)distance;
@@ -42,6 +44,14 @@
             _startAngle = atanf(tan) + 2 * M_PI;
         _currentAngle = _startAngle;
         _inLooping = NO;
+        
+        CGFloat startT = [self.originalSegment tFromX:_loopingStart.x];
+        CGFloat startRatio = [self.originalSegment ratioFromT:startT];
+        CGFloat startArcLength = self.originalSegment.totalArcLength * startRatio - VG_LOOPING_ENTRANCE_SIZE;
+        
+        _loopingEntranceTs = malloc(2 * sizeof(CGFloat));
+        _loopingEntranceTs[0] = [self.originalSegment tFromRatio:startArcLength / self.totalArcLength];
+        _loopingEntranceTs[1] = startT;
     }
     return self;
 }
@@ -52,6 +62,7 @@
         if (self.currentAngle >= self.startAngle + 2 * M_PI) {
             CGFloat remainingDistance = [self distanceForDa:self.startAngle + 2 * M_PI - self.currentAngle];
             self.inLooping = NO;
+            self.loopingEnabled = NO;
             return [self nextPositionInfo:remainingDistance];
         } else {
             NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
@@ -72,7 +83,7 @@
         
         CGPoint nextPoint = ((NSValue*)dic[@"position"]).CGPointValue;
         
-        if (currentPoint.x < self.loopingStart.x && nextPoint.x >= self.loopingStart.x) {
+        if (self.isLoopingEnabled && currentPoint.x < self.loopingStart.x && nextPoint.x >= self.loopingStart.x) {
             CGFloat startT = [self.originalSegment tFromX:self.loopingStart.x];
             CGFloat startRatio = [self.originalSegment ratioFromT:startT];
             CGFloat startArcLength = self.originalSegment.totalArcLength * startRatio;
@@ -92,6 +103,13 @@
 
 - (BOOL)canJump {
     return !self.isInLooping;
+}
+
+- (void)enterLooping {
+    CGFloat t = [self.originalSegment tFromRatio:self.originalSegment.currentArcLength / self.originalSegment.totalArcLength];;
+    if (t >= self.loopingEntranceTs[0] && t <= self.loopingEntranceTs[1]) {
+        self.loopingEnabled = YES;
+    }
 }
 
 ////////////////////////////////

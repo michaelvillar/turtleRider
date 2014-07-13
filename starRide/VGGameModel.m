@@ -135,6 +135,7 @@
 }
 
 - (void)didSwipe:(UISwipeGestureRecognizer*)recognizer {
+    [self.ground enterLooping];
 }
 
 @end

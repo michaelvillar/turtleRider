@@ -115,6 +115,10 @@
     return [self.tiles[self.currentTileIndex] canJump];
 }
 
+- (void)enterLooping {
+    [self.tiles[self.currentTileIndex] enterLooping];
+}
+
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////

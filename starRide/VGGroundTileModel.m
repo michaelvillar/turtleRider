@@ -70,6 +70,10 @@
     return [self.curves[self.currentCurveIndex] canJump];
 }
 
+- (void)enterLooping {
+    [self.curves[self.currentCurveIndex] enterLooping];
+}
+
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////

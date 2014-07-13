@@ -8,12 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
-    VGKTilePositionFall,
-    VGKTilePositionFound,
-    VGKTilePositionNotFound
-} VGkTilePositionResult;
-
 @interface VGGroundTileModel : NSObject
 @property (assign, readonly) CGPoint* extremityPoints;
 @property (strong, readonly) NSMutableArray* curves;
@@ -24,4 +18,5 @@ typedef enum {
 - (NSMutableDictionary*)nextPositionInfo:(CGFloat)distance;
 - (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition;
 - (BOOL)canJump;
+- (void)enterLooping;
 @end

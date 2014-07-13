@@ -8,11 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
-    VGkCurvePositionNotFound,
-    VGkCurvePositionFound
-} VGkCurvePositionResult;
-
 @interface VGGroundCurveModel : NSObject
 @property (assign, readonly) CGPoint* extremityPoints;
 @property (strong, readonly) NSMutableArray* segments;
@@ -21,4 +16,5 @@ typedef enum {
 - (NSDictionary*)nextPositionInfo:(CGFloat)distance;
 - (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition;
 - (BOOL)canJump;
+- (void)enterLooping;
 @end

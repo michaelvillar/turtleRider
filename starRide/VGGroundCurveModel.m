@@ -77,6 +77,13 @@
     return [self.segments[self.currentSegmentIndex] canJump];
 }
 
+- (void)enterLooping {
+    id<VGGroundSegmentModelProtocol> segment = self.segments[self.currentSegmentIndex];
+    if ([segment isKindOfClass:VGGroundLoopingSegmentModel.class]) {
+        [((VGGroundLoopingSegmentModel*)segment) enterLooping];
+    }
+}
+
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////

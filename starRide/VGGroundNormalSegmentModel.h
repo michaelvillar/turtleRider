@@ -9,11 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "VGGroundSegmentModelProtocol.h"
 
-typedef enum {
-    VGkSegmentPositionNotFound,
-    VGkSegmentPositionFound
-} VGkSegmentPositionResult;
-
 @interface VGGroundNormalSegmentModel : NSObject <VGGroundSegmentModelProtocol>
 @property (assign, readwrite) CGPoint* bezierPoints;
 @property (assign, readonly) CGFloat totalArcLength;
