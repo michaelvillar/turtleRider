@@ -21,8 +21,10 @@
 @property (strong, readwrite) VGGround* ground;
 @property (strong, readwrite) VGCharacter* character;
 @property (assign, readwrite) CGFloat gameSpeed;
+@property (strong, readwrite) NSMutableDictionary* actions;
 
 - (void)layoutChildren;
+- (void)updateActions;
 @end
 
 @implementation VGFrontLayer
@@ -46,6 +48,7 @@
         _ground = [[VGGround alloc] init];
         _character = [[VGCharacter alloc] init];
         _gameSpeed = 300;
+        _actions = [[NSMutableDictionary alloc] init];
 
         [self layoutChildren];
     }
@@ -64,6 +67,22 @@
     self.character.position = VG_CHARACTER_INIT_POSITION;
 }
 
+- (void)updateActions {
+    for (NSString* key in self.actions) {
+        NSDictionary* dic = self.actions[key];
+        if ([key isEqualToString:@"characterDidMove"]) {
+            [self.character moveCharacterAtPosition:((NSValue*)dic[@"position"]).CGPointValue angle:((NSNumber*)dic[@"angle"]).floatValue];
+        } else if ([key isEqualToString:@"didCreateGroundTile"]) {
+            [self.ground createTile:dic[@"tile"] atPosition:((NSValue*)dic[@"position"]).CGPointValue];
+        } else if ([key isEqualToString:@"didRemoveGroundTile"]) {
+            [self.ground removeTile:dic[@"tile"]];
+        } else {
+            NSLog(@"invalid action");
+        }
+    }
+    self.actions = [[NSMutableDictionary alloc] init];
+}
+
 ////////////////////////////////
 #pragma mark - Cocos2D
 ////////////////////////////////
@@ -73,6 +92,7 @@
 }
 
 - (void)update:(CCTime)dt {
+    [self updateActions];
     self.movingLayer.position = CGPointMake(-self.character.position.x + VG_CHARACTER_INIT_POSITION.x, 0);
     
 //    self.movingLayer.position = CGPointMake(-self.character.position.x + VG_CHARACTER_INIT_POSITION.x, -self.character.position.y + VG_CHARACTER_INIT_POSITION.y);
@@ -87,15 +107,23 @@
 ///////////////////////////////////
 
 - (void)characterDidMove:(CGPoint)position angle:(CGFloat)angle {
-    [self.character moveCharacterAtPosition:position angle:angle];
+    NSDictionary* dic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         [NSValue valueWithCGPoint:position], @"position",
+                         @(angle), @"angle", nil];
+    self.actions[@"characterDidMove"] = dic;
 }
 
 - (void)didCreateGroundTile:(VGGroundTileModel *)tile atPosition:(CGPoint)position {
-    [self.ground createTile:tile atPosition:position];
+    NSDictionary* dic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         tile, @"tile",
+                         [NSValue valueWithCGPoint:position], @"position", nil];
+    self.actions[@"didCreateGroundTile"] = dic;
 }
 
 - (void)didRemoveGroundTile:(VGGroundTileModel *)tile {
-    [self.ground removeTile:tile];
+    NSDictionary* dic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         tile, @"tile", nil];
+    self.actions[@"didRemoveGroundTile"] = dic;
 }
 
 
