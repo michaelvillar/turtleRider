@@ -13,6 +13,12 @@
 
 #import "cocos2d.h"
 
+//typedef enum {
+//    VGTileCreationAction,
+//    VGTileRemovalAction,
+//    VGCharacterMoveAction
+//} VGFrontLayerAction;
+
 
 @interface VGFrontLayer ()
 
@@ -68,19 +74,22 @@
 }
 
 - (void)updateActions {
-    for (NSString* key in self.actions) {
-        NSDictionary* dic = self.actions[key];
-        if ([key isEqualToString:@"characterDidMove"]) {
-            [self.character moveCharacterAtPosition:((NSValue*)dic[@"position"]).CGPointValue angle:((NSNumber*)dic[@"angle"]).floatValue];
-        } else if ([key isEqualToString:@"didCreateGroundTile"]) {
-            [self.ground createTile:dic[@"tile"] atPosition:((NSValue*)dic[@"position"]).CGPointValue];
-        } else if ([key isEqualToString:@"didRemoveGroundTile"]) {
-            [self.ground removeTile:dic[@"tile"]];
-        } else {
-            NSLog(@"invalid action");
-        }
-    }
-    self.actions = [[NSMutableDictionary alloc] init];
+//    NSArray* keys = [self.actions allKeys];
+//    NSSortDescriptor* descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
+//    keys = [keys sortedArrayUsingDescriptors:@[descriptor]];
+//    for (NSNumber* key in keys) {
+//        NSDictionary* dic = self.actions[key];
+//        if ([key isEqualToNumber:@(VGCharacterMoveAction)]) {
+//            [self.character moveCharacterAtPosition:((NSValue*)dic[@"position"]).CGPointValue angle:((NSNumber*)dic[@"angle"]).floatValue];
+//        } else if ([key isEqualToNumber:@(VGTileCreationAction)]) {
+//            [self.ground createTile:dic[@"tile"] atPosition:((NSValue*)dic[@"position"]).CGPointValue];
+//        } else if ([key isEqualToNumber:@(VGTileRemovalAction)]) {
+//            [self.ground removeTile:dic[@"tile"]];
+//        } else {
+//            NSLog(@"invalid action");
+//        }
+//    }
+//    self.actions = [[NSMutableDictionary alloc] init];
 }
 
 ////////////////////////////////
@@ -88,11 +97,12 @@
 ////////////////////////////////
 
 - (void)fixedUpdate:(CCTime)dt {
-    [self.game update:dt];
+//    [self.game update:dt];
 }
 
 - (void)update:(CCTime)dt {
-    [self updateActions];
+//    [self updateActions];
+    [self.game update:dt];
     self.movingLayer.position = CGPointMake(-self.character.position.x + VG_CHARACTER_INIT_POSITION.x, 0);
     
 //    self.movingLayer.position = CGPointMake(-self.character.position.x + VG_CHARACTER_INIT_POSITION.x, -self.character.position.y + VG_CHARACTER_INIT_POSITION.y);
@@ -107,23 +117,26 @@
 ///////////////////////////////////
 
 - (void)characterDidMove:(CGPoint)position angle:(CGFloat)angle {
-    NSDictionary* dic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                         [NSValue valueWithCGPoint:position], @"position",
-                         @(angle), @"angle", nil];
-    self.actions[@"characterDidMove"] = dic;
+//    NSDictionary* dic = [[NSDictionary alloc] initWithObjectsAndKeys:
+//                         [NSValue valueWithCGPoint:position], @"position",
+//                         @(angle), @"angle", nil];
+//    self.actions[@(VGCharacterMoveAction)] = dic;
+    [self.character moveCharacterAtPosition:position angle:angle];
 }
 
 - (void)didCreateGroundTile:(VGGroundTileModel *)tile atPosition:(CGPoint)position {
-    NSDictionary* dic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                         tile, @"tile",
-                         [NSValue valueWithCGPoint:position], @"position", nil];
-    self.actions[@"didCreateGroundTile"] = dic;
+//    NSDictionary* dic = [[NSDictionary alloc] initWithObjectsAndKeys:
+//                         tile, @"tile",
+//                         [NSValue valueWithCGPoint:position], @"position", nil];
+//    self.actions[@(VGTileCreationAction)] = dic;
+    [self.ground createTile:tile atPosition:position];
 }
 
 - (void)didRemoveGroundTile:(VGGroundTileModel *)tile {
-    NSDictionary* dic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                         tile, @"tile", nil];
-    self.actions[@"didRemoveGroundTile"] = dic;
+//    NSDictionary* dic = [[NSDictionary alloc] initWithObjectsAndKeys:
+//                         tile, @"tile", nil];
+//    self.actions[@(VGTileRemovalAction)] = dic;
+    [self.ground removeTile:tile];
 }
 
 

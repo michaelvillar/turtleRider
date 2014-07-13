@@ -36,9 +36,15 @@
     CGPoint lastPoint = self.model.bezierPoints[0];
     int segmentsCount = self.model.totalArcLength / VG_GROUND_SEGMENT_SIZE;
     
+    CCColor* color;
     for (CGFloat r = 0; r <= 1; r += 1.0 / segmentsCount) {
-        CGPoint point = [self.model pointFromT:[self.model tFromRatio:r]];
-        [self drawSegmentFrom:lastPoint to:point radius:1 color:[CCColor blackColor]];
+        CGFloat t = [self.model tFromRatio:r];
+        CGPoint point = [self.model pointFromT:t];
+        if (t >= self.model.loopingEntranceTs[0] && t <= self.model.loopingEntranceTs[1])
+            color = [CCColor greenColor];
+        else
+            color = [CCColor blackColor];
+        [self drawSegmentFrom:lastPoint to:point radius:1 color:color];
         lastPoint = point;
     }
     
