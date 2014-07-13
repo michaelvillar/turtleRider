@@ -22,21 +22,21 @@
 - (id)init {
     self = [super init];
     if (self) {
-//        CGPoint points[] = {
-//            CGPointMake(0, 0),
-//            CGPointMake(50, 0),
-//            CGPointMake(50, 25),
-//            CGPointMake(0, 25)
-//        };
-//        [self drawPolyWithVerts:points
-//                          count:4
-//                      fillColor:nil
-//                    borderWidth:1
-//                    borderColor:[CCColor colorWithWhite:0 alpha:1]];
+        CGPoint points[] = {
+            CGPointMake(0, 0),
+            CGPointMake(50, 0),
+            CGPointMake(50, 25),
+            CGPointMake(0, 25)
+        };
+        [self drawPolyWithVerts:points
+                          count:4
+                      fillColor:nil
+                    borderWidth:1
+                    borderColor:[CCColor colorWithWhite:0 alpha:1]];
         
-        [self drawDot:CGPointMake(16, 16) radius:16 color:[CCColor redColor]];
-        self.contentSize = CGSizeMake(32, 32);
-        self.anchorPoint = CGPointMake(0.5, 0.0);
+//        [self drawDot:CGPointMake(16, 16) radius:16 color:[CCColor redColor]];
+//        self.contentSize = CGSizeMake(32, 32);
+//        self.anchorPoint = CGPointMake(0.5, 0.0);
     }
     return self;
 }

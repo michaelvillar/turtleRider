@@ -16,7 +16,7 @@
 - (void)characterDidMove:(CGPoint)position angle:(CGFloat)angle;
 @end
 
-@interface VGGameModel : CCNode <VGGroundModelDelegate>
+@interface VGGameModel : NSObject <VGGroundModelDelegate>
 @property (weak, readwrite) id delegate;
 
 - (id)initWithSize:(CGSize)size;

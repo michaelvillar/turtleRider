@@ -29,9 +29,21 @@
 - (id)initWithSize:(CGSize)size {
     self = [super init];
     if (self) {
-        self.userInteractionEnabled = YES;
-        self.contentSize = size;
-        _speed = 200;
+        UIView* view = [CCDirector sharedDirector].view;
+
+        UISwipeGestureRecognizer* swipeRecognizer = [[UISwipeGestureRecognizer alloc] init];
+        swipeRecognizer.direction = UISwipeGestureRecognizerDirectionUp;
+        swipeRecognizer.numberOfTouchesRequired = 1;
+        [swipeRecognizer addTarget:self action:@selector(didSwipe:)];
+        [view addGestureRecognizer:swipeRecognizer];
+        
+        UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] init];
+        tapRecognizer.numberOfTouchesRequired = 1;
+        tapRecognizer.numberOfTapsRequired = 1;
+        [tapRecognizer addTarget:self action:@selector(didTap:)];
+        [view addGestureRecognizer:tapRecognizer];
+        
+        _speed = 400;
         _ground = [[VGGroundModel alloc] init];
         _ground.delegate = self;
         _character = [[VGCharacterModel alloc] init];
@@ -115,11 +127,14 @@
 #pragma mark - Touch delegate
 /////////////////////////////////////////////////
 
-- (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+- (void)didTap:(UITapGestureRecognizer*)recognizer {
     if (!self.character.isJumping && [self.ground canJump]) {
-        self.character.velocity = CGPointMake(self.character.velocity.x, self.character.velocity.y - VG_GRAVITY / 1.5);
+        self.character.velocity = CGPointMake(self.character.velocity.x, self.character.velocity.y + VG_CHARACTER_JUMP_VELOCITY.y);
         self.character.jumping = YES;
     }
+}
+
+- (void)didSwipe:(UISwipeGestureRecognizer*)recognizer {
 }
 
 @end

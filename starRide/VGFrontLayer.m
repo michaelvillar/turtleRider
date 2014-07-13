@@ -59,7 +59,6 @@
 - (void)layoutChildren {
     [self.movingLayer addChild:self.ground z:0];
     [self.movingLayer addChild:self.character z:1];
-    [self addChild:self.game z:-1];
     [self addChild:self.movingLayer z:0];
     
     self.character.position = VG_CHARACTER_INIT_POSITION;
@@ -69,12 +68,14 @@
 #pragma mark - Cocos2D
 ////////////////////////////////
 
-//- (void)fixedUpdate:(CCTime)dt {
-//}
+- (void)fixedUpdate:(CCTime)dt {
+    [self.game update:dt];
+}
 
 - (void)update:(CCTime)dt {
-    [self.game update:dt];
     self.movingLayer.position = CGPointMake(-self.character.position.x + VG_CHARACTER_INIT_POSITION.x, 0);
+    
+//    self.movingLayer.position = CGPointMake(-self.character.position.x + VG_CHARACTER_INIT_POSITION.x, -self.character.position.y + VG_CHARACTER_INIT_POSITION.y);
 }
 
 ///////////////////////////////////
