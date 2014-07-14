@@ -1,10 +1,9 @@
 var LoopingSegment = function(segment) {
+	this.beziers = null;
+	this.circle = null;
 	this.originalSegment = segment;
 	this.mid = null;
-	this.controlStart = null;
-	this.controlEnd = null;
-	this.circleCenter = null;
-	this.circleRadius = 100;
+	this.control = null;
 	this.selectedPoint = null;
 
 	this.init();
@@ -18,49 +17,24 @@ LoopingSegment.unarchive = function(archive) {
 LoopingSegment.prototype.archive = function() {
 	var archive = {};
 	archive["type"] = 2;
+	archive["beziers"] = [];
+
+	for (var i = 0; i < this.beziers.length; i++) {
+		var bezier = {
+			"start": this.beziers[i].start.archive(),
+			"control": this.beziers[i].control.archive(),
+			"end": this.beziers[i].end.archive(),
+			"arc_length": this.lengthOfBezier(this.beziers[i])
+		};
+		archive["beziers"].push(bezier);
+	}
+
+	archive["circle"] = {
+		"center": this.circle.center.archive(),
+		"radius": this.circle.radius
+	};
+
 	archive["original_segment"] = this.originalSegment.archive();
-	archive["looping_start"] = this.mid.archive();
-	archive["looping_center"] = this.circleCenter.archive();
-	archive["looping_radius"] = this.circleRadius;
-
-	var startPoints = [];
-	var endPoints = [];
-	var pointsCount = Math.floor(this.originalSegment.length() / Main.pointFrequence);
-	var tInc = 1 / pointsCount;
-	var midPassed = false;
-	for (var t = 0; t <= 1; t += tInc) {
-		if (t + tInc > 1)
-			t = 1;
-	
-		var x = (1 - t) * (1 - t) * this.originalSegment.start.x + 2 * (1 - t) * t * this.originalSegment.control.x + t * t * this.originalSegment.end.x;
-		var y = (1 - t) * (1 - t) * this.originalSegment.start.y + 2 * (1 - t) * t * this.originalSegment.control.y + t * t * this.originalSegment.end.y;
-		var point = new Point(x, y);
-		if (!midPassed && x > this.mid.x) {
-			x = this.mid.x;
-			y = this.mid.y;
-		}
-
-		if (x <= this.mid.x)
-			startPoints.push(point.archive());
-	 	else
-	 		endPoints.push(point.archive());
-	}
-
-	var circleLength = 2 * Math.PI * this.circleRadius;
-	pointsCount = Math.floor(circleLength / Main.pointFrequence);
-	var startAngle = Math.atan((this.circleCenter.y - this.mid.y) / (this.circleCenter.x - this.mid.x));
-	var aInc = 2 * Math.PI / pointsCount;
-
-	for (var a = startAngle; a <= startAngle + 2 * Math.PI; a += aInc) {
-		if (a + aInc > startAngle + 2 * Math.PI)
-			a = startAngle + 2 * Math.PI;
-
-		var point = new Point(this.circleCenter.x + this.circleRadius * Math.cos(a), this.circleCenter.y + this.circleRadius * Math.sin(a));
-		startPoints.push(point.archive());
-	}
-
-	archive["all_points"] = startPoints.concat(endPoints);
-
 	return archive;
 };
 
@@ -68,29 +42,56 @@ LoopingSegment.prototype.init = function() {
 	this.start = this.originalSegment.start;
 	this.end = this.originalSegment.end;
 
-	var t = 0.5;
-	var midX = (1 - t) * (1 - t) * this.start.x + 2 * (1 - t) * t * this.originalSegment.control.x + t * t * this.end.x;
-	var midY = (1 - t) * (1 - t) * this.start.y + 2 * (1 - t) * t * this.originalSegment.control.y + t * t * this.end.y;
-	this.mid = new Point(midX, midY);
+	var radius = 100;
+	this.circle = {
+		"center": new Point(this.end.x - 20 - radius, this.end.y - radius),
+		"radius": radius
+	};
 
-	var cxStart = this.start.x + (this.mid.x - this.start.x) / 2;
-	var cyStart = this.start.y + (cxStart - this.start.x) * this.startSlope();
-	this.controlStart = new Point(cxStart, cyStart);
+	var slope = this.originalSegment.startSlope();
+	var mid = new Point(this.circle.center.x, this.start.y + (this.circle.center.x - this.start.x) * this.originalSegment.startSlope());
 
-	var cxEnd = this.mid.x + (this.end.x - this.mid.x) / 2;
-	var cyEnd = this.end.y - (this.end.x - cxEnd) * this.endSlope();
-	this.controlEnd = new Point(cxEnd, cyEnd);
+	var bezier1 = {
+		"start": this.start,
+		"control": new Point(this.start.x + (mid.x - this.start.x) / 2, this.start.y + (mid.y - this.start.y) / 2),
+		"end": mid
+	};
 
-	var slope = (this.end.y - this.start.y) / (this.end.x - this.start.x);
-	slope = -1 / slope; 
+	var bezier2 = {
+		"start": bezier1.end,
+		"control": new Point(this.circle.center.x + this.circle.radius, bezier1.end.y + (this.circle.center.x + this.circle.radius - bezier1.end.x) * this.originalSegment.startSlope()),
+		"end": new Point(this.circle.center.x + this.circle.radius, this.circle.center.y)
+	};
 
-	var angle = Math.atan(slope);
-	if (slope > 0)
-		angle += Math.PI;
+	var bezier3 = {
+		"start": new Point(this.circle.center.x, this.circle.center.y + this.circle.radius),
+		"control": new Point(this.circle.center.x + 20, this.circle.center.y + this.circle.radius),
+		"end": this.end
+	}
 
-	var circleX = midX + Math.cos(angle) * this.circleRadius;
-	var circleY = midY + Math.sin(angle) * this.circleRadius;
-	this.circleCenter = new Point(circleX, circleY);
+	this.beziers = [bezier1, bezier2, bezier3];
+};
+
+LoopingSegment.prototype.lengthOfBezier = function(bezier) {
+	var ax = bezier.start.x - 2*bezier.control.x + bezier.end.x;
+	var ay = bezier.start.y - 2*bezier.control.y + bezier.end.y;
+	var bx = 2*bezier.control.x - 2*bezier.start.x;
+	var by = 2*bezier.control.y - 2*bezier.start.y;
+	
+	var a = 4*(ax*ax + ay*ay);
+	var b = 4*(ax*bx + ay*by);
+	var c = bx*bx + by*by;
+	
+	var abc = 2*Math.sqrt(a+b+c);
+	var a2  = Math.sqrt(a);
+	var a32 = 2*a*a2;
+	var c2  = 2*Math.sqrt(c);
+	var ba  = b/a2;
+	var length = (a32*abc + a2*b*(abc-c2) + (4*c*a-b*b)*Math.log((2*a2+ba+abc)/(ba+c2)))/(4*a32);
+	if (Number.isNaN(length)) {
+		return Math.sqrt(Math.pow(bezier.end.x - bezier.start.x, 2) + Math.pow(bezier.end.y - bezier.start.y, 2));
+	}
+	return length;
 };
 
 LoopingSegment.prototype.startSlope = function() {
@@ -98,7 +99,7 @@ LoopingSegment.prototype.startSlope = function() {
 };
 
 LoopingSegment.prototype.endSlope = function() {
-	return this.originalSegment.endSlope();
+	return 0;
 };
 
 LoopingSegment.prototype.selectPoint = function(point, withStart) {
@@ -122,28 +123,25 @@ LoopingSegment.prototype.deselect = function() {
 };
 
 LoopingSegment.prototype.boundingRect = function() {
-	var origin = new Point(Math.min(this.start.x, this.controlStart.x, this.controlEnd.x, this.end.x), this.circleCenter.y - this.circleRadius);
-	var width = this.end.x - this.start.x;
-	var height = Math.max(Math.abs(this.end.y - origin.y), Math.abs(this.controlStart.y - origin.y), Math.abs(this.start.y - origin.y), Math.abs(this.controlEnd.y - origin.y));
+	var origin = new Point(Math.min(this.start.x, this.circle.center.x - this.circle.radius), this.circle.center.y - this.circle.radius);
+	var width = this.end.x - origin.x;
+	var height = Math.max(Math.abs(this.circle.center.y - this.end.y), Math.abs(this.circle.center.y - this.start.y), Math.abs(this.circle.center.y - this.beziers[0].end.y)) + this.circle.radius;
 	return {"origin": origin, size: {"width": width, "height": height}};
 };
 
 LoopingSegment.prototype.draw = function(ctx) {
 	ctx.save();
-	ctx.beginPath();
-	ctx.moveTo(this.start.x, this.start.y);
-	ctx.quadraticCurveTo(this.controlStart.x, this.controlStart.y, this.mid.x, this.mid.y);
-	ctx.stroke();
-	ctx.quadraticCurveTo(this.controlEnd.x, this.controlEnd.y, this.end.x, this.end.y);
-	ctx.stroke();
-	ctx.fillStyle = "rgb(0, 0, 0)"; 
-	ctx.fillRect(this.end.x - 4, this.end.y - 4, 8, 8);
-
-	ctx.closePath();
+	ctx.fillRect(this.end.x - 4, this.end.y - 4, 8 ,8);
 
 	ctx.beginPath();
-	ctx.strokeStyle = "rgb(0, 0, 0)";  
-	ctx.arc(this.circleCenter.x, this.circleCenter.y, this.circleRadius, 0, Math.PI * 2);
+	ctx.moveTo(this.beziers[0].start.x, this.beziers[0].start.y);
+	ctx.quadraticCurveTo(this.beziers[0].control.x, this.beziers[0].control.y, this.beziers[0].end.x, this.beziers[0].end.y);
+	ctx.quadraticCurveTo(this.beziers[1].control.x, this.beziers[1].control.y, this.beziers[1].end.x, this.beziers[1].end.y);
+	ctx.moveTo(this.beziers[2].start.x, this.beziers[2].start.y);
+	ctx.quadraticCurveTo(this.beziers[2].control.x, this.beziers[2].control.y, this.beziers[2].end.x, this.beziers[2].end.y);
+
+	ctx.arc(this.circle.center.x, this.circle.center.y, this.circle.radius, Math.PI / 2, 0);
+
 	ctx.stroke();
   ctx.restore();
 };
