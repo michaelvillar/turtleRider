@@ -9,6 +9,7 @@ var Main = function() {
 	this.stateInfo = {};
 	this.shiftPressed = false;
 	this.altPressed = false;
+	this.magnetGridSize = 5;
 };
 
 Main.pointFrequence = 10; 
@@ -227,7 +228,9 @@ Main.prototype.unarchive = function(archive) {
 /////////////////////////////////////////////////////////////
 
 Main.prototype.didClickCanvas = function(e) {
-	var point = new Point(e.pageX, e.pageY);
+	var x = Math.round(e.pageX / this.magnetGridSize) * this.magnetGridSize;
+	var y = Math.round(e.pageY / this.magnetGridSize) * this.magnetGridSize;
+	var point = new Point(x, y);
 
 	switch(this.state) {
 		case Main.states['NORMAL_STATE']: 
@@ -277,7 +280,9 @@ Main.prototype.didClickCanvas = function(e) {
 }
 
 Main.prototype.didMoveMouseOnCanvas = function(e) {
-	var point = new Point(e.pageX, e.pageY);
+	var x = Math.round(e.pageX / this.magnetGridSize) * this.magnetGridSize;
+	var y = Math.round(e.pageY / this.magnetGridSize) * this.magnetGridSize;
+	var point = new Point(x, y);
 
 	switch(this.state) {
 		case Main.states['NORMAL_STATE']:
