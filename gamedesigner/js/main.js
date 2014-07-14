@@ -9,14 +9,15 @@ var Main = function() {
 	this.stateInfo = {};
 	this.shiftPressed = false;
 	this.altPressed = false;
-	this.magnetGridSize = 5;
 };
 
 Main.pointFrequence = 10; 
 Main.gridYCount = Math.floor(document.getElementById("canvas").height / 320);
 Main.gridBorder = 40;;
 Main.barHeight = parseInt(window.getComputedStyle(document.getElementById("top-bar")).height.match(/(\d*).*$/)[1]);
+Main.magnetGridSize = 5;
 Main.origin = new Point(Main.gridBorder, Main.gridBorder + Main.barHeight + Main.gridYCount * 320 / 2);
+Main.origin.y = Math.round(Main.origin.y / Main.magnetGridSize) * Main.magnetGridSize;
 
 Main.states = {
 	"NORMAL_STATE": 0,
@@ -57,6 +58,7 @@ Main.prototype.draw = function() {
 	this.ctx.save();
 	this.ctx.strokeStyle = "rgb(170, 170, 170)";
 	this.ctx.fillStyle = "rgb(170, 170, 170)";
+	this.ctx.beginPath();
 
 	var j = 0;
 	for (var i = Main.gridBorder; i < this.canvas.width - Main.gridBorder; i += 568) {
@@ -228,9 +230,10 @@ Main.prototype.unarchive = function(archive) {
 /////////////////////////////////////////////////////////////
 
 Main.prototype.didClickCanvas = function(e) {
-	var x = Math.round(e.pageX / this.magnetGridSize) * this.magnetGridSize;
-	var y = Math.round(e.pageY / this.magnetGridSize) * this.magnetGridSize;
+	var x = Math.round(e.pageX / Main.magnetGridSize) * Main.magnetGridSize;
+	var y = Math.round(e.pageY / Main.magnetGridSize) * Main.magnetGridSize;
 	var point = new Point(x, y);
+	console.log(Math.round(e.pageY / Main.magnetGridSize));
 
 	switch(this.state) {
 		case Main.states['NORMAL_STATE']: 
@@ -280,8 +283,8 @@ Main.prototype.didClickCanvas = function(e) {
 }
 
 Main.prototype.didMoveMouseOnCanvas = function(e) {
-	var x = Math.round(e.pageX / this.magnetGridSize) * this.magnetGridSize;
-	var y = Math.round(e.pageY / this.magnetGridSize) * this.magnetGridSize;
+	var x = Math.round(e.pageX / Main.magnetGridSize) * Main.magnetGridSize;
+	var y = Math.round(e.pageY / Main.magnetGridSize) * Main.magnetGridSize;
 	var point = new Point(x, y);
 
 	switch(this.state) {

@@ -181,14 +181,12 @@ CurveSegment.prototype.boundingRect = function() {
 
 CurveSegment.prototype.draw = function(ctx, showFirstPoint) {
 	ctx.save();
-	ctx.beginPath();
 	ctx.strokeStyle = "rgb(255, 0, 0)";  
 	ctx.strokeRect(this.control.x - 4, this.control.y - 4, 8, 8);
-	ctx.fillStyle = "rgb(0, 0, 0)"; 
-	if (showFirstPoint)
-		ctx.fillRect(this.start.x - 4, this.start.y - 4, 8, 8);
 	ctx.fillRect(this.end.x - 4, this.end.y - 4, 8, 8);
 	ctx.strokeStyle = "rgb(0, 0, 0)"; 
+
+	ctx.beginPath();
 	ctx.moveTo(this.start.x, this.start.y);
 	ctx.quadraticCurveTo(this.control.x, this.control.y, this.end.x, this.end.y);
 	if (this.isTunnel)
