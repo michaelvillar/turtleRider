@@ -223,7 +223,7 @@ Main.prototype.unarchive = function(archive) {
 		this.bonuses.push(Bonus.unarchive(archive['bonuses'][i]));
 
 	this.state = Main.states['NORMAL_STATE'];
-	this.stateInfo = null;
+	this.stateInfo = {};
 };
 
 /////////////////////////////////////////////////////////////
