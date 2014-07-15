@@ -133,10 +133,15 @@ LoopingSegment.prototype.boundingRect = function() {
 	return {"origin": origin, size: {"width": width, "height": height}};
 };
 
-LoopingSegment.prototype.draw = function(ctx) {
+LoopingSegment.prototype.draw = function(ctx, pointsToShow, color) {
 	ctx.save();
-	ctx.fillRect(this.end.x - 4, this.end.y - 4, 8 ,8);
 
+	if (pointsToShow.end)
+		ctx.fillRect(this.end.x - 4, this.end.y - 4, 8 ,8);
+	if (pointsToShow.start)
+		ctx.fillRect(this.start.x - 4, this.start.y - 4, 8 ,8);
+
+	ctx.strokeStyle = color;
 	ctx.beginPath();
 	ctx.moveTo(this.beziers[0].start.x, this.beziers[0].start.y);
 	ctx.quadraticCurveTo(this.beziers[0].control.x, this.beziers[0].control.y, this.beziers[0].end.x, this.beziers[0].end.y);
