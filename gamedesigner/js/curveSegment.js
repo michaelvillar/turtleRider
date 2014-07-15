@@ -10,7 +10,7 @@ var CurveSegment = function(start, control, end) {
 };
 
 CurveSegment.unarchive = function(archive) {
-	var bezierPoints = archive['bezier_points'];
+	var bezierPoints = archive['bezier'];
 	var start = Point.unarchive(bezierPoints['start']);
 	var control = Point.unarchive(bezierPoints['control']);
 	var end = Point.unarchive(bezierPoints['end']);
@@ -29,7 +29,7 @@ CurveSegment.unarchive = function(archive) {
 CurveSegment.prototype.archive = function() {
 	var archive = {};
 	archive["type"] = this.isTunnel ? 1 : 0;
-	archive["bezier_points"] = {
+	archive["bezier"] = {
 		"start": this.start.archive(),
 		"control": this.control.archive(),
 		"end": this.end.archive()
