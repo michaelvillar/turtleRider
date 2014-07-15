@@ -97,7 +97,7 @@
         } else {
             self.character.jumping = YES;
             self.character.position = ((NSValue*)dic[@"position"]).CGPointValue;
-            [self moveCharacter:((NSNumber*)dic[@"distanceRemaining"]).floatValue];
+            [self moveCharacter:((NSNumber*)dic[@"remainingDistance"]).floatValue];
             return;
         }
     }

@@ -32,10 +32,10 @@ CurveSegment.prototype.archive = function() {
 	archive["bezier"] = {
 		"start": this.start.archive(),
 		"control": this.control.archive(),
-		"end": this.end.archive()
+		"end": this.end.archive(),
+		"arc_length": this.length()
 	};
-
-	archive["arc_length"] = this.length();
+	
 	// archive["bombs"] = [];
 	// archive["bombsT"] = [];
 

@@ -8,13 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "VGGroundSegmentModelProtocol.h"
+#import "VGBezierModel.h"
 
 @interface VGGroundNormalSegmentModel : NSObject <VGGroundSegmentModelProtocol>
-@property (assign, readwrite) CGPoint* bezierPoints;
-@property (assign, readonly) CGFloat totalArcLength;
-@property (assign, readwrite) CGFloat currentArcLength;
+@property (strong, readonly) VGBezierModel* bezier;
+@property (assign, readonly) CGFloat currentArcLength;
 
-- (CGFloat)ratioFromT:(CGFloat)t;
-- (CGFloat)tFromX:(CGFloat)x;
 - (BOOL)canJump;
 @end

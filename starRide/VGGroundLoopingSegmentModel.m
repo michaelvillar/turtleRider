@@ -8,15 +8,15 @@
 
 #import "VGGroundLoopingSegmentModel.h"
 #import "VGGroundNormalSegmentModel.h"
+#import "VGBezierModel.h"
 #import "VGConstant.h"
 
 @interface VGGroundLoopingSegmentModel ()
-@property (strong, readonly) VGGroundNormalSegmentModel* originalSegment;
-@property (assign, readwrite) CGFloat startAngle;
-@property (assign, readwrite) CGFloat currentAngle;
-@property (assign, readonly) CGPoint loopingStart;
+@property (assign, readwrite) CGFloat currentCircleAngle;
 @property (assign, readwrite, getter = isLoopingEnabled) BOOL loopingEnabled;
 @property (assign, readwrite, getter = isInLooping) BOOL inLooping;
+
+@property (assign, readwrite) int currentSegment;
 
 - (CGFloat)daForDistance:(CGFloat)distance;
 - (CGFloat)distanceForDa:(CGFloat)da;
@@ -28,85 +28,114 @@
 - (id)initWithData:(NSDictionary *)data {
     self = [super init];
     if (self) {
-        _originalSegment = [[VGGroundNormalSegmentModel alloc] initWithData:data[@"original_segment"]];
-        _bezierPoints = _originalSegment.bezierPoints;
-        _totalArcLength = _originalSegment.totalArcLength;
-        _extremityPoints = _originalSegment.extremityPoints;
-        NSDictionary* loopingCenterData = data[@"looping_center"];
-        _loopingCenter = CGPointMake(((NSNumber*)loopingCenterData[@"x"]).floatValue, -((NSNumber*)loopingCenterData[@"y"]).floatValue);
-        NSDictionary* loopingStartData = data[@"looping_start"];
-        _loopingStart = CGPointMake(((NSNumber*)loopingStartData[@"x"]).floatValue, -((NSNumber*)loopingStartData[@"y"]).floatValue);
-        _loopingRadius = ((NSNumber*)data[@"looping_radius"]).floatValue;
-        CGFloat tan = (_loopingCenter.y - _loopingStart.y) / (_loopingCenter.x - _loopingStart.x);
-        if (tan > 0)
-            _startAngle =  atanf(tan) + M_PI;
-        else
-            _startAngle = atanf(tan) + 2 * M_PI;
-        _currentAngle = _startAngle;
-        _inLooping = NO;
+        _segments = [[NSMutableArray alloc] init];
+        NSArray* beziersArray = data[@"beziers"];
+        for (int i = 0; i < beziersArray.count; i++) {
+            NSDictionary* bezierPoints = beziersArray[i];
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+            dic[@"type"] = @0;
+            dic[@"bezier"] = [[NSMutableDictionary alloc] initWithDictionary:bezierPoints];
+
+            VGGroundNormalSegmentModel* segment = [[VGGroundNormalSegmentModel alloc] initWithData:dic];
+            [_segments addObject:segment];
+        }
         
-        CGFloat startT = [self.originalSegment tFromX:_loopingStart.x];
-        CGFloat startRatio = [self.originalSegment ratioFromT:startT];
-        CGFloat startArcLength = self.originalSegment.totalArcLength * startRatio - VG_LOOPING_ENTRANCE_SIZE;
+        _circleCenter = CGPointMake(((NSNumber*)data[@"circle"][@"center"][@"x"]).floatValue,
+                                    -((NSNumber*)data[@"circle"][@"center"][@"y"]).floatValue);
+        _circleRadius = ((NSNumber*)data[@"circle"][@"radius"]).floatValue;
+        _circleStartAngle = 0;
+        _circleEndAngle = 3 * M_PI_2;
         
+        VGGroundNormalSegmentModel* segment = _segments[1];
         _loopingEntranceTs = malloc(2 * sizeof(CGFloat));
-        _loopingEntranceTs[0] = [self.originalSegment tFromRatio:startArcLength / self.totalArcLength];
-        _loopingEntranceTs[1] = startT;
+        _loopingEntranceTs[0] = [segment.bezier tFromRatio:(segment.bezier.arcLength - VG_LOOPING_ENTRANCE_SIZE) / segment.bezier.arcLength];
+        _loopingEntranceTs[1] = 1;
+        
+        _extremityPoints = malloc(2 * sizeof(CGPoint));
+        _extremityPoints[0] = ((VGGroundNormalSegmentModel*)_segments[0]).extremityPoints[0];
+        _extremityPoints[1] = ((VGGroundNormalSegmentModel*)_segments[2]).extremityPoints[1];
+        
+        _currentCircleAngle = 0;
+        _currentSegment = 0;
     }
     return self;
 }
 
 - (NSDictionary*)nextPositionInfo:(CGFloat)distance {
     if (self.isInLooping) {
-        self.currentAngle += [self daForDistance:distance];
-        if (self.currentAngle >= self.startAngle + 2 * M_PI) {
-            CGFloat remainingDistance = [self distanceForDa:self.startAngle + 2 * M_PI - self.currentAngle];
+        self.currentCircleAngle += [self daForDistance:distance];
+        if (self.currentCircleAngle >= self.circleEndAngle) {
+            CGFloat remainingDistance = [self distanceForDa:self.currentCircleAngle - 3 * M_PI_2];
             self.inLooping = NO;
             self.loopingEnabled = NO;
+            self.currentSegment++;
             return [self nextPositionInfo:remainingDistance];
         } else {
             NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
-            CGPoint point = CGPointMake(self.loopingCenter.x + cosf(self.currentAngle) * self.loopingRadius,
-                                        self.loopingCenter.y + sinf(self.currentAngle) * self.loopingRadius);
+            CGPoint point = CGPointMake(self.circleCenter.x + cosf(self.currentCircleAngle) * self.circleRadius,
+                                        self.circleCenter.y + sinf(self.currentCircleAngle) * self.circleRadius);
             dic[@"positionFound"] = @(true);
             dic[@"position"] = [NSValue valueWithCGPoint:point];
-            dic[@"angle"] = @(fmod((self.currentAngle + M_PI_2), (2 * M_PI)));
+            dic[@"angle"] = @(self.currentCircleAngle + M_PI_2);
             return dic;
         }
     } else {
-        CGFloat currentT = [self.originalSegment tFromRatio:self.originalSegment.currentArcLength / self.originalSegment.totalArcLength];
-        CGPoint currentPoint = [self.originalSegment pointFromT:currentT];
-        
-        NSDictionary* dic = [self.originalSegment nextPositionInfo:distance];
-        if (!((NSNumber*)dic[@"positionFound"]).boolValue)
-            return dic;
-        
-        CGPoint nextPoint = ((NSValue*)dic[@"position"]).CGPointValue;
-        
-        if (self.isLoopingEnabled && currentPoint.x < self.loopingStart.x && nextPoint.x >= self.loopingStart.x) {
-            CGFloat startT = [self.originalSegment tFromX:self.loopingStart.x];
-            CGFloat startRatio = [self.originalSegment ratioFromT:startT];
-            CGFloat startArcLength = self.originalSegment.totalArcLength * startRatio;
-            CGFloat remainingDistance = self.originalSegment.currentArcLength - startArcLength;
-            self.originalSegment.currentArcLength = startArcLength;
-            self.inLooping = YES;
-            return [self nextPositionInfo:remainingDistance];
-        } else {
-            return dic;
+        VGGroundNormalSegmentModel* segment = self.segments[self.currentSegment];
+    
+        NSDictionary* dic = [segment nextPositionInfo:distance];
+        if (!((NSNumber*)dic[@"positionFound"]).boolValue) {
+            CGFloat remainingDistance = ((NSNumber*)dic[@"remainingDistance"]).floatValue;
+            if (self.currentSegment == 0 && self.isLoopingEnabled) {
+                self.currentSegment++;
+                return [self nextPositionInfo:remainingDistance];
+            }
+            
+            if (self.currentSegment == 1) {
+                self.inLooping = YES;
+                return [self nextPositionInfo:remainingDistance];
+            }
+            
+            NSMutableDictionary* newDic = [[NSMutableDictionary alloc] initWithDictionary:dic];
+            newDic[@"fall"] = @(true);
+            return newDic;
         }
+        return dic;
     }
+    return nil;
 }
 
 - (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition {
-    return [self.originalSegment pointInfoBetweenOldPosition:oldPosition newPosition:newPosition];
+    VGGroundNormalSegmentModel* segment0 = self.segments[0];
+    if (newPosition.x >= segment0.extremityPoints[0].x && newPosition.x <= segment0.extremityPoints[1].x) {
+        NSDictionary* segment0Info = [self.segments[0] pointInfoBetweenOldPosition:oldPosition newPosition:newPosition];
+        if (((NSNumber*)segment0Info[@"positionFound"]).boolValue) {
+            self.currentSegment = 0;
+            return segment0Info;
+        }
+    }
+    
+    VGGroundNormalSegmentModel* segment2 = self.segments[2];
+    if (newPosition.x >= segment2.extremityPoints[0].x && newPosition.x <= segment2.extremityPoints[1].x) {
+        NSDictionary* segment2Info = [self.segments[2] pointInfoBetweenOldPosition:oldPosition newPosition:newPosition];
+        if (((NSNumber*)segment2Info[@"positionFound"]).boolValue) {
+            self.currentSegment = 2;
+            return segment2Info;
+        }
+    }
+    
+    return [NSDictionary dictionaryWithObjectsAndKeys:@(false), @"positionFound", nil];
 }
 
 - (BOOL)canJump {
-    return !self.isInLooping;
+    return !(self.isInLooping || self.currentSegment == 1) ;
 }
 
 - (void)enterLooping {
-    CGFloat t = [self.originalSegment tFromRatio:self.originalSegment.currentArcLength / self.originalSegment.totalArcLength];;
+    if (self.currentSegment != 0)
+        return;
+    
+    VGGroundNormalSegmentModel* segment = self.segments[0];
+    CGFloat t = [segment.bezier tFromRatio:segment.currentArcLength / segment.bezier.arcLength];
     if (t >= self.loopingEntranceTs[0] && t <= self.loopingEntranceTs[1]) {
         self.loopingEnabled = YES;
     }
@@ -117,18 +146,11 @@
 ////////////////////////////////
 
 - (CGFloat)daForDistance:(CGFloat)distance {
-    return distance / self.loopingRadius;
+    return distance / self.circleRadius;
 }
 
 - (CGFloat)distanceForDa:(CGFloat)da {
-    return da / self.loopingRadius;
+    return da / self.circleRadius;
 }
 
-- (CGPoint)pointFromT:(CGFloat)t {
-    return [self.originalSegment pointFromT:t];
-}
-
-- (CGFloat)tFromRatio:(CGFloat)ratio {
-    return [self.originalSegment tFromRatio:ratio];
-}
 @end

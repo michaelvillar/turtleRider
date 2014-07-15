@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4D9CC8071971A2AF00D9502C /* VGGroundLoopingSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9CC8061971A2AF00D9502C /* VGGroundLoopingSegment.m */; };
-		4D9CC8091971AE5300D9502C /* level4.json in Resources */ = {isa = PBXBuildFile; fileRef = 4D9CC8081971AE5300D9502C /* level4.json */; };
 		4DC910DF196C7A23001130EF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DC910DE196C7A23001130EF /* QuartzCore.framework */; };
 		4DC910E1196C7A23001130EF /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DC910E0196C7A23001130EF /* OpenGLES.framework */; };
 		4DC910E3196C7A23001130EF /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DC910E2196C7A23001130EF /* OpenAL.framework */; };
@@ -203,15 +202,14 @@
 		4DC913B0196D461C001130EF /* VGGroundTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913AF196D461C001130EF /* VGGroundTile.m */; };
 		4DC913B3196D4668001130EF /* VGGroundCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913B2196D4668001130EF /* VGGroundCurve.m */; };
 		4DC913B6196D4673001130EF /* VGGroundNormalSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913B5196D4673001130EF /* VGGroundNormalSegment.m */; };
-		4DC913B9196D4A42001130EF /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DC913B8196D4A42001130EF /* level1.json */; };
-		4DC913BD196E0967001130EF /* level2.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DC913BC196E0967001130EF /* level2.json */; };
 		4DC913C7196EBD0E001130EF /* VGGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913C6196EBD0E001130EF /* VGGameModel.m */; };
 		4DC913CA196EBD24001130EF /* VGGroundTileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913C9196EBD24001130EF /* VGGroundTileModel.m */; };
 		4DC913CD196EBD2C001130EF /* VGGroundCurveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913CC196EBD2C001130EF /* VGGroundCurveModel.m */; };
 		4DC913D0196EBD33001130EF /* VGGroundNormalSegmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913CF196EBD33001130EF /* VGGroundNormalSegmentModel.m */; };
 		4DC913DC196EC939001130EF /* VGCharacterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913DB196EC939001130EF /* VGCharacterModel.m */; };
 		4DC913DF196FE369001130EF /* VGGroundModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913DE196FE369001130EF /* VGGroundModel.m */; };
-		4DFE3EF7197088270065ECFD /* level3.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DFE3EF6197088270065ECFD /* level3.json */; };
+		4DDC5DD519756054003064DB /* VGBezierModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DDC5DD419756054003064DB /* VGBezierModel.m */; };
+		4DDC5DDD197581B7003064DB /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DDC5DDC197581B7003064DB /* level1.json */; };
 		4DFE3EFA19719D0B0065ECFD /* VGGroundLoopingSegmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE3EF919719D0B0065ECFD /* VGGroundLoopingSegmentModel.m */; };
 /* End PBXBuildFile section */
 
@@ -228,7 +226,6 @@
 /* Begin PBXFileReference section */
 		4D9CC8051971A2AF00D9502C /* VGGroundLoopingSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundLoopingSegment.h; sourceTree = "<group>"; };
 		4D9CC8061971A2AF00D9502C /* VGGroundLoopingSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundLoopingSegment.m; sourceTree = "<group>"; };
-		4D9CC8081971AE5300D9502C /* level4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level4.json; sourceTree = "<group>"; };
 		4DC910DB196C7A23001130EF /* starRide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = starRide.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC910DE196C7A23001130EF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4DC910E0196C7A23001130EF /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -653,8 +650,6 @@
 		4DC913B2196D4668001130EF /* VGGroundCurve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundCurve.m; sourceTree = "<group>"; };
 		4DC913B4196D4673001130EF /* VGGroundNormalSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundNormalSegment.h; sourceTree = "<group>"; };
 		4DC913B5196D4673001130EF /* VGGroundNormalSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundNormalSegment.m; sourceTree = "<group>"; };
-		4DC913B8196D4A42001130EF /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
-		4DC913BC196E0967001130EF /* level2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level2.json; sourceTree = "<group>"; };
 		4DC913C5196EBD0E001130EF /* VGGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGameModel.h; sourceTree = "<group>"; };
 		4DC913C6196EBD0E001130EF /* VGGameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGameModel.m; sourceTree = "<group>"; };
 		4DC913C8196EBD24001130EF /* VGGroundTileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundTileModel.h; sourceTree = "<group>"; };
@@ -668,7 +663,9 @@
 		4DC913DB196EC939001130EF /* VGCharacterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGCharacterModel.m; sourceTree = "<group>"; };
 		4DC913DD196FE369001130EF /* VGGroundModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundModel.h; sourceTree = "<group>"; };
 		4DC913DE196FE369001130EF /* VGGroundModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundModel.m; sourceTree = "<group>"; };
-		4DFE3EF6197088270065ECFD /* level3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level3.json; sourceTree = "<group>"; };
+		4DDC5DD319756054003064DB /* VGBezierModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGBezierModel.h; sourceTree = "<group>"; };
+		4DDC5DD419756054003064DB /* VGBezierModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGBezierModel.m; sourceTree = "<group>"; };
+		4DDC5DDC197581B7003064DB /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
 		4DFE3EF819719D0B0065ECFD /* VGGroundLoopingSegmentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundLoopingSegmentModel.h; sourceTree = "<group>"; };
 		4DFE3EF919719D0B0065ECFD /* VGGroundLoopingSegmentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundLoopingSegmentModel.m; sourceTree = "<group>"; };
 		4DFE3EFE19719EDB0065ECFD /* VGGroundSegmentModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VGGroundSegmentModelProtocol.h; sourceTree = "<group>"; };
@@ -1546,10 +1543,7 @@
 		4DC913BB196D4A58001130EF /* Levels */ = {
 			isa = PBXGroup;
 			children = (
-				4D9CC8081971AE5300D9502C /* level4.json */,
-				4DFE3EF6197088270065ECFD /* level3.json */,
-				4DC913BC196E0967001130EF /* level2.json */,
-				4DC913B8196D4A42001130EF /* level1.json */,
+				4DDC5DDC197581B7003064DB /* level1.json */,
 			);
 			name = Levels;
 			sourceTree = "<group>";
@@ -1572,6 +1566,8 @@
 				4DFE3EF919719D0B0065ECFD /* VGGroundLoopingSegmentModel.m */,
 				4DC913DA196EC939001130EF /* VGCharacterModel.h */,
 				4DC913DB196EC939001130EF /* VGCharacterModel.m */,
+				4DDC5DD319756054003064DB /* VGBezierModel.h */,
+				4DDC5DD419756054003064DB /* VGBezierModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1697,16 +1693,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DC913BD196E0967001130EF /* level2.json in Resources */,
+				4DDC5DDD197581B7003064DB /* level1.json in Resources */,
 				4DC91312196C7A25001130EF /* LICENSE_CCBReader.txt in Resources */,
 				4DC912FB196C7A25001130EF /* LICENSE_Kazmath.txt in Resources */,
 				4DC91254196C7A25001130EF /* LICENSE_cocos2d.txt in Resources */,
-				4DC913B9196D4A42001130EF /* level1.json in Resources */,
 				4DC91380196C7A25001130EF /* LICENSE_Chipmunk.txt in Resources */,
-				4D9CC8091971AE5300D9502C /* level4.json in Resources */,
 				4DC9139A196C7BC1001130EF /* Default-568h@2x.png in Resources */,
 				4DC912E0196C7A25001130EF /* ChangeLog in Resources */,
-				4DFE3EF7197088270065ECFD /* level3.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1836,6 +1829,7 @@
 				4DC913A9196C8142001130EF /* VGConstant.m in Sources */,
 				4DC9126A196C7A25001130EF /* OALAudioTrackNotifications.m in Sources */,
 				4DC912EF196C7A25001130EF /* quaternion.c in Sources */,
+				4DDC5DD519756054003064DB /* VGBezierModel.m in Sources */,
 				4DC911A3196C7A24001130EF /* CCPhysicsNode.m in Sources */,
 				4DC91289196C7A25001130EF /* ALSoundSourcePool.m in Sources */,
 				4DC91198196C7A24001130EF /* CCParticleSystemBase.m in Sources */,

@@ -32,16 +32,16 @@
 ////////////////////////////////
 
 - (void)drawModel {
-    CGPoint lastPoint = self.model.bezierPoints[0];
-    int segmentsCount = self.model.totalArcLength / VG_GROUND_SEGMENT_SIZE;
+    CGPoint lastPoint = self.model.bezier.start;
+    int segmentsCount = self.model.bezier.arcLength / VG_GROUND_SEGMENT_SIZE;
     
     for (CGFloat r = 0; r <= 1; r += 1.0 / segmentsCount) {
-        CGPoint point = [self.model pointFromT:[self.model tFromRatio:r]];
+        CGPoint point = [self.model.bezier pointFromT:[self.model.bezier tFromRatio:r]];
         [self drawSegmentFrom:lastPoint to:point radius:1 color:[CCColor blackColor]];
         lastPoint = point;
     }
     
-    [self drawSegmentFrom:lastPoint to:self.model.bezierPoints[2] radius:1 color:[CCColor blackColor]];
+    [self drawSegmentFrom:lastPoint to:self.model.bezier.end radius:1 color:[CCColor blackColor]];
 }
 
 

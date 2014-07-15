@@ -67,12 +67,12 @@
     } else if (CGPointEqualToPoint(position, tile.extremityPoints[1])) {
         if (self.currentTileIndex + 1 < self.tiles.count) {
             self.currentTileIndex++;
-            return [self nextPositionInfo:((NSNumber*)dic[@"distanceRemaining"]).floatValue];
+            return [self nextPositionInfo:((NSNumber*)dic[@"remainingDistance"]).floatValue];
         }
     } else {
         newDic[@"positionFound"] = @(false);
         newDic[@"position"] = [NSValue valueWithCGPoint:CGPointMake(tile.position.x + position.x, tile.position.y + position.y)];
-        newDic[@"distanceRemaining"] = dic[@"distanceRemaining"];
+        newDic[@"remainingDistance"] = dic[@"remainingDistance"];
         newDic[@"angle"] = dic[@"angle"];
         return newDic;
     }
@@ -124,7 +124,7 @@
 ////////////////////////////////
 
 - (void)createTile {
-    VGGroundTileModel* tile = [VGGroundTileModel tileFromName:@"level4"];
+    VGGroundTileModel* tile = [VGGroundTileModel tileFromName:@"level1"];
     if (self.tiles.count <= 0) {
         tile.position = CGPointMake(0, VG_CHARACTER_INIT_POSITION.y);
     } else {

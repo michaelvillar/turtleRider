@@ -42,9 +42,9 @@
     
     if (((NSNumber*)dic[@"positionFound"]).boolValue) {
         return dic;
-    } else if (self.currentSegmentIndex + 1 < self.segments.count){
+    } else if ((self.currentSegmentIndex + 1 < self.segments.count) && !(dic[@"fall"] && ((NSNumber*)dic[@"fall"]).boolValue)) {
         self.currentSegmentIndex++;
-        return [self nextPositionInfo:((NSNumber*)dic[@"distanceRemaining"]).floatValue];
+        return [self nextPositionInfo:((NSNumber*)dic[@"remainingDistance"]).floatValue];
     } else {
         return dic;
     }
