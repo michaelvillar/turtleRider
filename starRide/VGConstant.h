@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern BOOL const VG_DEBUG_MODE;
+
 extern CGPoint const VG_CHARACTER_INIT_POSITION;
 extern CGFloat const VG_GROUND_SEGMENT_SIZE;
 extern CGFloat const VG_GROUND_SECURITY_OFFSET;

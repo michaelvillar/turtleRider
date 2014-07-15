@@ -8,6 +8,8 @@
 
 #import "VGConstant.h"
 
+BOOL const VG_DEBUG_MODE = true;
+
 CGPoint const VG_CHARACTER_INIT_POSITION = {60.0f, 160.0f};
 CGFloat const VG_GROUND_SEGMENT_SIZE = 10.0;
 CGFloat const VG_GROUND_SECURITY_OFFSET = 50.0;

@@ -34,6 +34,7 @@
 
 - (void)drawModel {
     VGGroundNormalSegmentModel* segment;
+    CCColor* color = [CCColor blackColor];
     for (int i = 0; i < self.model.segments.count; i++) {
         segment = self.model.segments[i];
         
@@ -41,24 +42,19 @@
         int segmentsCount = segment.bezier.arcLength / VG_GROUND_SEGMENT_SIZE;
         
         for (CGFloat r = 0; r <= 1; r += 1.0 / segmentsCount) {
+            if (VG_DEBUG_MODE && i == 0) {
+                CGFloat t = [segment.bezier tFromRatio:r];
+                if (t >= self.model.loopingEntranceTs[0] && t <= self.model.loopingEntranceTs[1])
+                    color = [CCColor greenColor];
+                else
+                    color = [CCColor blackColor];
+            }
             CGPoint point = [segment.bezier pointFromT:[segment.bezier tFromRatio:r]];
-            [self drawSegmentFrom:lastPoint to:point radius:1 color:[CCColor blackColor]];
+            [self drawSegmentFrom:lastPoint to:point radius:1 color:color];
             lastPoint = point;
         }
         [self drawSegmentFrom:lastPoint to:segment.bezier.end radius:1 color:[CCColor blackColor]];
     }
-    
-//    CCColor* color;
-//    for (CGFloat r = 0; r <= 1; r += 1.0 / segmentsCount) {
-//        CGFloat t = [self.model tFromRatio:r];
-//        CGPoint point = [self.model pointFromT:t];
-//        if (t >= self.model.loopingEntranceTs[0] && t <= self.model.loopingEntranceTs[1])
-//            color = [CCColor greenColor];
-//        else
-//            color = [CCColor blackColor];
-//        [self drawSegmentFrom:lastPoint to:point radius:1 color:color];
-//        lastPoint = point;
-//    }
     
     CGFloat angleSpan = (self.model.circleEndAngle - self.model.circleStartAngle);
     CGFloat perimeter = self.model.circleRadius * angleSpan;
