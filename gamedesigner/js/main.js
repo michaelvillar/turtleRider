@@ -99,7 +99,7 @@ Main.prototype.draw = function() {
 
 	if (this.selectedCurveIndex == 0) {
 		if (this.state == Main.states["CAMERA_MODE_STATE"])
-			this.curves[0].draw(this.ctx, false, "rgb(100, 100, 100)");
+			this.curves[0].draw(this.ctx, false, "rgb(150, 150, 150)");
 		else
 			this.curves[0].draw(this.ctx, true, "rgb(0, 0, 0)");
 	}
