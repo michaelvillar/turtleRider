@@ -36,27 +36,27 @@ CurveSegment.prototype.archive = function() {
 	};
 
 	archive["arc_length"] = this.length();
-	archive["bombs"] = [];
-	archive["bombsT"] = [];
+	// archive["bombs"] = [];
+	// archive["bombsT"] = [];
 
-	for (var i = 0; i < this.bombs.length; i++) {
-		archive["bombs"].push(this.bombs[i].archive());
-		archive["bombsT"].push(this.bombsT[i]);
-	}
+	// for (var i = 0; i < this.bombs.length; i++) {
+	// 	archive["bombs"].push(this.bombs[i].archive());
+	// 	archive["bombsT"].push(this.bombsT[i]);
+	// }
 
-	archive["all_points"] = [];
+	// archive["all_points"] = [];
 
-	var pointsCount = Math.floor(this.length() / Main.pointFrequence);
-	var tInc = 1 / pointsCount;
-	for (var t = 0; t <= 1; t += tInc) {
-		if (t + tInc > 1)
-			t = 1;
+	// var pointsCount = Math.floor(this.length() / Main.pointFrequence);
+	// var tInc = 1 / pointsCount;
+	// for (var t = 0; t <= 1; t += tInc) {
+	// 	if (t + tInc > 1)
+	// 		t = 1;
 	
-		var x = (1 - t) * (1 - t) * this.start.x + 2 * (1 - t) * t * this.control.x + t * t * this.end.x;
-		var y = (1 - t) * (1 - t) * this.start.y + 2 * (1 - t) * t * this.control.y + t * t * this.end.y;
-		var point = new Point(x, y);
-		archive["all_points"].push(point.archive());
-	}
+	// 	var x = (1 - t) * (1 - t) * this.start.x + 2 * (1 - t) * t * this.control.x + t * t * this.end.x;
+	// 	var y = (1 - t) * (1 - t) * this.start.y + 2 * (1 - t) * t * this.control.y + t * t * this.end.y;
+	// 	var point = new Point(x, y);
+	// 	archive["all_points"].push(point.archive());
+	// }
 
 	return archive;
 };
