@@ -209,7 +209,7 @@
 		4DC913DC196EC939001130EF /* VGCharacterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913DB196EC939001130EF /* VGCharacterModel.m */; };
 		4DC913DF196FE369001130EF /* VGGroundModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913DE196FE369001130EF /* VGGroundModel.m */; };
 		4DDC5DD519756054003064DB /* VGBezierModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DDC5DD419756054003064DB /* VGBezierModel.m */; };
-		4DDC5DDD197581B7003064DB /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DDC5DDC197581B7003064DB /* level1.json */; };
+		4DDC5DE61975B1D9003064DB /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DDC5DE51975B1D9003064DB /* level1.json */; };
 		4DFE3EFA19719D0B0065ECFD /* VGGroundLoopingSegmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE3EF919719D0B0065ECFD /* VGGroundLoopingSegmentModel.m */; };
 /* End PBXBuildFile section */
 
@@ -665,7 +665,7 @@
 		4DC913DE196FE369001130EF /* VGGroundModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundModel.m; sourceTree = "<group>"; };
 		4DDC5DD319756054003064DB /* VGBezierModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGBezierModel.h; sourceTree = "<group>"; };
 		4DDC5DD419756054003064DB /* VGBezierModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGBezierModel.m; sourceTree = "<group>"; };
-		4DDC5DDC197581B7003064DB /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
+		4DDC5DE51975B1D9003064DB /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
 		4DFE3EF819719D0B0065ECFD /* VGGroundLoopingSegmentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundLoopingSegmentModel.h; sourceTree = "<group>"; };
 		4DFE3EF919719D0B0065ECFD /* VGGroundLoopingSegmentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundLoopingSegmentModel.m; sourceTree = "<group>"; };
 		4DFE3EFE19719EDB0065ECFD /* VGGroundSegmentModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VGGroundSegmentModelProtocol.h; sourceTree = "<group>"; };
@@ -1543,7 +1543,7 @@
 		4DC913BB196D4A58001130EF /* Levels */ = {
 			isa = PBXGroup;
 			children = (
-				4DDC5DDC197581B7003064DB /* level1.json */,
+				4DDC5DE51975B1D9003064DB /* level1.json */,
 			);
 			name = Levels;
 			sourceTree = "<group>";
@@ -1693,9 +1693,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DDC5DDD197581B7003064DB /* level1.json in Resources */,
 				4DC91312196C7A25001130EF /* LICENSE_CCBReader.txt in Resources */,
 				4DC912FB196C7A25001130EF /* LICENSE_Kazmath.txt in Resources */,
+				4DDC5DE61975B1D9003064DB /* level1.json in Resources */,
 				4DC91254196C7A25001130EF /* LICENSE_cocos2d.txt in Resources */,
 				4DC91380196C7A25001130EF /* LICENSE_Chipmunk.txt in Resources */,
 				4DC9139A196C7BC1001130EF /* Default-568h@2x.png in Resources */,

@@ -103,17 +103,13 @@
 - (void)update:(CCTime)dt {
 //    [self updateActions];
     [self.game update:dt];
-    self.movingLayer.position = CGPointMake(-self.character.position.x + VG_CHARACTER_INIT_POSITION.x, 0);
+    //self.movingLayer.position = CGPointMake(-self.character.position.x + VG_CHARACTER_INIT_POSITION.x, 0);
     
 //    self.movingLayer.position = CGPointMake(-self.character.position.x + VG_CHARACTER_INIT_POSITION.x, -self.character.position.y + VG_CHARACTER_INIT_POSITION.y);
 }
 
 ///////////////////////////////////
 #pragma mark - VGGameModel delegate
-///////////////////////////////////
-
-///////////////////////////////////
-#pragma mark - VGWorldModel delegate
 ///////////////////////////////////
 
 - (void)characterDidMove:(CGPoint)position angle:(CGFloat)angle {
@@ -137,6 +133,10 @@
 //                         tile, @"tile", nil];
 //    self.actions[@(VGTileRemovalAction)] = dic;
     [self.ground removeTile:tile];
+}
+
+- (void)cameraDidMoveAtPosition:(CGPoint)position {
+    self.movingLayer.position = CGPointMake(-position.x + VG_CHARACTER_INIT_POSITION.x, -position.y + VG_CHARACTER_INIT_POSITION.y);
 }
 
 

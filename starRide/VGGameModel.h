@@ -14,6 +14,7 @@
 - (void)didCreateGroundTile:(VGGroundTileModel*)tile atPosition:(CGPoint)position;
 - (void)didRemoveGroundTile:(VGGroundTileModel*)tile;
 - (void)characterDidMove:(CGPoint)position angle:(CGFloat)angle;
+- (void)cameraDidMoveAtPosition:(CGPoint)position;
 @end
 
 @interface VGGameModel : NSObject <VGGroundModelDelegate>

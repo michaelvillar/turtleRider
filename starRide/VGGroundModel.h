@@ -23,4 +23,5 @@
 - (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition;
 - (BOOL)canJump;
 - (void)enterLooping;
+- (NSValue*)cameraPositionForX:(CGFloat)x;
 @end

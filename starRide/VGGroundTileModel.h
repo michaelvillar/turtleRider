@@ -10,13 +10,14 @@
 
 @interface VGGroundTileModel : NSObject
 @property (assign, readonly) CGPoint* extremityPoints;
-@property (strong, readonly) NSMutableArray* curves;
 @property (assign, readwrite) CGPoint position;
+@property (strong, readonly) NSMutableArray* curves;
 
 + (VGGroundTileModel*)tileFromName:(NSString *)name;
 
 - (NSMutableDictionary*)nextPositionInfo:(CGFloat)distance;
 - (NSDictionary*)pointInfoBetweenOldPosition:(CGPoint)oldPosition newPosition:(CGPoint)newPosition;
+- (NSValue*)cameraPositionForX:(CGFloat)x;
 - (BOOL)canJump;
 - (void)enterLooping;
 @end

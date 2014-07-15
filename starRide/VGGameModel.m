@@ -18,6 +18,7 @@
 @property (assign, readonly) CGFloat travelledXDistance;
 
 - (void)moveCharacter:(CGFloat)distance;
+- (void)moveCamera;
 @end
 
 @implementation VGGameModel
@@ -55,6 +56,7 @@
 - (void)update:(CCTime)dt {
     [self.ground update:dt travelledXDistance:self.travelledXDistance];
     [self moveCharacter:self.speed * dt];
+    [self moveCamera];
 }
 
 ////////////////////////////////
@@ -104,6 +106,18 @@
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(characterDidMove:angle:)]) {
         [self.delegate characterDidMove:self.character.position angle:self.character.angle];
+    }
+}
+
+- (void)moveCamera {
+    NSValue* position = [self.ground cameraPositionForX:self.character.position.x];
+    if (position) {
+        CGPoint point = position.CGPointValue;
+        point = CGPointMake(point.x, point.y);
+        if (self.delegate && [self.delegate respondsToSelector:@selector(cameraDidMoveAtPosition:)]) {
+            [self.delegate cameraDidMoveAtPosition:point];
+        }
+
     }
 }
 

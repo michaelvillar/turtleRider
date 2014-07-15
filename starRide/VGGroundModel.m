@@ -119,6 +119,21 @@
     [self.tiles[self.currentTileIndex] enterLooping];
 }
 
+- (NSValue*)cameraPositionForX:(CGFloat)x {
+    for (int i = 0; i < self.tiles.count; i++) {
+        VGGroundTileModel* tile = self.tiles[i];
+        if (x >= tile.extremityPoints[0].x + tile.position.x && x <= tile.extremityPoints[1].x + tile.position.x) {
+            NSValue* position = [tile cameraPositionForX:x - tile.position.x];
+            if (position) {
+                CGPoint point = position.CGPointValue;
+                point = CGPointMake(point.x + tile.position.x, point.y + tile.position.y);
+                return [NSValue valueWithCGPoint:point];
+            }
+        }
+    }
+    return nil;
+}
+
 ////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////
