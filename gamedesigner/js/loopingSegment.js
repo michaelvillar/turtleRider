@@ -38,6 +38,10 @@ LoopingSegment.prototype.archive = function() {
 	return archive;
 };
 
+LoopingSegment.prototype.pointForX = function(x) {
+	return this.originalSegment.pointForX(x);
+}
+
 LoopingSegment.prototype.init = function() {
 	this.start = this.originalSegment.start;
 	this.end = this.originalSegment.end;

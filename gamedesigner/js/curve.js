@@ -20,6 +20,18 @@ Curve.unarchive = function(archive) {
 	return curve;
 };
 
+Curve.prototype.pointForX = function(x) {
+	for (var i = 0; i < this.segments.length; i++) {
+		var segment = this.segments[i];
+		if (x >= segment.start.x && x <= segment.end.x) {
+			return segment.pointForX(x);
+		}
+	}
+	if (x < this.segments[0].start)
+		return this.segments[0].start;
+	return this.segments[this.segments.length - 1].end;
+}
+
 Curve.prototype.addBomb = function() {
 	if (this.hoveredSegmentIndex == null)
 		return;
@@ -238,20 +250,27 @@ Curve.prototype.archive = function() {
 	return archive;
 };
 
-Curve.prototype.draw = function(ctx) {
+Curve.prototype.draw = function(ctx, normalMode, color) {
 	for (var i = 0; i < this.segments.length; i++) {
 		var segment = this.segments[i];
-		segment.draw(ctx, i == 0);
+		if (normalMode) {
+			var pointsToShow = {"end": true, "control": true}
+			if (i == 0)
+				pointsToShow["start"] = true;
+			segment.draw(ctx, pointsToShow, color);
 
-		if (i == this.hoveredSegmentIndex) {
-			ctx.save();
-			if (this.isSegmentSelected)
-				ctx.strokeStyle = "rgb(250, 150, 150)";
-			else
-				ctx.strokeStyle = "rgb(150, 150, 150)";
-			var rect = segment.boundingRect();
-			ctx.strokeRect(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
-			ctx.restore();
+			if (i == this.hoveredSegmentIndex) {
+				ctx.save();
+				if (this.isSegmentSelected)
+					ctx.strokeStyle = "rgb(250, 150, 150)";
+				else
+					ctx.strokeStyle = "rgb(150, 150, 150)";
+				var rect = segment.boundingRect();
+				ctx.strokeRect(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+				ctx.restore();
+			}
+		} else {
+			segment.draw(ctx, {}, color);
 		}
 	}
 };

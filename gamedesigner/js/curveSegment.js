@@ -61,6 +61,43 @@ CurveSegment.prototype.archive = function() {
 	return archive;
 };
 
+CurveSegment.prototype.pointForX = function(x) {
+	var t = this.tForX(x);
+	var y = (1 - t) * (1 - t) * this.start.y + 2 * (1 - t) * t * this.control.y + t * t * this.end.y;
+	var x = (1 - t) * (1 - t) * this.start.x + 2 * (1 - t) * t * this.control.x + t * t * this.end.x;
+	return new Point(x, y);
+};
+
+CurveSegment.prototype.tForX = function(x) {
+	var x1 = this.start.x;
+  var x2 = this.control.x;
+  var x3 = this.end.x
+    
+  var a = x1 - 2 * x2 + x3;
+  var b = - 2 * x1 + 2 * x2;
+  var c = x1 - x;
+    
+  var t1;
+  var t2;
+    
+  if (a == 0) {
+      t1 = -c / b;
+      t2 = 0;
+  } else {
+      var rho = b * b - 4 * a * c;
+      t1 = (- b + Math.sqrt(rho)) / (2 * a);
+      t2 = (- b - Math.sqrt(rho)) / (2 * a);
+  }
+    
+    if (t1 >= 0 && t1 <= 1) {
+        return t1;
+    }
+    else if (t2 >= 0 && t2 <= 1) {
+        return t2;
+    }
+    return 0;
+}
+
 CurveSegment.prototype.length = function() {
 	var ax = this.start.x - 2*this.control.x + this.end.x;
 	var ay = this.start.y - 2*this.control.y + this.end.y;
@@ -179,12 +216,19 @@ CurveSegment.prototype.boundingRect = function() {
 	return {"origin": origin, size: {"width": width, "height": height}};
 };
 
-CurveSegment.prototype.draw = function(ctx, showFirstPoint) {
+CurveSegment.prototype.draw = function(ctx, pointsToShow, color) {
 	ctx.save();
-	ctx.strokeStyle = "rgb(255, 0, 0)";  
-	ctx.strokeRect(this.control.x - 4, this.control.y - 4, 8, 8);
-	ctx.fillRect(this.end.x - 4, this.end.y - 4, 8, 8);
-	ctx.strokeStyle = "rgb(0, 0, 0)"; 
+	ctx.strokeStyle = color;
+	if (pointsToShow.control)  {
+		ctx.save();
+		ctx.strokeStyle = "rgb(255, 0, 0)";
+		ctx.strokeRect(this.control.x - 4, this.control.y - 4, 8, 8);
+		ctx.restore();
+	}
+	if (pointsToShow.end)
+		ctx.fillRect(this.end.x - 4, this.end.y - 4, 8, 8);
+	if (pointsToShow.start)
+		ctx.fillRect(this.start.x - 4, this.start.y - 4, 8, 8);
 
 	ctx.beginPath();
 	ctx.moveTo(this.start.x, this.start.y);
