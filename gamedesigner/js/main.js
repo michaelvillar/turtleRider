@@ -270,7 +270,7 @@ Main.prototype.updateSelectCurves = function() {
 
 Main.prototype.archive = function() {
 	var archive = {};
-	archive["cameraCurve"] = this.curves[0].archive();
+	archive["camera_curve"] = this.curves[0].archive();
 	archive["curves"] = [];
 
 	for (var i = 1; i < this.curves.length; i++)
@@ -285,7 +285,7 @@ Main.prototype.archive = function() {
 };
 
 Main.prototype.unarchive = function(archive) {
-	this.curves = [Curve.unarchive(archive['cameraCurve'])];
+	this.curves = [Curve.unarchive(archive['camera_curve'])];
 	for (var i = 0; i < archive['curves'].length; i++)
 		this.curves.push(Curve.unarchive(archive['curves'][i]));
 
