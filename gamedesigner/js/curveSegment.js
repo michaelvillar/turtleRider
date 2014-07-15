@@ -18,10 +18,10 @@ CurveSegment.unarchive = function(archive) {
 	var curveSegment = new CurveSegment(start, control, end);
 	curveSegment.isTunnel = archive.type == 1;
 
-	for (var i = 0; i < archive['bombs'].length; i++) {
-		curveSegment.bombs.push(Bomb.unarchive(archive['bombs'][i]));
-		curveSegment.bombsT.push(archive['bombsT'][i]);
-	}
+	// for (var i = 0; i < archive['bombs'].length; i++) {
+	// 	curveSegment.bombs.push(Bomb.unarchive(archive['bombs'][i]));
+	// 	curveSegment.bombsT.push(archive['bombsT'][i]);
+	// }
 
 	return curveSegment;
 };
