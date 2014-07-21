@@ -11,11 +11,15 @@
 
 @interface VGGroundLoopingSegmentModel : NSObject <VGGroundSegmentModelProtocol>
 @property (strong, readonly) NSMutableArray* segments;
+@property (assign, readonly) int currentSegment;
 @property (assign, readonly) CGFloat* loopingEntranceTs;
 @property (assign, readonly) CGPoint circleCenter;
 @property (assign, readonly) CGFloat circleRadius;
 @property (assign, readonly) CGFloat circleStartAngle;
 @property (assign, readonly) CGFloat circleEndAngle;
+@property (assign, readonly, getter = isInLooping) BOOL inLooping;
+@property (assign, readonly, getter = isLoopingEnabled) BOOL loopingEnabled;
+
 
 - (BOOL)canJump;
 - (void)enterLooping;

@@ -15,7 +15,6 @@
 @property (assign, readwrite) CGFloat currentCircleAngle;
 @property (assign, readwrite, getter = isLoopingEnabled) BOOL loopingEnabled;
 @property (assign, readwrite, getter = isInLooping) BOOL inLooping;
-
 @property (assign, readwrite) int currentSegment;
 
 - (CGFloat)daForDistance:(CGFloat)distance;
