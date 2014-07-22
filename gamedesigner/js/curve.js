@@ -47,8 +47,71 @@ Curve.prototype.archive = function() {
 	for (var i = 0; i < this.scaleGuides.length; i++)
 		archive["scale_guides"].push(this.scaleGuides[i].archive());
 
-	console.log(archive);
 	return archive;
+};
+
+Curve.prototype.scaleForX = function(x) {
+	if (this.scaleGuides.length == 0 || this.segments.length == 0)
+		return 1.0;
+
+	var leftGuide = null;
+	var rightGuide = null;
+	for (var i = 0; i < this.scaleGuides.length; i++) {
+		var guide = this.scaleGuides[i];
+		if (guide.position.x <= x && (!leftGuide || leftGuide.position.x < guide.position.x))
+			leftGuide = guide;
+		if (guide.position.x >= x && (!rightGuide || rightGuide.position.x > guide.position.x))
+			rightGuide = guide;
+	}
+
+	if (!leftGuide) {
+		leftGuide = new ScaleGuide(this.segments[0].start);
+		leftGuide.updateValue(1.0);
+	}
+
+	if (!rightGuide) {
+		rightGuide = new ScaleGuide(this.segments[this.segments.length - 1].end);
+		rightGuide.updateValue(1.0);
+	}
+
+	if (leftGuide.position.x == rightGuide.position.x)
+		return leftGuide.value;
+
+	return leftGuide.value + ((x - leftGuide.position.x) / (rightGuide.position.x - leftGuide.position.x)) * (rightGuide.value - leftGuide.value);
+};
+
+Curve.prototype.cameraPositionForX = function(x) {
+if (this.cameraGuides.length == 0)
+		return this.pointForX(x);
+
+	var beforeCount = 0;
+	var preLastGuide = null;
+	var lastGuide = null;
+	for (var i = 0; i < this.cameraGuides.length; i++) {
+		var guide = this.cameraGuides[i];
+		if (guide.position.x <= x) {
+			beforeCount++;
+			if (lastGuide == null || guide.position.x > lastGuide.position.x) {
+				preLastGuide = lastGuide;;
+				lastGuide = guide;
+			}
+		}
+	}
+
+	if (!lastGuide) 
+		return this.pointForX(x);
+
+	if (beforeCount % 2 == 0) {
+		if (x > lastGuide.position.x + lastGuide.flexibleSpan)
+			return this.pointForX(x);
+
+		var ratio = (x - lastGuide.position.x) / lastGuide.flexibleSpan;
+		var point = new Point(preLastGuide.position.x + (lastGuide.position.x - preLastGuide.position.x) * ratio + (x - lastGuide.position.x),
+													preLastGuide.position.y + (lastGuide.position.y - preLastGuide.position.y) * ratio + (this.pointForX(x).y - lastGuide.position.y));
+		return point;
+	}
+
+	return lastGuide.position;
 };
 
 Curve.prototype.pointForX = function(x) {
@@ -123,13 +186,6 @@ Curve.prototype.moveSelectedCameraGuide = function(point) {
 	var newPoint = this.pointForX(point.x);
 	var guide = this.cameraGuides[this.selectedCameraGuideIndex];
 	guide.move(newPoint);
-	var value = Math.round((newPoint.y - point.y) / 10) / 10;
-	if (value < 0)
-		value = 0;
-	else if (value > 1.0)
-		value = 1.0
-
-	guide.updateValue(value);
 };
 
 Curve.prototype.deleteSelectedCameraGuide = function() {

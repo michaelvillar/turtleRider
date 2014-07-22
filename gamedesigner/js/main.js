@@ -119,21 +119,11 @@ Main.prototype.draw = function() {
 	}
 
 	if (this.state == Main.states["CAMERA_MODE_STATE"]) {
-		var point = this.stateInfo["cameraPoint"];
+		var point = this.stateInfo["cameraPosition"];
+		var scale = this.stateInfo["cameraScale"];
+		var characterPosition = this.stateInfo["characterPosition"];
+
 		this.ctx.save();
-
-		var characterPosition = point;
-		for (var i = 1; i < this.curves.length; i++) {
-			var curve = this.curves[i];
-			if (curve.segments.length > 0) {
-				if (point.x >= curve.segments[0].start.x && point.x <= curve.segments[curve.segments.length - 1].end.x) {
-					characterPosition = curve.pointForX(point.x);
-					break;
-				};
-				characterPosition = curve.segments[curve.segments.length - 1].end;
-			}
-		}
-
 		this.ctx.fillStyle = "rgb(0, 150, 0)";
 		this.ctx.beginPath();
 		this.ctx.arc(characterPosition.x , characterPosition.y, 10, 0, 2 * Math.PI);
@@ -141,9 +131,9 @@ Main.prototype.draw = function() {
 
 		this.ctx.strokeStyle = this.ctx.fillStyle;
 		if (this.screenType == Main.screenTypes["LARGE_TYPE"])
-			this.ctx.strokeRect(point.x - 60, point.y - 160, 568, 320);
+			this.ctx.strokeRect(point.x, point.y, 568 / scale, 320 / scale);
 		else
-			this.ctx.strokeRect(point.x - 60, point.y - 160, 480, 320);
+			this.ctx.strokeRect(point.x, point.y, 480 / scale, 320 / scale);
 		this.ctx.restore();
 	}
 
@@ -321,6 +311,30 @@ Main.prototype.unarchive = function(archive) {
 	this.stateInfo = {};
 };
 
+Main.prototype.updateCamera = function(point) {
+	var curve = this.curves[0];
+	point.x = point.x < Main.origin.x ? Main.origin.x : point.x;
+
+	var scale = curve.scaleForX(point.x);
+	var cameraPosition = curve.cameraPositionForX(point.x);
+	cameraPosition = new Point(cameraPosition.x - 60 / scale, cameraPosition.y - 160 / scale);
+	var characterPosition = curve.segments[curve.segments.length - 1].end;
+
+	for (var i = 1; i < this.curves.length; i++) {
+		var curve = this.curves[i];
+		if (curve.segments.length > 0) {
+			if (point.x >= curve.segments[0].start.x && point.x <= curve.segments[curve.segments.length - 1].end.x) {
+				characterPosition = curve.pointForX(point.x);
+				break;
+			};
+		}
+	}
+
+	this.stateInfo["cameraScale"] = scale;
+	this.stateInfo["cameraPosition"] = cameraPosition;
+	this.stateInfo["characterPosition"] = characterPosition;
+}
+
 /////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////
 
@@ -336,6 +350,9 @@ Main.prototype.didClickCameraModeButton = function(e) {
  		this.state = Main.states["NORMAL_STATE"];
  	else
  		this.state = Main.states["CAMERA_MODE_STATE"];
+ 	this.stateInfo["cameraScale"] = 1.0;
+ 	this.stateInfo["cameraPosition"] = Main.origin;
+ 	this.stateInfo["characterPosition"] = Main.origin;
  	this.draw();
 }
 
@@ -472,9 +489,8 @@ Main.prototype.didMoveMouseOnCanvas = function(e) {
 			break;
 
 		case Main.states['CAMERA_MODE_STATE']:
-			var curve = this.curves[0];
-			point.x = point.x < Main.origin.x ? Main.origin.x : point.x;
-			this.stateInfo["cameraPoint"] = curve.pointForX(point.x);
+			this.updateCamera(point);
+			break;
 	}
 
 	this.draw();

@@ -1,6 +1,7 @@
 var CameraGuide = function(point) {
 	this.position = point;
 	this.side = 12;
+	this.flexibleSpan = 200;
 };
 
 CameraGuide.unarchive = function(archive) {
