@@ -366,11 +366,11 @@ Curve.prototype.draw = function(ctx, normalMode, color) {
 	}
 
 	for (var i = 0; i < this.scaleGuides.length; i++) {
-		this.scaleGuides[i].draw(ctx);
+		this.scaleGuides[i].draw(ctx, color, normalMode);
 	}
 
 	for (var i = 0; i < this.cameraGuides.length; i++) {
-		this.cameraGuides[i].draw(ctx);
+		this.cameraGuides[i].draw(ctx, color);
 	}
 };
 

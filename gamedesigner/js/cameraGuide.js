@@ -20,11 +20,11 @@ CameraGuide.prototype.archive = function() {
 	return {"position": this.position.archive()};
 };
 
-CameraGuide.prototype.draw = function(ctx) {
+CameraGuide.prototype.draw = function(ctx, color) {
 	ctx.save();
 	ctx.beginPath();
 	ctx.lineWidth = 2;
-  ctx.strokeStyle = 'rbg(0, 0, 0)';
+  ctx.strokeStyle = color;
   ctx.strokeRect(this.position.x - this.side / 2, this.position.y - this.side / 2, this.side, this.side);
   ctx.restore();
 };

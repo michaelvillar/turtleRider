@@ -336,6 +336,7 @@ Main.prototype.didClickCameraModeButton = function(e) {
  		this.state = Main.states["NORMAL_STATE"];
  	else
  		this.state = Main.states["CAMERA_MODE_STATE"];
+ 	this.draw();
 }
 
 Main.prototype.didClickScreenTypeButton = function(e) {

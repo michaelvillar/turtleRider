@@ -28,21 +28,23 @@ ScaleGuide.prototype.archive = function() {
 					"value": this.value};
 };
 
-ScaleGuide.prototype.draw = function(ctx) {
+ScaleGuide.prototype.draw = function(ctx, color, withText) {
 	ctx.save();
 	ctx.beginPath();
 	ctx.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI, false);
   ctx.lineWidth = 2;
-  ctx.strokeStyle = 'rbg(0, 0, 0)';
+  ctx.strokeStyle = color;
   ctx.stroke();
 
   ctx.beginPath();
   ctx.arc(this.position.x, this.position.y, this.radius * this.value, 0, 2 * Math.PI, false);
-  ctx.fillStyle = 'rgb(0, 0, 0)';
+  ctx.fillStyle = color;
   ctx.fill();
 
- 	ctx.fillText(this.value, 
-  						 this.position.x - ctx.measureText(this.value).width / 2,
-  						 this.position.y - 30);
+  if (withText) {
+	 	ctx.fillText(this.value, 
+	  						 this.position.x - ctx.measureText(this.value).width / 2,
+	  						 this.position.y - 30);
+ 	}
   ctx.restore();
 };
