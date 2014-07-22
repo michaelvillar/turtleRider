@@ -4,9 +4,6 @@ var CurveSegment = function(start, control, end) {
 	this.end = end;
 	this.isTunnel = false;
 	this.selectedPoint = null;
-	this.selectedBombIndex = null;
-	this.bombs = [];
-	this.bombsT = [];
 };
 
 CurveSegment.unarchive = function(archive) {
@@ -17,11 +14,6 @@ CurveSegment.unarchive = function(archive) {
 
 	var curveSegment = new CurveSegment(start, control, end);
 	curveSegment.isTunnel = archive.type == 1;
-
-	// for (var i = 0; i < archive['bombs'].length; i++) {
-	// 	curveSegment.bombs.push(Bomb.unarchive(archive['bombs'][i]));
-	// 	curveSegment.bombsT.push(archive['bombsT'][i]);
-	// }
 
 	return curveSegment;
 };
@@ -35,28 +27,6 @@ CurveSegment.prototype.archive = function() {
 		"end": this.end.archive(),
 		"arc_length": this.length()
 	};
-	
-	// archive["bombs"] = [];
-	// archive["bombsT"] = [];
-
-	// for (var i = 0; i < this.bombs.length; i++) {
-	// 	archive["bombs"].push(this.bombs[i].archive());
-	// 	archive["bombsT"].push(this.bombsT[i]);
-	// }
-
-	// archive["all_points"] = [];
-
-	// var pointsCount = Math.floor(this.length() / Main.pointFrequence);
-	// var tInc = 1 / pointsCount;
-	// for (var t = 0; t <= 1; t += tInc) {
-	// 	if (t + tInc > 1)
-	// 		t = 1;
-	
-	// 	var x = (1 - t) * (1 - t) * this.start.x + 2 * (1 - t) * t * this.control.x + t * t * this.end.x;
-	// 	var y = (1 - t) * (1 - t) * this.start.y + 2 * (1 - t) * t * this.control.y + t * t * this.end.y;
-	// 	var point = new Point(x, y);
-	// 	archive["all_points"].push(point.archive());
-	// }
 
 	return archive;
 };
@@ -118,59 +88,6 @@ CurveSegment.prototype.length = function() {
 		return Math.sqrt(Math.pow(this.end.x - this.start.x, 2) + Math.pow(this.end.y - this.start.y, 2));
 	}
 	return length;
-};
-
-CurveSegment.prototype.addBomb = function() {
-	var t = 0.5;
-	var midX = (1 - t) * (1 - t) * this.start.x + 2 * (1 - t) * t * this.control.x + t * t * this.end.x;
-	var midY = (1 - t) * (1 - t) * this.start.y + 2 * (1 - t) * t * this.control.y + t * t * this.end.y;
-	var bomb = new Bomb(new Point(midX, midY));
-	this.bombsT.push(t);
-	this.bombs.push(bomb);
-};
-
-CurveSegment.prototype.moveSelectedBomb = function(point) {
-	if (this.selectedBombIndex == null)
-		return;
-
-	var t = (point.x - this.start.x) / (this.end.x - this.start.x);
-	if (t < 0)
-		t = 0;
-	if (t > 1)
-		t = 1;
-
-	var x = (1 - t) * (1 - t) * this.start.x + 2 * (1 - t) * t * this.control.x + t * t * this.end.x;
-	var y = (1 - t) * (1 - t) * this.start.y + 2 * (1 - t) * t * this.control.y + t * t * this.end.y;
-	this.bombs[this.selectedBombIndex].move(new Point(x, y));
-	this.bombsT[this.selectedBombIndex] = t;
-};
-
-CurveSegment.prototype.deleteSelectedBomb = function() {
-	if (this.selectedBombIndex == null)
-		return;
-
-	this.bombs.splice(this.selectedBombIndex, 1);
-	this.bombsT.splice(this.selectedBombIndex, 1);
-};
-
-CurveSegment.prototype.adjustBombs = function() {
-	for (var i = 0; i < this.bombs.length; i++) {
-		var t = this.bombsT[i];
-		var midX = (1 - t) * (1 - t) * this.start.x + 2 * (1 - t) * t * this.control.x + t * t * this.end.x;
-		var midY = (1 - t) * (1 - t) * this.start.y + 2 * (1 - t) * t * this.control.y + t * t * this.end.y;
-		this.bombs[i].move(new Point(midX, midY));
-	}
-};
-
-CurveSegment.prototype.selectBomb = function(point) {
-	for (var i = 0; i < this.bombs.length; i++) {
-		var bomb = this.bombs[i];
-		if (bomb.pointInside(point)) {
-			this.selectedBombIndex = i;
-			return true;
-		}
-	}
-	return false;
 };
 
 CurveSegment.prototype.startSlope = function() {
@@ -238,12 +155,5 @@ CurveSegment.prototype.draw = function(ctx, pointsToShow, color) {
 	else
 		ctx.lineWidth = 1;
 	ctx.stroke();
-
-	if (!this.isTunnel) {
-		for (var i = 0; i < this.bombs.length; i++) {
-			var bomb = this.bombs[i];
-			bomb.draw(ctx);
-		}
-	}
 	ctx.restore();
 };

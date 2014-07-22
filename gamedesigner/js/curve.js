@@ -3,7 +3,9 @@ var Curve = function(origin) {
 	this.hoveredSegmentIndex = null;
 	this.selectedPointSegmentIndex = null;
 	this.isSegmentSelected = false;
-	this.selectedBombSegmentIndex = null;
+	this.selectedScaleGuideIndex = null;
+	this.scaleGuides = [];
+	this.cameraGuides = [];
 };
 
 Curve.unarchive = function(archive) {
@@ -17,40 +19,131 @@ Curve.unarchive = function(archive) {
 			curve.segments.push(CurveSegment.unarchive(segment));
 	}
 
+	for (var i = 0; i < archive['scale_guides'].length; i++) {
+		var guide = ScaleGuide.unarchive(archive['scale_guides'][i]);
+		curve.scaleGuides.push(guide);
+	}
+
+	for (var i = 0; i < archive['camera_guides'].length; i++) {
+		var guide = CameraGuide.unarchive(archive['camera_guides'][i]);
+		curve.cameraGuides.push(guide);
+	}
+
 	return curve;
 };
 
+Curve.prototype.archive = function() {
+	var archive = {};
+
+	archive["segments"] = [];
+	for (var i = 0; i < this.segments.length; i++)
+		archive["segments"].push(this.segments[i].archive());
+
+	archive["camera_guides"] = [];
+	for (var i = 0; i < this.cameraGuides.length; i++)
+		archive["camera_guides"].push(this.cameraGuides[i].archive());
+
+	archive["scale_guides"] = [];
+	for (var i = 0; i < this.scaleGuides.length; i++)
+		archive["scale_guides"].push(this.scaleGuides[i].archive());
+
+	console.log(archive);
+	return archive;
+};
+
 Curve.prototype.pointForX = function(x) {
+	if (this.segments.length == 0)
+		return null;
+
 	for (var i = 0; i < this.segments.length; i++) {
 		var segment = this.segments[i];
 		if (x >= segment.start.x && x <= segment.end.x) {
 			return segment.pointForX(x);
 		}
 	}
-	if (x < this.segments[0].start)
+
+	if (x <= this.segments[0].start.x) {
 		return this.segments[0].start;
+	}
 	return this.segments[this.segments.length - 1].end;
 }
 
-Curve.prototype.addBomb = function() {
-	if (this.hoveredSegmentIndex == null)
-		return;
-
-	this.segments[this.hoveredSegmentIndex].addBomb();
+Curve.prototype.addScaleGuide = function(point) {
+	var guide = new ScaleGuide(point);
+	this.scaleGuides.push(guide);
 };
 
-Curve.prototype.moveSelectedBomb = function(point) {
-	if (this.selectedBombSegmentIndex == null)
-		return;
-
-	this.segments[this.selectedBombSegmentIndex].moveSelectedBomb(point);
+Curve.prototype.addCameraGuide = function(point) {
+	var guide = new CameraGuide(point);
+	this.cameraGuides.push(guide);
 };
 
-Curve.prototype.deleteSelectedBomb = function() {
-	if (this.selectedBombSegmentIndex == null)
+Curve.prototype.selectScaleGuide = function(point) {
+	for (var i = 0; i < this.scaleGuides.length; i++) {
+		var scaleGuide = this.scaleGuides[i];
+		if (scaleGuide.pointInside(point)) {
+			this.selectedScaleGuideIndex = i;
+			return true;
+		}
+	}
+	return false;
+};
+
+Curve.prototype.selectCameraGuide = function(point) {
+	for (var i = 0; i < this.cameraGuides.length; i++) {
+		var cameraGuide = this.cameraGuides[i];
+		if (cameraGuide.pointInside(point)) {
+			this.selectedCameraGuideIndex = i;
+			return true;
+		}
+	}
+	return false;
+};
+
+Curve.prototype.moveSelectedScaleGuide = function(point) {
+	if (this.selectedScaleGuideIndex == null)
 		return;
 
-	this.segments[this.selectedBombSegmentIndex].deleteSelectedBomb();
+	var newPoint = this.pointForX(point.x);
+	var guide = this.scaleGuides[this.selectedScaleGuideIndex];
+	guide.move(newPoint);
+	var value = Math.round((newPoint.y - point.y) / 10) / 10;
+	if (value < 0)
+		value = 0;
+	else if (value > 1.0)
+		value = 1.0
+
+	guide.updateValue(value);
+};
+
+Curve.prototype.moveSelectedCameraGuide = function(point) {
+	if (this.selectedCameraGuideIndex == null)
+		return;
+
+	var newPoint = this.pointForX(point.x);
+	var guide = this.cameraGuides[this.selectedCameraGuideIndex];
+	guide.move(newPoint);
+	var value = Math.round((newPoint.y - point.y) / 10) / 10;
+	if (value < 0)
+		value = 0;
+	else if (value > 1.0)
+		value = 1.0
+
+	guide.updateValue(value);
+};
+
+Curve.prototype.deleteSelectedCameraGuide = function() {
+	if (this.selectedCameraGuideIndex == null)
+		return;
+	
+	this.cameraGuides.splice([this.selectedCameraGuideIndex], 1);
+};
+
+Curve.prototype.deleteSelectedScaleGuide = function() {
+	if (this.selectedScaleGuideIndex == null)
+		return;
+
+	this.scaleGuides.splice([this.selectedScaleGuideIndex], 1);
 };
 
 Curve.prototype.addPoint = function(point, startPoint, shiftPressed, altPressed) {
@@ -102,23 +195,10 @@ Curve.prototype.selectPoint = function(point) {
 	return false;
 };
 
-Curve.prototype.selectBomb = function(point) {
-	for (var i = 0; i < this.segments.length; i++) {
-		var segment = this.segments[i];
-		if (segment instanceof CurveSegment && segment.selectBomb(point)) {
-			this.selectedBombSegmentIndex = i;
-			return true;
-		}
-	}
-	return false;
-};
-
 Curve.prototype.moveSelectedPoint = function(point, shiftPressed) {
 	var segment = this.segments[this.selectedPointSegmentIndex];
 	if (segment instanceof LoopingSegment)
 		segment = segment.originalSegment;
-	else
-		segment.adjustBombs();
 
 	switch(this.segments[this.selectedPointSegmentIndex].selectedPoint) {
 		case "control":
@@ -149,6 +229,16 @@ Curve.prototype.moveSelectedPoint = function(point, shiftPressed) {
 	if (this.segments[this.selectedPointSegmentIndex] instanceof LoopingSegment) {
 		this.segments[this.selectedPointSegmentIndex].init();
 	}
+
+	for (var i = 0; i < this.scaleGuides.length; i++) {
+		var guide = this.scaleGuides[i];
+		guide.move(this.pointForX(guide.position.x));
+	}
+
+	for (var i = 0; i < this.cameraGuides.length; i++) {
+		var guide = this.cameraGuides[i];
+		guide.move(this.pointForX(guide.position.x));
+	}
 };
 
 Curve.prototype.selectSegment = function(point) {
@@ -167,6 +257,19 @@ Curve.prototype.selectSegment = function(point) {
 Curve.prototype.deleteSelected = function() {
 	var index = this.selectedPointSegmentIndex || this.hoveredSegmentIndex;
 	var segment = this.segments[index];
+
+	for (var i = 0; i < this.scaleGuides.length; i++) {
+		var guide = this.scaleGuides[i];
+		if (guide.position.x >= segment.start.x && guide.position.x <= segment.end.x)
+			this.scaleGuides.splice(i, 1);
+	}
+
+	for (var i = 0; i < this.cameraGuides.length; i++) {
+		var guide = this.cameraGuides[i];
+		if (guide.position.x >= segment.start.x && guide.position.x <= segment.end.x)
+			this.cameraGuides.splice(i, 1);
+	}
+
 	if (index + 1 < this.segments.length) {
 		var nextSegment = this.segments[index + 1];
 		if (nextSegment instanceof LoopingSegment) {
@@ -229,8 +332,6 @@ Curve.prototype.propagateChangeFromIndex = function(index) {
 
 		if (currentSegment instanceof LoopingSegment)
 			currentSegment.init();
-		else
-			currentSegment.adjustBombs();
 
 		index++;
 	}
@@ -238,16 +339,6 @@ Curve.prototype.propagateChangeFromIndex = function(index) {
 
 Curve.prototype.isEmpty = function() {
 	return this.segments.length == 0;
-};
-
-Curve.prototype.archive = function() {
-	var archive = {};
-	archive["segments"] = [];
-
-	for (var i = 0; i < this.segments.length; i++)
-		archive["segments"].push(this.segments[i].archive());
-
-	return archive;
 };
 
 Curve.prototype.draw = function(ctx, normalMode, color) {
@@ -272,6 +363,14 @@ Curve.prototype.draw = function(ctx, normalMode, color) {
 		} else {
 			segment.draw(ctx, {}, color);
 		}
+	}
+
+	for (var i = 0; i < this.scaleGuides.length; i++) {
+		this.scaleGuides[i].draw(ctx);
+	}
+
+	for (var i = 0; i < this.cameraGuides.length; i++) {
+		this.cameraGuides[i].draw(ctx);
 	}
 };
 

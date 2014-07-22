@@ -10,12 +10,12 @@
 		<select id="curves"></select>
 		<input type="button" name="add_curve" value="Add curve" id="add_curve" />
 		<input type="button" name="add_bonus" value="Add bonus" id="add_bonus" />
-		<input type="button" name="add_bomb" value="Add bomb" id="add_bomb" disabled="true"/>
-		<input type="button" name="add_looping" value="Looping/curve" id="add_looping" disabled="true"/>
-		<input type="button" name="add_tunnel" value="Tunnel/curve" id="add_tunnel" disabled="true"/>
+		<input type="button" name="add_looping" value="Looping/curve" id="add_looping"/>
+		<input type="button" name="add_scale_guide" value="Add scale guide" id="add_scale_guide"/>
+		<input type="button" name="add_camera_guide" value="Add camera guide" id="add_camera_guide"/>
 		<input type="button" name="camera_mode" value="Camera/normal mode" id="camera_mode" 
 		disabled="true"/>
-		<input type="button" name="screen_type" value="Large screen" id="screen_type" disabled="true"/>
+		<input type="button" name="screen_type" value="Large screen" id="screen_type"/>
 		<input type="button" name="export" value="Export" id="export" />
 		<input type="file" id="load" name="files[]" />
 	</div>
@@ -27,7 +27,8 @@
 	<script type="text/javascript" src="js/fileManager.js"></script>
 	<script type="text/javascript" src="js/point.js"></script>
 	<script type="text/javascript" src="js/bonus.js"></script>
-	<script type="text/javascript" src="js/bomb.js"></script>
+	<script type="text/javascript" src="js/scaleGuide.js"></script>
+	<script type="text/javascript" src="js/cameraGuide.js"></script>
 	<script type="text/javascript" src="js/curveSegment.js"></script>
 	<script type="text/javascript" src="js/loopingSegment.js"></script>
 	<script type="text/javascript" src="js/curve.js"></script>

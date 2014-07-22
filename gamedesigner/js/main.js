@@ -29,8 +29,9 @@ Main.states = {
 	"HOVERED_CURVE_STATE": 2,
 	"EDIT_CURVE_STATE": 3,
 	"EDIT_BONUS_STATE": 4,
-	"EDIT_BOMB_STATE": 5,
-	"CAMERA_MODE_STATE": 6
+	"EDIT_SCALE_GUIDE_STATE": 5,
+	"EDIT_CAMERA_GUIDE_STATE": 6,
+	"CAMERA_MODE_STATE": 7
 };
 
 Main.screenTypes = {
@@ -42,9 +43,9 @@ Main.prototype.init = function() {
 	document.getElementById("curves").addEventListener("change", this.didChangeCurve.bind(this));
 	document.getElementById("add_curve").addEventListener("click", this.didClickCurveButton.bind(this));
 	document.getElementById("add_bonus").addEventListener("click", this.didClickBonusButton.bind(this));
-	document.getElementById("add_bomb").addEventListener("click", this.didClickBombButton.bind(this));
+	document.getElementById("add_scale_guide").addEventListener("click", this.didClickScaleGuideButton.bind(this));
+	document.getElementById("add_camera_guide").addEventListener("click", this.didClickCameraGuideButton.bind(this));
 	document.getElementById("add_looping").addEventListener("click", this.didClickLoopingButton.bind(this));
-	document.getElementById("add_tunnel").addEventListener("click", this.didClickTunnelButton.bind(this));
 	document.getElementById("camera_mode").addEventListener("click", this.didClickCameraModeButton.bind(this));
 	document.getElementById("screen_type").addEventListener("click", this.didClickScreenTypeButton.bind(this));
 	document.getElementById("export").addEventListener("click", this.didClickExportButton.bind(this));
@@ -55,6 +56,8 @@ Main.prototype.init = function() {
 	document.addEventListener("keydown", this.didPressKey.bind(this));
 
 	this.ctx.font = "20px Arial";
+
+	this.editButtonsState();
 
 	this.draw();
 	setTimeout(function() {
@@ -158,7 +161,7 @@ Main.prototype.addPoint = function(point) {
 
 	var curve = this.curves[index];
 
-	if (this.curves.length == 2 && this.curves[index].isEmpty())
+	if ((this.selectedCurveIndex == 0 || this.selectedCurveIndex == 1) && this.curves[index].isEmpty())
 		curve.addPoint(point, Main.origin, this.shiftPressed, this.altPressed);
 	else
 		curve.addPoint(point, null, this.shiftPressed, this.altPressed);
@@ -214,11 +217,22 @@ Main.prototype.selectBonus = function(point) {
 	return false;
 };
 
-Main.prototype.selectBomb = function(point) {
+Main.prototype.selectScaleGuide = function(point) {
 	for (var i = 0; i < this.curves.length; i++) {
 		var curve = this.curves[i];
-		if (curve.selectBomb(point)) {
-			this.stateInfo.bombCurveIndex = i;
+		if (curve.selectScaleGuide(point)) {
+			this.stateInfo.scaleGuideIndex = i;
+			return true;
+		}
+	}
+	return false;
+};
+
+Main.prototype.selectCameraGuide = function(point) {
+	for (var i = 0; i < this.curves.length; i++) {
+		var curve = this.curves[i];
+		if (curve.selectCameraGuide(point)) {
+			this.stateInfo.cameraGuideIndex = i;
 			return true;
 		}
 	}
@@ -226,31 +240,41 @@ Main.prototype.selectBomb = function(point) {
 };
 
 
-Main.prototype.enableButtons = function(segment) {
-	var tunnelButton = document.getElementById("add_tunnel");
-	tunnelButton.disabled = false;
-
+Main.prototype.editButtonsState = function() {
 	var loopingButton = document.getElementById("add_looping");
-	loopingButton.disabled = false;
+	var scaleGuideButton = document.getElementById("add_scale_guide");
+	var cameraGuideButton = document.getElementById("add_camera_guide");
+	var cameraModeButton = document.getElementById("camera_mode");
+	var screenTypeButton = document.getElementById("screen_type");
+	var addCurveButton = document.getElementById("add_curve");
+	var addBonusButton = document.getElementById("add_bonus");
 
-	var bombButton = document.getElementById("add_bomb");
-	bombButton.disabled = false;
+	if (this.selectedCurveIndex == 0) {
+		loopingButton.disabled = true;
+		scaleGuideButton.disabled = false;
+		cameraGuideButton.disabled = false;
+		cameraModeButton.disabled = false;
+		screenTypeButton.disabled = false;
+		addBonusButton.disabled = true;
+	} else {
+		if (this.state == Main.states["EDIT_CURVE_STATE"])
+			loopingButton.disabled = false;
+		else
+			loopingButton.disabled = true;
+		scaleGuideButton.disabled = true;
+		cameraGuideButton.disabled = true;
+		cameraModeButton.disabled = true;
+		screenTypeButton.disabled = true;
+	}
+
+	addCurveButton.disabled = false;
 };
 
-Main.prototype.disableButtons = function() {
-	var tunnelButton = document.getElementById("add_tunnel");
-	tunnelButton.disabled = true;
-
-	var loopingButton = document.getElementById("add_looping");
-	loopingButton.disabled = true;
-
-	var bombButton = document.getElementById("add_bomb");
-	bombButton.disabled = true;
-};
 
 Main.prototype.addCurve = function() {
 	this.curves.push(new Curve());
 	this.updateSelectCurves();
+	this.selectedCurveIndex = this.curves.length - 1;
 	document.getElementById("curves").value = "curve" + (this.curves.length - 1);
 };
 
@@ -302,14 +326,8 @@ Main.prototype.unarchive = function(archive) {
 
 Main.prototype.didChangeCurve = function(e) {
 	this.selectedCurveIndex = document.getElementById("curves").selectedIndex;
-	if (this.selectedCurveIndex == 0) {
-		document.getElementById("camera_mode").disabled = false;
-		document.getElementById("screen_type").disabled = false;
-	}
-	else {
-		document.getElementById("camera_mode").disabled = true;
-		document.getElementById("screen_type").disabled = false;
-	}
+	this.editButtonsState();
+	this.draw();
 }
 
 Main.prototype.didClickCameraModeButton = function(e) {
@@ -343,8 +361,10 @@ Main.prototype.didClickCanvas = function(e) {
 				this.state = Main.states['EDIT_CURVE_POINT_STATE'];
 			} else if (this.selectBonus(point)) {
 				this.state = Main.states['EDIT_BONUS_STATE']
-			} else if (this.selectBomb(point)) {
-				this.state = Main.states['EDIT_BOMB_STATE'];
+			} else if (this.selectScaleGuide(point)) {
+				this.state = Main.states['EDIT_SCALE_GUIDE_STATE'];
+			} else if (this.selectCameraGuide(point)) {
+				this.state = Main.states['EDIT_CAMERA_GUIDE_STATE'];
 			} else {
 				this.addPoint(point);
 			}
@@ -359,7 +379,11 @@ Main.prototype.didClickCanvas = function(e) {
 			this.state = Main.states['NORMAL_STATE'];
 			break;
 
-		case Main.states['EDIT_BOMB_STATE']:
+		case Main.states['EDIT_SCALE_GUIDE_STATE']:
+			this.state = Main.states['NORMAL_STATE'];
+			break;
+
+		case Main.states['EDIT_CAMERA_GUIDE_STATE']:
 			this.state = Main.states['NORMAL_STATE'];
 			break;
 
@@ -369,13 +393,13 @@ Main.prototype.didClickCanvas = function(e) {
 				this.state = Main.states['EDIT_CURVE_POINT_STATE'];
 			} else {
 				this.curves[this.stateInfo.curveIndex].isSegmentSelected = true;
-				this.enableButtons();
 				this.state = Main.states['EDIT_CURVE_STATE'];
+				this.editButtonsState();
 			}
 			break;
 
 		case Main.states['EDIT_CURVE_STATE']:
-			this.disableButtons();
+			this.editButtonsState();
 			this.curves[this.stateInfo.curveIndex].deselectSegment();
 			this.state = Main.states['NORMAL_STATE'];
 			break;
@@ -395,7 +419,7 @@ Main.prototype.didMoveMouseOnCanvas = function(e) {
 				if (this.selectCurvePoint(point)) {
 					this.curves[this.stateInfo.curveIndex].deselectSegment();
 					this.curves[this.stateInfo.curveIndex].deselectPoint();
-				} else if (this.selectBonus(point) || this.selectBomb(point))  {
+				} else if (this.selectBonus(point) || this.selectScaleGuide(point) || this.selectCameraGuide(point))  {
 					this.curves[this.stateInfo.curveIndex].deselectSegment();
 				} else
 					this.state = Main.states['HOVERED_CURVE_STATE'];
@@ -411,7 +435,10 @@ Main.prototype.didMoveMouseOnCanvas = function(e) {
 				} else if (this.selectBonus(point)) {
 					this.curves[this.stateInfo.curveIndex].deselectSegment();
 					this.state = Main.states['NORMAL_STATE'];
-				} else if (this.selectBomb(point)) {
+				} else if (this.selectScaleGuide(point)) {
+					this.curves[this.stateInfo.curveIndex].deselectSegment();
+					this.state = Main.states['NORMAL_STATE'];
+				} else if (this.selectCameraGuide(point)) {
 					this.curves[this.stateInfo.curveIndex].deselectSegment();
 					this.state = Main.states['NORMAL_STATE'];
 				} else {
@@ -433,9 +460,14 @@ Main.prototype.didMoveMouseOnCanvas = function(e) {
 			bonus.move(point);
 			break;
 
-		case Main.states['EDIT_BOMB_STATE']:
-			var curve = this.curves[this.stateInfo.bombCurveIndex];
-			curve.moveSelectedBomb(point);
+		case Main.states['EDIT_SCALE_GUIDE_STATE']:
+			var curve = this.curves[this.stateInfo.scaleGuideIndex];
+			curve.moveSelectedScaleGuide(point);
+			break;
+
+		case Main.states['EDIT_CAMERA_GUIDE_STATE']:
+			var curve = this.curves[this.stateInfo.cameraGuideIndex];
+			curve.moveSelectedCameraGuide(point);
 			break;
 
 		case Main.states['CAMERA_MODE_STATE']:
@@ -457,14 +489,25 @@ Main.prototype.didClickBonusButton = function() {
 	this.draw();
 };
 
-Main.prototype.didClickBombButton = function() {
-	if (this.state != Main.states['EDIT_CURVE_STATE'])
+Main.prototype.didClickScaleGuideButton = function() {
+	var curve = this.curves[this.selectedCurveIndex];
+	var x = document.body.scrollLeft + document.body.offsetWidth / 2 - Main.origin.x;
+	var point = curve.pointForX(x);
+	if (!point)
 		return;
 
-	this.curves[this.stateInfo.curveIndex].addBomb();
-	this.curves[this.stateInfo.curveIndex].deselectSegment();
-	this.disableButtons();
-	this.state = Main.states['NORMAL_STATE'];
+	curve.addScaleGuide(point);
+	this.draw();
+};
+
+Main.prototype.didClickCameraGuideButton = function() {
+	var curve = this.curves[this.selectedCurveIndex];
+	var x = document.body.scrollLeft + document.body.offsetWidth / 2 - Main.origin.x;
+	var point = curve.pointForX(x);
+	if (!point)
+		return;
+
+	curve.addCameraGuide(point);
 	this.draw();
 };
 
@@ -472,7 +515,7 @@ Main.prototype.didClickLoopingButton = function() {
 	if (this.state == Main.states['EDIT_CURVE_STATE']) {
 		var curve = this.curves[this.stateInfo.curveIndex];
 		curve.switchSelectedSegmentWithLooping();
-		this.disableButtons();
+		this.editButtonsState();
 		this.curves[this.stateInfo.curveIndex].deselectSegment();
 		this.state = Main.states['NORMAL_STATE'];
 		this.draw();
@@ -483,7 +526,7 @@ Main.prototype.didClickTunnelButton = function() {
 	if (this.state == Main.states['EDIT_CURVE_STATE']) {
 		var curve = this.curves[this.stateInfo.curveIndex];
 		curve.switchSelectedSegmentWithTunnel();
-		this.disableButtons();
+		this.editButtonsState();
 		this.curves[this.stateInfo.curveIndex].deselectSegment();
 		this.state = Main.states['NORMAL_STATE'];
 		this.draw();
@@ -524,12 +567,17 @@ Main.prototype.didReleaseKey = function(e) {
 				this.state = Main.states['NORMAL_STATE'];
 				break;
 
-			case Main.states['EDIT_BOMB_STATE']:
-				this.curves[this.stateInfo.bombCurveIndex].deleteSelectedBomb();
+			case Main.states['EDIT_SCALE_GUIDE_STATE']:
+				this.curves[this.stateInfo.scaleGuideIndex].deleteSelectedScaleGuide();
+				this.state = Main.states['NORMAL_STATE'];
+				break;
+
+			case Main.states['EDIT_CAMERA_GUIDE_STATE']:
+				this.curves[this.stateInfo.cameraGuideIndex].deleteSelectedCameraGuide();
 				this.state = Main.states['NORMAL_STATE'];
 				break;
 		}
-		this.disableButtons();
+		this.editButtonsState();
 		this.draw();	
 	}
 };
