@@ -44,7 +44,7 @@
         [tapRecognizer addTarget:self action:@selector(didTap:)];
         [view addGestureRecognizer:tapRecognizer];
         
-        _speed = 400;
+        _speed = 300;
         _ground = [[VGGroundModel alloc] init];
         _ground.delegate = self;
         _character = [[VGCharacterModel alloc] init];
@@ -110,12 +110,12 @@
 }
 
 - (void)moveCamera {
-    NSValue* position = [self.ground cameraPositionForX:self.character.position.x];
-    if (position) {
-        CGPoint point = position.CGPointValue;
-        point = CGPointMake(point.x, point.y);
-        if (self.delegate && [self.delegate respondsToSelector:@selector(cameraDidMoveAtPosition:)]) {
-            [self.delegate cameraDidMoveAtPosition:point];
+    NSDictionary* positionInfo = [self.ground cameraPositionInfoForX:self.character.position.x];
+    if (positionInfo) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(cameraDidMoveAtPosition:scale:)]) {
+            CGPoint point = ((NSValue*)positionInfo[@"position"]).CGPointValue;
+            CGFloat scale = ((NSNumber*)positionInfo[@"scale"]).floatValue;
+            [self.delegate cameraDidMoveAtPosition:point scale:scale];
         }
 
     }

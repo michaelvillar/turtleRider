@@ -135,8 +135,9 @@
     [self.ground removeTile:tile];
 }
 
-- (void)cameraDidMoveAtPosition:(CGPoint)position {
-    self.movingLayer.position = CGPointMake(-position.x + VG_CHARACTER_INIT_POSITION.x, -position.y + VG_CHARACTER_INIT_POSITION.y);
+- (void)cameraDidMoveAtPosition:(CGPoint)position scale:(CGFloat)scale {
+    self.movingLayer.position = CGPointMake(-position.x, -position.y);
+    self.scale = scale;
 }
 
 

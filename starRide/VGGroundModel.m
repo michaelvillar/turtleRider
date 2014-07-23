@@ -119,16 +119,17 @@
     [self.tiles[self.currentTileIndex] enterLooping];
 }
 
-- (NSValue*)cameraPositionForX:(CGFloat)x {
+- (NSDictionary*)cameraPositionInfoForX:(CGFloat)x {
     for (int i = 0; i < self.tiles.count; i++) {
         VGGroundTileModel* tile = self.tiles[i];
         if (x >= tile.extremityPoints[0].x + tile.position.x && x <= tile.extremityPoints[1].x + tile.position.x) {
-            NSValue* position = [tile cameraPositionForX:x - tile.position.x];
-            if (position) {
-                CGPoint point = position.CGPointValue;
-                point = CGPointMake(point.x + tile.position.x, point.y + tile.position.y);
-                return [NSValue valueWithCGPoint:point];
-            }
+            NSDictionary* dic = [tile cameraPositionInfoForX:x - tile.position.x];
+            NSMutableDictionary* newDic = [[NSMutableDictionary alloc] init];
+            newDic[@"scale"] = dic[@"scale"];
+            CGPoint point = ((NSValue*)dic[@"position"]).CGPointValue;
+            point = CGPointMake(point.x + tile.position.x, point.y + tile.position.y);
+            newDic[@"position"] = [NSValue valueWithCGPoint:point];
+            return newDic;
         }
     }
     return nil;

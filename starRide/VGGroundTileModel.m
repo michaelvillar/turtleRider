@@ -9,16 +9,16 @@
 #import "VGGroundTileModel.h"
 #import "VGGroundCurveModel.h"
 #import "VGBezierModel.h"
+#import "VGCameraCurveModel.h"
 
 @interface VGGroundTileModel ()
 @property (assign, readwrite) int startCurveIndex;
 @property (assign, readwrite) int currentCurveIndex;
 
-@property (strong, readonly) NSMutableArray* cameraBeziers;
+@property (strong, readonly) VGCameraCurveModel* cameraCurve;
 
 - (id)initWithData:(NSDictionary*)data;
 - (void)loadCurves:(NSDictionary*)data;
-- (void)loadCameraBeziers:(NSDictionary*)data;
 @end
 
 @implementation VGGroundTileModel
@@ -78,16 +78,8 @@
     [self.curves[self.currentCurveIndex] enterLooping];
 }
 
-- (NSValue*)cameraPositionForX:(CGFloat)x {
-    for (int i = 0; i < self.cameraBeziers.count; i++) {
-        VGBezierModel* bezier = self.cameraBeziers[i];
-        if (x >= bezier.start.x && x <= bezier.end.x) {
-            CGFloat t = [bezier tFromX:x];
-            CGPoint point = [bezier pointFromT:t];
-            return [NSValue valueWithCGPoint:point];
-        }
-    }
-    return nil;
+- (NSDictionary*)cameraPositionInfoForX:(CGFloat)x {
+    return [self.cameraCurve cameraPositionInfoForX:x];
 }
 
 ////////////////////////////////
@@ -98,11 +90,10 @@
     self = [super init];
     if (self) {
         _curves = [[NSMutableArray alloc] init];
-        _cameraBeziers = [[NSMutableArray alloc] init];
         _extremityPoints = malloc(2 * sizeof(CGPoint));
+        _cameraCurve = [[VGCameraCurveModel alloc] initWithData:data[@"camera_curve"]];
         
         [self loadCurves:data];
-        [self loadCameraBeziers:data];
         _currentCurveIndex = _startCurveIndex;
     }
     return self;
@@ -129,21 +120,6 @@
     
     self.extremityPoints[0] = start;
     self.extremityPoints[1] = end;
-}
-
-- (void)loadCameraBeziers:(NSDictionary*)data {
-    for (NSDictionary* segmentDic in data[@"camera_curve"][@"segments"]) {
-        CGPoint start = CGPointMake(((NSNumber*)segmentDic[@"bezier"][@"start"][@"x"]).floatValue,
-                                    -((NSNumber*)segmentDic[@"bezier"][@"start"][@"y"]).floatValue);
-        CGPoint control = CGPointMake(((NSNumber*)segmentDic[@"bezier"][@"control"][@"x"]).floatValue,
-                                      -((NSNumber*)segmentDic[@"bezier"][@"control"][@"y"]).floatValue);
-        CGPoint end = CGPointMake(((NSNumber*)segmentDic[@"bezier"][@"end"][@"x"]).floatValue,
-                                  -((NSNumber*)segmentDic[@"bezier"][@"end"][@"y"]).floatValue);
-        CGFloat arcLength = ((NSNumber*)data[@"bezier"][@"arc_length"]).floatValue;
-        
-        VGBezierModel* bezier = [[VGBezierModel alloc] initWithStart:start control:control end:end arcLength:arcLength];
-        [self.cameraBeziers addObject:bezier];
-    }
 }
 
 @end

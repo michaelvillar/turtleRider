@@ -208,8 +208,11 @@
 		4DC913D0196EBD33001130EF /* VGGroundNormalSegmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913CF196EBD33001130EF /* VGGroundNormalSegmentModel.m */; };
 		4DC913DC196EC939001130EF /* VGCharacterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913DB196EC939001130EF /* VGCharacterModel.m */; };
 		4DC913DF196FE369001130EF /* VGGroundModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC913DE196FE369001130EF /* VGGroundModel.m */; };
+		4DD10677197FC407000984B3 /* VGCameraCurveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD10676197FC407000984B3 /* VGCameraCurveModel.m */; };
+		4DD1067A197FC500000984B3 /* VGScaleGuideModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD10679197FC500000984B3 /* VGScaleGuideModel.m */; };
+		4DD1067D197FC51E000984B3 /* VGCameraGuideModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD1067C197FC51E000984B3 /* VGCameraGuideModel.m */; };
+		4DD10689197FDC26000984B3 /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DD10688197FDC26000984B3 /* level1.json */; };
 		4DDC5DD519756054003064DB /* VGBezierModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DDC5DD419756054003064DB /* VGBezierModel.m */; };
-		4DDC5DE61975B1D9003064DB /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DDC5DE51975B1D9003064DB /* level1.json */; };
 		4DFE3EFA19719D0B0065ECFD /* VGGroundLoopingSegmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE3EF919719D0B0065ECFD /* VGGroundLoopingSegmentModel.m */; };
 /* End PBXBuildFile section */
 
@@ -663,9 +666,15 @@
 		4DC913DB196EC939001130EF /* VGCharacterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGCharacterModel.m; sourceTree = "<group>"; };
 		4DC913DD196FE369001130EF /* VGGroundModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundModel.h; sourceTree = "<group>"; };
 		4DC913DE196FE369001130EF /* VGGroundModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundModel.m; sourceTree = "<group>"; };
+		4DD10675197FC407000984B3 /* VGCameraCurveModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGCameraCurveModel.h; sourceTree = "<group>"; };
+		4DD10676197FC407000984B3 /* VGCameraCurveModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGCameraCurveModel.m; sourceTree = "<group>"; };
+		4DD10678197FC500000984B3 /* VGScaleGuideModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGScaleGuideModel.h; sourceTree = "<group>"; };
+		4DD10679197FC500000984B3 /* VGScaleGuideModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGScaleGuideModel.m; sourceTree = "<group>"; };
+		4DD1067B197FC51E000984B3 /* VGCameraGuideModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGCameraGuideModel.h; sourceTree = "<group>"; };
+		4DD1067C197FC51E000984B3 /* VGCameraGuideModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGCameraGuideModel.m; sourceTree = "<group>"; };
+		4DD10688197FDC26000984B3 /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
 		4DDC5DD319756054003064DB /* VGBezierModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGBezierModel.h; sourceTree = "<group>"; };
 		4DDC5DD419756054003064DB /* VGBezierModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGBezierModel.m; sourceTree = "<group>"; };
-		4DDC5DE51975B1D9003064DB /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
 		4DFE3EF819719D0B0065ECFD /* VGGroundLoopingSegmentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGGroundLoopingSegmentModel.h; sourceTree = "<group>"; };
 		4DFE3EF919719D0B0065ECFD /* VGGroundLoopingSegmentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGGroundLoopingSegmentModel.m; sourceTree = "<group>"; };
 		4DFE3EFE19719EDB0065ECFD /* VGGroundSegmentModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VGGroundSegmentModelProtocol.h; sourceTree = "<group>"; };
@@ -1543,7 +1552,7 @@
 		4DC913BB196D4A58001130EF /* Levels */ = {
 			isa = PBXGroup;
 			children = (
-				4DDC5DE51975B1D9003064DB /* level1.json */,
+				4DD10688197FDC26000984B3 /* level1.json */,
 			);
 			name = Levels;
 			sourceTree = "<group>";
@@ -1564,6 +1573,12 @@
 				4DC913CF196EBD33001130EF /* VGGroundNormalSegmentModel.m */,
 				4DFE3EF819719D0B0065ECFD /* VGGroundLoopingSegmentModel.h */,
 				4DFE3EF919719D0B0065ECFD /* VGGroundLoopingSegmentModel.m */,
+				4DD10675197FC407000984B3 /* VGCameraCurveModel.h */,
+				4DD10676197FC407000984B3 /* VGCameraCurveModel.m */,
+				4DD10678197FC500000984B3 /* VGScaleGuideModel.h */,
+				4DD10679197FC500000984B3 /* VGScaleGuideModel.m */,
+				4DD1067B197FC51E000984B3 /* VGCameraGuideModel.h */,
+				4DD1067C197FC51E000984B3 /* VGCameraGuideModel.m */,
 				4DC913DA196EC939001130EF /* VGCharacterModel.h */,
 				4DC913DB196EC939001130EF /* VGCharacterModel.m */,
 				4DDC5DD319756054003064DB /* VGBezierModel.h */,
@@ -1695,7 +1710,7 @@
 			files = (
 				4DC91312196C7A25001130EF /* LICENSE_CCBReader.txt in Resources */,
 				4DC912FB196C7A25001130EF /* LICENSE_Kazmath.txt in Resources */,
-				4DDC5DE61975B1D9003064DB /* level1.json in Resources */,
+				4DD10689197FDC26000984B3 /* level1.json in Resources */,
 				4DC91254196C7A25001130EF /* LICENSE_cocos2d.txt in Resources */,
 				4DC91380196C7A25001130EF /* LICENSE_Chipmunk.txt in Resources */,
 				4DC9139A196C7BC1001130EF /* Default-568h@2x.png in Resources */,
@@ -1796,9 +1811,11 @@
 				4DC911FA196C7A24001130EF /* CCTiledMapObjectGroup.m in Sources */,
 				4DC912F7196C7A25001130EF /* vec3.c in Sources */,
 				4DC9117A196C7A24001130EF /* CCLayoutBox.m in Sources */,
+				4DD1067A197FC500000984B3 /* VGScaleGuideModel.m in Sources */,
 				4DC91177196C7A24001130EF /* CCLayout.m in Sources */,
 				4DC9129A196C7A25001130EF /* OALSuspendHandler.m in Sources */,
 				4DC913AC196C81B2001130EF /* VGGround.m in Sources */,
+				4DD10677197FC407000984B3 /* VGCameraCurveModel.m in Sources */,
 				4DC912F9196C7A25001130EF /* vec4.c in Sources */,
 				4DC9120B196C7A24001130EF /* CCDirectorIOS.m in Sources */,
 				4DC911E2196C7A24001130EF /* CCSpriteFrameCache.m in Sources */,
@@ -1840,6 +1857,7 @@
 				4DC91302196C7A25001130EF /* CCBKeyframe.m in Sources */,
 				4DC912BC196C7A25001130EF /* CCControlTextureFactory.m in Sources */,
 				4DC91141196C7A24001130EF /* CCAnimationCache.m in Sources */,
+				4DD1067D197FC51E000984B3 /* VGCameraGuideModel.m in Sources */,
 				4DC912C5196C7A25001130EF /* CCTableView.m in Sources */,
 				4DC91388196C7A25001130EF /* AppDelegate.m in Sources */,
 				4DC91158196C7A24001130EF /* CCDrawingPrimitives.m in Sources */,

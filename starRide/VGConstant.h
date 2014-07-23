@@ -17,3 +17,4 @@ extern CGFloat const VG_GRAVITY;
 extern CGPoint const VG_CHARACTER_JUMP_VELOCITY;
 extern CGFloat const VG_CURVE_INTERSECTION_SECURITY_OFFSET;
 extern CGFloat const VG_LOOPING_ENTRANCE_SIZE;
+extern CGFloat const VG_CAMERA_GUIDE_SPAN;

@@ -53,6 +53,7 @@ Curve.prototype.archive = function() {
 	for (var i = 0; i < this.scaleGuides.length; i++)
 		archive["scale_guides"].push(this.scaleGuides[i].archive());
 	archive["scale_guides"].push(endScaleGuide.archive());
+	console.log(archive["scale_guides"]);
 
 	return archive;
 };
