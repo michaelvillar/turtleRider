@@ -255,6 +255,7 @@ Main.prototype.editButtonsState = function() {
 		cameraGuideButton.disabled = true;
 		cameraModeButton.disabled = true;
 		screenTypeButton.disabled = true;
+		addBonusButton.disabled = false;
 	}
 
 	addCurveButton.disabled = false;
