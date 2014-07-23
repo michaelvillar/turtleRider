@@ -19,7 +19,7 @@ Curve.unarchive = function(archive) {
 			curve.segments.push(CurveSegment.unarchive(segment));
 	}
 
-	for (var i = 0; i < archive['scale_guides'].length; i++) {
+	for (var i = 1; i < archive['scale_guides'].length - 1; i++) {
 		var guide = ScaleGuide.unarchive(archive['scale_guides'][i]);
 		curve.scaleGuides.push(guide);
 	}
@@ -43,9 +43,16 @@ Curve.prototype.archive = function() {
 	for (var i = 0; i < this.cameraGuides.length; i++)
 		archive["camera_guides"].push(this.cameraGuides[i].archive());
 
-	archive["scale_guides"] = [];
+	var startScaleGuide = new ScaleGuide(this.segments[0].start);
+	startScaleGuide.updateValue(1.0);
+	var endScaleGuide = new ScaleGuide(this.segments[this.segments.length - 1].end);
+	endScaleGuide.updateValue(1.0);
+
+	archive["scale_guides"] = [startScaleGuide.archive()];
+
 	for (var i = 0; i < this.scaleGuides.length; i++)
 		archive["scale_guides"].push(this.scaleGuides[i].archive());
+	archive["scale_guides"].push(endScaleGuide.archive());
 
 	return archive;
 };
